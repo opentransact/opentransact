@@ -1,0 +1,98 @@
+h1. OpenTransact
+
+h3. Simple secure standard for Financial Transactions
+
+The goal here is to develop an extremly simple low level standard for transfering an amount of an asset from one account to another.
+
+Most payment standards are overly complex as they have to link to lots of different legacy systems such as credit card clearing systems, trading systems etc.. We aim to create a new standard from scratch ignoring all legacy systems, while leaving it flexible enough to allow applications built on top of it to deal with legacy systems.
+
+h3. Assets and Asset Services
+
+When we say Asset we mean anything of value. Eg. money, shares, bonds, mobile phone minutes, hours of work, property, domain names, physical products etc.
+
+An Asset Service is a service maintained by an organization to mange accounts of ONE particular Asset. For money and other financial assets the Asset Service would normally be run by a Financial Service Provider of some type. However there are many types of assets that could be offered by non financial services.
+
+h3. Transaction URL
+
+Each Asset Service has a specific transaction URL. This way we don't need to get into details in our standard about application specific details like currency, card type, size, color etc.
+
+This transaction URL would follow basic REST practices. 
+
+* A transaction URL should be a simple clean URL like http://eepay.com/transactions
+* A POST to the URL is used for creating a transaction
+* A GET to the URL returns a list of transactions that the current user is allowed to see
+* Each transaction has a unique ID and a unique URL of the transaction ID appended underneath the transaction URL eg. http://epay.com/transactions/aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d
+
+h3. Example of Asset Services
+
+Lets say it's an imaginary electronic currency eepay.com they only offer one asset type, their currency. So they would only have one transaction url:
+
+* http://eepay.com/transactions
+
+If it offered multiple currencies it should have a url for each currency as they are really separate asset types:
+
+* http://eepay.com/transactions/usd
+* http://eepay.com/transactions/euro
+
+If a larger existing bank offered various kinds of services each one would have it's own URL:
+
+* http://megabank.com/current
+* http://megabank.com/savings
+* http://megabank.com/bonds/mortgage
+
+A mutual fund company would have a url for each of their funds.
+
+* http://fidelify.com/funds/sp500
+* http://fidelify.com/funds/emergingmarkets
+
+A broker could actually also implement an OpenTransact API and have a different URL for each symbol eg:
+
+* http://feetrade.com/trade/AAPL
+* http://feetrade.com/trade/EBAY
+
+This would be kind of neat allowing them to create their own internal market.
+
+You could even imagine with GoDaddy's new patent for offering shares in domain names they could do something like this for each of their domains offered as shares:
+
+* http://godaddyexchange.com/domains/stakeventures.com/shares
+
+If we let the URL do the describing, there are tons of different possibilities. We can keep the core API very simple, while allowing pretty open support for all manners of asset types.
+
+h3. OAuth
+
+OAuth should form the core authentication and signature layer of the API.
+
+The OAuth protocol would automatically give us Transaction ID, Payer, Signature and a security layer.
+
+I protocol should use simple form based parameter encoding as it OAuth supports it well and it is supported by every single programming language out there.
+
+h3. Transfer Asset
+
+An asset transfer (or payment) is the only real verb of the API. You transfer an amount to some other party.
+
+Leaving the OAuth stuff out of the equation right now, a transaction is simply:
+
+<pre><code>POST /transactions
+to=bill@example.com&amount=100.00&memo=Milk</code></pre>
+
+* *to* is the payee field. Still todo is figure out a standardized account name, for now we're using an email address
+* *amount* is the amount
+* *memo* is an optional description field
+
+Thats it. Really. That in its entirety is a payment transaction. Just
+imagine how simple it would be to write new applications for banks,
+payment systems etc if this is all you have to do.
+
+h3. Limits, expiration etc
+
+The OAuth token request dance allows us to implement transaction limits, expiration and just about all the other features we need to implement functionality similar to "Amazon FPS":https://payments.amazon.com/sdui/sdui/business?sn=devfps/o and "Paypal's new Adaptive Payments API":http://www.techcrunch.com/2009/07/06/paypal-looks-to-crush-amazons-fledgling-payment-service-with-a-new-secret-api/.
+
+OAuth Tokens are issued to web services by users to perform things on their behalf.
+
+This is still to be defined.
+
+h3. Mailing list
+
+Join the mailing list for more:
+
+http://groups.google.com/group/agile-banking

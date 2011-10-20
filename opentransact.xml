@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+]>
+
+<rfc ipr="trust200902" docName="draft-pelle-opentransact-basic-00"
+     category="info" >
+
+<?rfc toc="yes"?>
+<?rfc sortrefs="yes"?>
+<?rfc symrefs="yes" ?>
+
+  <front>
+    <title abbrev="opentransact">
+      OpenTransact Basic
+    </title>
+    <author initials="P" surname="Braendgaard" fullname="Pelle Braendgaard">
+      <organization>PicoMoney Inc</organization>
+      <address>
+        <email>pelle@picomoney.com</email>
+      </address>
+    </author>
+    <author initials="N" surname="Matake" fullname="Nov Matake">
+      <organization>Cerego Japan Inc</organization>
+      <address>
+        <email>nov@matake.jp</email>
+      </address>
+    </author>
+    <author initials="T" surname="Brown" fullname="Tom Brown">
+      <address>
+        <email>herestomwiththeweather@gmail.com</email>
+      </address>
+    </author>
+
+    <date year="2011" month="October" day="19"/>
+
+    <area>General</area>
+    <workgroup>OpenTransact</workgroup>
+    <keyword>Internet-Draft</keyword>
+    <abstract>
+      <t>
+      This document specifies the OpenTransact standard for requesting and performing transfers of assets over the http protocol.
+      </t>
+    </abstract>
+  </front>
+
+  <middle>
+
+
+<section anchor="status-of-document" title="Status of Document">
+
+<t>This document is in draft and reflects the current designs from the OpenTransact mailing list.</t>
+
+<section anchor="introduction" title="Introduction">
+
+<t>The goal is to develop an extremly simple low level standard for transfering an amount of an asset from one account to another.</t>
+
+<t>Most payment systems and existing standards use the messaging paradigm for historical reasons. OpenTransact specifically rejects the message paradigm and prefers the restful resource approach as used on the web with URL&rsquo;s and HTTP at it&rsquo;s core.</t>
+
+<t>We aim to create a new standard from scratch ignoring all legacy systems, while leaving it flexible enough to allow applications built on top of it to deal with legacy systems.</t>
+
+<t>The standard is designed to follow standard RESTful practices and be concise and human readable.</t>
+
+<section anchor="assets" title="Assets">
+
+<t>Within OpenTransact we use the accounting definition of the word &ldquo;Asset&rdquo; as anything of value. Eg.</t>
+
+<t><list style='symbols'>
+  <t>money</t>
+  <t>shares</t>
+  <t>bonds</t>
+  <t>mobile phone minutes</t>
+  <t>hours of work</t>
+  <t>property</t>
+  <t>domain names</t>
+  <t>physical products etc.</t>
+</list></t>
+
+<section anchor="asset-service" title="Asset Service">
+
+<t>An Asset Service is a service maintained by an organization to manage accounts of one assets. For money and other financial assets the Asset Service would normally be run by a Financial Service Provider of some type. However there are many types of assets that could be offered by non financial services.</t>
+
+</section>
+<section anchor="transaction-url" title="Transaction URL">
+
+<t>Each Asset Service has a unique transaction URL. This allows us a  don&rsquo;t need to get into details in our standard about application specific details like currency, card type, size, color etc.</t>
+
+<t>This transaction URL would follow basic REST practices.</t>
+
+<t><list style='symbols'>
+  <t>A transaction URL should be a simple clean URL like http://eepay.com/transactions.</t>
+  <t>A POST to the URL is used for creating a transaction transfering value.</t>
+  <t>A GET to the URL from a normal html web browser should present a human readable description of the asset.</t>
+  <t>A GET to the URL from a normal web browser with specific parameters becomes a payment request that the user can authorize.</t>
+  <t>A GET to the URL in a machine readable form such as json returns meta data about the asset an optionally a list of transactions that the current user is allowed to see.</t>
+  <t>Each transaction has a unique URL eg. http://epay.com/transactions/aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d.</t>
+</list></t>
+
+</section>
+<section anchor="example-of-asset-services" title="Example of Asset Services">
+
+<t>Lets say it&rsquo;s an imaginary electronic currency eepay.com they only offer one asset type, their currency. So they would only have one transaction url:</t>
+
+<t><list style='symbols'>
+  <t>http://eepay.com/transactions</t>
+</list></t>
+
+<t>If it offered multiple currencies it should have a url for each currency as they are really separate asset types:</t>
+
+<t><list style='symbols'>
+  <t>http://eepay.com/transactions/usd</t>
+  <t>http://eepay.com/transactions/euro</t>
+</list></t>
+
+<t>If a larger existing bank offered various kinds of services each one would have it&rsquo;s own URL:</t>
+
+<t><list style='symbols'>
+  <t>http://megabank.com/current</t>
+  <t>http://megabank.com/savings</t>
+  <t>http://megabank.com/bonds/mortgage</t>
+</list></t>
+
+<t>A mutual fund company would have a url for each of their funds.</t>
+
+<t><list style='symbols'>
+  <t>http://fidelify.com/funds/sp500</t>
+  <t>http://fidelify.com/funds/emergingmarkets</t>
+</list></t>
+
+<t>A broker could actually also implement an OpenTransact API and have a different URL for each symbol eg:</t>
+
+<t><list style='symbols'>
+  <t>http://feetrade.com/trade/AAPL</t>
+  <t>http://feetrade.com/trade/EBAY</t>
+</list></t>
+
+<t>This would allow them to create their own internal market.</t>
+
+<t>If we let the URL do the describing, there are tons of different possibilities. We can keep the core API very simple, while allowing pretty open support for all manners of asset types.</t>
+
+<t>All the above examples are fungible assets. In general it is best practice that one item of value for one asset is fungible for one another.</t>
+
+<t>For unique items such as domain names, property titles and diamonds that are unique and infungible, we can still create asset urls for each item, but only accept transfer amounts of 1.</t>
+
+</section>
+</section>
+<section anchor="roles" title="Roles">
+
+<t>OpenTransact defines 4 roles:</t>
+
+<t><list style='symbols'>
+  <t>Asset provider
+  <list style='symbols'>
+      <t>The entity providing or issuing the asset</t>
+    </list></t>
+  <t>Transferer
+  <list style='symbols'>
+      <t>The entity transfering an amount of the asset</t>
+    </list></t>
+  <t>Transferee
+  <list style='symbols'>
+      <t>The entity receiving an amount of the asset</t>
+    </list></t>
+  <t>3rd party application
+  <list style='symbols'>
+      <t>An application performing a transfer on behalf of the Transferer</t>
+    </list></t>
+</list></t>
+
+</section>
+<section anchor="transfer" title="Transfer">
+
+<t>We will use the term &ldquo;Transfer&rdquo; as it is more widely applicable than &ldquo;Payment&rdquo;.</t>
+
+<t>A Transfer is legally a transfer in owner ship of some amount of the Asset from the Transferer to the Transferee.</t>
+
+<t>Eg. A Payment of $12 from Bob to Alice is a Transfer of 12$ with Bob being the Transferer and Alice the Transferee.</t>
+
+</section>
+<section anchor="transfer-request" title="Transfer Request">
+
+<t>A Transfer request is when the Transferee requests a transfer of a given amount of an asset from the Transferer.</t>
+
+<t>Eg. Alice sends an invoice to Bob for $12. This is a Transfer Request from Alice to Bob where Alice is the Transferee and Bob the Transferer.</t>
+
+<t>A Transfer Request is simply a specially formatted payment link that takes Bob to Asset Service if followed. The Asset Service shall present the Transfer Request to Bob who can authorize or decline it.</t>
+
+</section>
+<section anchor="transfer-authorization" title="Transfer Authorization">
+
+<t>A Transfer Authorization is when  the Transferee or a third party application requests an authorization to transfer of a given amount of an asset from the Transferer.</t>
+
+<t>Eg. Bob wants to hire someone on an online job board to edit a document for $33. The Job Board creates a Transfer Authorization link. Bob follows this link to the Asset Service and authorizes the Job Board to transfer $33 from his account to some one else within a time period.</t>
+
+<t>A Transfer Request is simply a specially formatted payment link that takes Bob to Asset Service if followed. The Asset Service shall present the Transfer Request to Bob who can authorize or decline it. If Bob authorizes it the Asset Service issues an authorization code to the Job Board that they can use to exchange for an OAuth token.</t>
+
+</section>
+<section anchor="exchange-transaction" title="Exchange Transaction">
+
+<t>A Transfer is often but not always part of an exchange of value between 2 types of assets. Eg.:</t>
+
+<t><list style='symbols'>
+  <t>10 consulting hours exchanged for 1100EUR</t>
+  <t>10 USD exchanged for 8 EURO</t>
+  <t>0.99 USD exchanged for an mp3 song</t>
+</list></t>
+
+<t>There are as many different exchange mechanisms for create exchanges as there are exchange types. eg.</t>
+
+<t><list style='symbols'>
+  <t>Invoicing system</t>
+  <t>App Store</t>
+  <t>Web shop</t>
+  <t>Auction site</t>
+  <t>Stock Exchange</t>
+</list></t>
+
+<t>It is outside the scope for OpenTransact to define every single type of exchange that is possible. However OpenTransact should be able to be a fundamental building block in building such systems. It should also integrate well with exchange systems that don&rsquo;t yet understand OpenTransact.</t>
+
+<section anchor="exchanged-item-uri" title="Exchanged item URI">
+
+<t>In an Exchange Transaction we can include a url to the exchanged item. This URI could either be a link to the exchanged item itself or the unique URI identifying the transaction itself.</t>
+
+</section>
+<section anchor="authorization" title="Authorization">
+
+<t>A useful building block for creating Exchange services is the Transfer Authorization Request [1.5].</t>
+
+</section>
+</section>
+<section anchor="vocabulary" title="Vocabulary">
+
+<t>As part of OpenTransact we are creating a simple vocabulary of parameter names that can be used in various parts of the standard.</t>
+
+<t><list style='symbols'>
+  <t><spanx style='emph'>asset</spanx> - Transaction URL</t>
+  <t><spanx style='emph'>from</spanx> - Transferer account identifier</t>
+  <t><spanx style='emph'>to</spanx> - Transferee account identifier</t>
+  <t><spanx style='emph'>amount</spanx> - Amount of asset</t>
+  <t><spanx style='emph'>note</spanx> - Textual description of transfer</t>
+  <t><spanx style='emph'>for</spanx> - Identifier of exchanged item. This SHOULD be a URI</t>
+  <t><spanx style='emph'>redirect_uri</spanx> - URI to redirect User Agent to</t>
+  <t><spanx style='emph'>callback_uri</spanx> - URI for performing callback after request</t>
+  <t><spanx style='emph'>client_id</spanx> - Identifier of 3rd party application</t>
+  <t><spanx style='emph'>expire_in</spanx> - Request that a token expires in given seconds</t>
+</list></t>
+
+<t>They are designed to be small and semantically correct. eg</t>
+
+<t><list style='empty'>
+  <t>A transfer of 10  USD  from Bob to Alice for consulting.</t>
+</list></t>
+
+<t>Would become the following:</t>
+
+<t><list style='symbols'>
+  <t>amount=10</t>
+  <t>asset=http://pay.me/usd</t>
+  <t>from=bob@test.com</t>
+  <t>to=alice@test.com</t>
+  <t>note=Consulting on XYZ project</t>
+  <t>for=http://myinvoice.test/invoices/123123</t>
+</list></t>
+
+</section>
+<section anchor="authentication" title="Authentication">
+
+<t>OpenTransact does not define any new authentication mechanisms, but relies on the Asset Provider&rsquo;s existing mechanisms for authenticating the Transferer and  OAuth 2.0 [OAuth.2.0] for authenticating 3rd party applications on behalf of the Transferer.</t>
+
+</section>
+<section anchor="parameter-encoding" title="Parameter encoding">
+
+<t>Since OpenTransact is designed to be simple to implement, the basic parameter encoding is URL form encoding.</t>
+
+<t>Any data responses should be in JSON format.</t>
+
+</section>
+<section anchor="extensions" title="Extensions">
+
+<t>OpenTransact is designed to be extensible, either through proprietary extensions, conventions or futher standards.</t>
+
+<t>For example it may be useful to follow the lat/lon convention allowing geotagging of data.</t>
+
+</section>
+<section anchor="notational-conventions" title="Notational Conventions">
+
+<t>The key words &lsquo;MUST&rsquo;, &lsquo;MUST NOT&rsquo;, &lsquo;REQUIRED&rsquo;, &lsquo;SHALL&rsquo;, &lsquo;SHALL NOT&rsquo;, &lsquo;SHOULD&rsquo;, &lsquo;SHOULD NOT&rsquo;, &lsquo;RECOMMENDED&rsquo;, &lsquo;MAY&rsquo;, and &lsquo;OPTIONAL&rsquo; in this specification are to be interpreted as described in [RFC2119].</t>
+
+<t>This specification uses the Augmented Backus-Naur Form (ABNF) notation of [RFC5234].</t>
+
+<t>Certain security-related terms are to be understood in the sense defined in [RFC4949]. These terms include, but are not limited to, &lsquo;attack&rsquo;, &lsquo;authentication&rsquo;, &lsquo;authorization&rsquo;, &lsquo;certificate&rsquo;, &lsquo;confidentiality&rsquo;, &lsquo;credential&rsquo;, &lsquo;encryption&rsquo;, &lsquo;identity&rsquo;, &lsquo;sign&rsquo;, &lsquo;signature&rsquo;, &lsquo;trust&rsquo;, &lsquo;validate&rsquo;, and &lsquo;verify&rsquo;.</t>
+
+<t>Unless otherwise noted, all the protocol parameter names and values are case sensitive.</t>
+
+</section>
+</section>
+<section anchor="transfer-request-1" title="Transfer Request">
+
+<t>A Transfer Request consists of a GET to the Asset URL.</t>
+
+<figure anchor="get-usdtobillexamplecomamount10000notemilkredirecturihttpsitecomcallback-http11host-payme"><artwork><![CDATA[
+GET /usd?to=bill@example.com&amount=100.00&note=Milk&redirect_uri=http://site.com/callback HTTP/1.1
+Host: pay.me
+]]></artwork></figure>
+
+<t>We use the following parameters from our common vocabulary in [1.6]. All fields are optional:</t>
+
+<t><list style='symbols'>
+  <t><spanx style='emph'>to</spanx> Account identifier of Transferee. If left out it defaults to the 3rd party applications own account on Asset Service or a predefined account as specified when authorizing the access token.</t>
+  <t><spanx style='emph'>amount</spanx> Amount as a number with decimal points. Symbols are allowed but SHOULD be ignored. If left out it defaults to the Asset&rsquo;s minimum transfer, 1 or an amount predefined when authorizing the access token.</t>
+  <t><spanx style='emph'>note</spanx> Textual description, which can include hash tags. Asset Service may truncate this. No default.</t>
+  <t><spanx style='emph'>from</spanx> Account identifier of Transferer. This should normally be left out as it is implied by the authorizer of the Access Token. The Asset Service MUST verify that the Access Token is authorized to transfer from this account. This could be useful for Asset providers charging their customers accounts.</t>
+  <t><spanx style='emph'>for</spanx> URI identifying the exchanged item.</t>
+  <t><spanx style='emph'>redirect_uri</spanx> URI for redirecting client to afterwards</t>
+  <t><spanx style='emph'>callback_uri</spanx> URI for performing a web callback</t>
+</list></t>
+
+<t>When a user follows this link, the Asset Service should present the user with a form authorizing the payment.</t>
+
+<t>Note: Client can include OpenID Connect parameters.</t>
+
+<section anchor="response" title="Response">
+
+<t>The user is redirected back to the clients redirect uri with the following url encoded parameters:</t>
+
+<t><list style='symbols'>
+  <t><spanx style='emph'>txn_url</spanx> A url identifying the transaction.</t>
+</list></t>
+
+<t>Asset provider can include an access_token in the query string of txn_url.</t>
+
+</section>
+<section anchor="errors" title="Errors">
+
+<t>Error types use OAuth 2.0&rsquo;s error codes.</t>
+
+</section>
+</section>
+<section anchor="transfer-authorization-1" title="Transfer Authorization">
+
+<t>A Transfer Authorization consists of a GET to the Asset URL with a client_id.</t>
+
+<figure anchor="get-usdtobillexamplecomamount10000notemilkredirecturihttpsitecomcallbackclientid1234-http11host-payme"><artwork><![CDATA[
+GET /usd?to=bill@example.com&amount=100.00&note=Milk&redirect_uri=http://site.com/callback&client_id=1234 HTTP/1.1
+Host: pay.me
+]]></artwork></figure>
+
+<t>A Transfer Authorization is really a OAuth2 Authorization so everything in the OAuth2
+We use the following parameters from our common vocabulary in [1.6]. All fields are optional:</t>
+
+<t><list style='symbols'>
+  <t><spanx style='emph'>to</spanx> Account identifier of Transferee. If left out it defaults to the 3rd party applications own account on Asset Service or a predefined account as specified when authorizing the access token.</t>
+  <t><spanx style='emph'>amount</spanx> Amount as a number with decimal points. Symbols are allowed but SHOULD be ignored. If left out it defaults to the Asset&rsquo;s minimum transfer, 1 or an amount predefined when authorizing the access token.</t>
+  <t><spanx style='emph'>note</spanx> Textual description, which can include hash tags. Asset Service may truncate this. No default.</t>
+  <t><spanx style='emph'>from</spanx> Account identifier of Transferer. This should normally be left out as it is implied by the authorizer of the Access Token. The Asset Service MUST verify that the Access Token is authorized to transfer from this account. This could be useful for Asset providers charging their customers accounts.</t>
+  <t><spanx style='emph'>for</spanx> URI identifying the exchanged item.</t>
+</list></t>
+
+<t>OAuth2 related parameters. See OAuth2 section 5 for full details</t>
+
+<t><list style='symbols'>
+  <t><spanx style='emph'>client_id</spanx> OAuth2 client id</t>
+  <t><spanx style='emph'>redirect_uri</spanx> URI for redirecting client to afterwards</t>
+  <t><spanx style='emph'>callback_uri</spanx> URI for performing a web callback</t>
+  <t><spanx style='emph'>response_type</spanx> token or code REQUIRED</t>
+  <t><spanx style='emph'>expire_in</spanx> Request the amount of time in seconds this token should be valid</t>
+</list></t>
+
+<t>When a user follows this link, the Asset Service should present the user with a form authorizing the payment.</t>
+
+<t>Note: Client can include OpenID Connect parameters.</t>
+
+<section anchor="response-1" title="Response">
+
+<t>Follows OAuth 2 response depending on response_type requested.</t>
+
+</section>
+<section anchor="errors-1" title="Errors">
+
+<t>Error types use OAuth 2.0&rsquo;s error codes.</t>
+
+</section>
+</section>
+<section anchor="transfer-1" title="Transfer">
+
+<t>A transfer consists of a HTTP POST to the asset url by a 3rd party application on behalf of the Transferer.</t>
+
+<t>The Application should have an OAuth 2.0 access token issued as defined in the OAuth 2.0 draft section 5.</t>
+
+<figure anchor="post-usd-http11host-paymeauthorization-bearer-vf9dft4qmttobillexamplecomamount10000notemilk"><artwork><![CDATA[
+POST /usd HTTP/1.1
+Host: pay.me
+Authorization: Bearer vF9dft4qmT
+
+to=bill@example.com&amount=100.00&note=Milk
+]]></artwork></figure>
+
+<t>We use the following parameters from our common vocabulary in 1.6. All fields are optional:</t>
+
+<t><list style='symbols'>
+  <t><spanx style='emph'>to</spanx> Account identifier of Transferee. If left out it defaults to the 3rd party applications own account on Asset Service or a predefined account as specified when authorizing the access token.</t>
+  <t><spanx style='emph'>amount</spanx> Amount as a number with decimal points. Symbols are allowed but SHOULD be ignored. If left out it defaults to the Asset&rsquo;s minimum transfer, 1 or an amount predefined when authorizing the access token.</t>
+  <t><spanx style='emph'>note</spanx> Textual description, which can include hash tags. Asset Service may truncate this. No default.</t>
+  <t><spanx style='emph'>from</spanx> Account identifier of Transferer. This should normally be left out as it is implied by the authorizer of the Access Token. The Asset Service MUST verify that the Access Token is authorized to transfer from this account. This could be useful for Asset providers charging their customers accounts.</t>
+  <t><spanx style='emph'>for</spanx> URI identifying the exchanged item.</t>
+</list></t>
+
+</section>
+<section anchor="response-2" title="Response">
+
+<t>http 201 with Receipt json.</t>
+
+</section>
+<section anchor="receipt" title="Receipt">
+
+<t>The receipt is returned when creating a transaction as well as when accessing a transaction url. It can also be used for creating a transaction list by the asset provider.</t>
+
+<t>The receipt is a JSON object consisting of the following fields:</t>
+
+<t><list style='symbols'>
+  <t><spanx style='emph'>txn_url</spanx></t>
+  <t><spanx style='emph'>to</spanx></t>
+  <t><spanx style='emph'>from</spanx></t>
+  <t><spanx style='emph'>amount</spanx></t>
+  <t><spanx style='emph'>note</spanx></t>
+  <t><spanx style='emph'>for</spanx></t>
+  <t><spanx style='emph'>asset_url</spanx></t>
+  <t><spanx style='emph'>timestamp</spanx></t>
+</list></t>
+
+</section>
+<section anchor="asset-meta-data" title="Asset Meta data">
+
+<t>A client can find out information about an asset by accessing the asset url directly with a http Accept header of application/json:</t>
+
+<figure anchor="get-usd-http11host-paymeaccept-applicationjson"><artwork><![CDATA[
+GET /usd HTTP/1.1
+Host: pay.me
+Accept: application/json
+]]></artwork></figure>
+
+<t>This returns a json hash of meta information about the asset.</t>
+
+<t>The minimum required data would be:</t>
+
+<t><list style='symbols'>
+  <t>name - Short name of asset</t>
+</list></t>
+
+<t>Further opentransact specific parameters could be:</t>
+
+<t><list style='symbols'>
+  <t>default_amount - The default amount transfered if an amount is not specified in a transfer</t>
+  <t>provider_url - The provider of the asset&rsquo;s home page</t>
+  <t>description - Short descriptio</t>
+  <t>logo_url - Image url for Assets logo</t>
+  <t>unit - ISO currency unit of asset if monetary or other such as (minute, gram, point etc)</t>
+</list></t>
+
+<t>Asset services can provide further information more specific to their particular asset type.</t>
+
+<t>If an OAuth Access Token is provided the Asset Service should provide information related to the capabilities of the token.</t>
+
+<t><list style='symbols'>
+  <t>balance - balance of account</t>
+  <t>available_balance - available balance of account</t>
+</list></t>
+
+<t>For tokens obtained through a Transfer Authentication this should reflect the remaining balance of the authorized amount.</t>
+
+<t>If tokens scope allows access to accounts transaction history, the transaction history should be included here:</t>
+
+<t><list style='symbols'>
+  <t>transactions - array of receipts</t>
+</list></t>
+
+</section>
+</section>
+</middle>
+
+<back>
+
+  <references title='Normative References'>
+
+<t>
+
+
+<reference anchor='RFC2616'>
+
+<front>
+<title abbrev='HTTP/1.1'>Hypertext Transfer Protocol -- HTTP/1.1</title>
+<author initials='R.' surname='Fielding' fullname='Roy T. Fielding'>
+<organization abbrev='UC Irvine'>Department of Information and Computer Science</organization>
+<address>
+<postal>
+<street>University of California, Irvine</street>
+<city>Irvine</city>
+<region>CA</region>
+<code>92697-3425</code></postal>
+<facsimile>+1(949)824-1715</facsimile>
+<email>fielding@ics.uci.edu</email></address></author>
+<author initials='J.' surname='Gettys' fullname='James Gettys'>
+<organization abbrev='Compaq/W3C'>World Wide Web Consortium</organization>
+<address>
+<postal>
+<street>MIT Laboratory for Computer Science, NE43-356</street>
+<street>545 Technology Square</street>
+<city>Cambridge</city>
+<region>MA</region>
+<code>02139</code></postal>
+<facsimile>+1(617)258-8682</facsimile>
+<email>jg@w3.org</email></address></author>
+<author initials='J.' surname='Mogul' fullname='Jeffrey C. Mogul'>
+<organization abbrev='Compaq'>Compaq Computer Corporation</organization>
+<address>
+<postal>
+<street>Western Research Laboratory</street>
+<street>250 University Avenue</street>
+<city>Palo Alto</city>
+<region>CA</region>
+<code>94305</code></postal>
+<email>mogul@wrl.dec.com</email></address></author>
+<author initials='H.' surname='Frystyk' fullname='Henrik Frystyk Nielsen'>
+<organization abbrev='W3C/MIT'>World Wide Web Consortium</organization>
+<address>
+<postal>
+<street>MIT Laboratory for Computer Science, NE43-356</street>
+<street>545 Technology Square</street>
+<city>Cambridge</city>
+<region>MA</region>
+<code>02139</code></postal>
+<facsimile>+1(617)258-8682</facsimile>
+<email>frystyk@w3.org</email></address></author>
+<author initials='L.' surname='Masinter' fullname='Larry Masinter'>
+<organization abbrev='Xerox'>Xerox Corporation</organization>
+<address>
+<postal>
+<street>MIT Laboratory for Computer Science, NE43-356</street>
+<street>3333 Coyote Hill Road</street>
+<city>Palo Alto</city>
+<region>CA</region>
+<code>94034</code></postal>
+<email>masinter@parc.xerox.com</email></address></author>
+<author initials='P.' surname='Leach' fullname='Paul J. Leach'>
+<organization abbrev='Microsoft'>Microsoft Corporation</organization>
+<address>
+<postal>
+<street>1 Microsoft Way</street>
+<city>Redmond</city>
+<region>WA</region>
+<code>98052</code></postal>
+<email>paulle@microsoft.com</email></address></author>
+<author initials='T.' surname='Berners-Lee' fullname='Tim Berners-Lee'>
+<organization abbrev='W3C/MIT'>World Wide Web Consortium</organization>
+<address>
+<postal>
+<street>MIT Laboratory for Computer Science, NE43-356</street>
+<street>545 Technology Square</street>
+<city>Cambridge</city>
+<region>MA</region>
+<code>02139</code></postal>
+<facsimile>+1(617)258-8682</facsimile>
+<email>timbl@w3.org</email></address></author>
+<date year='1999' month='June' />
+<abstract>
+<t>
+   The Hypertext Transfer Protocol (HTTP) is an application-level
+   protocol for distributed, collaborative, hypermedia information
+   systems. It is a generic, stateless, protocol which can be used for
+   many tasks beyond its use for hypertext, such as name servers and
+   distributed object management systems, through extension of its
+   request methods, error codes and headers . A feature of HTTP is
+   the typing and negotiation of data representation, allowing systems
+   to be built independently of the data being transferred.
+</t>
+<t>
+   HTTP has been in use by the World-Wide Web global information
+   initiative since 1990. This specification defines the protocol
+   referred to as "HTTP/1.1", and is an update to RFC 2068 .
+</t></abstract></front>
+
+<seriesInfo name='RFC' value='2616' />
+<format type='TXT' octets='422317' target='http://www.rfc-editor.org/rfc/rfc2616.txt' />
+<format type='PS' octets='5529857' target='http://www.rfc-editor.org/rfc/rfc2616.ps' />
+<format type='PDF' octets='550558' target='http://www.rfc-editor.org/rfc/rfc2616.pdf' />
+<format type='HTML' octets='636125' target='http://xml.resource.org/public/rfc/html/rfc2616.html' />
+<format type='XML' octets='493420' target='http://xml.resource.org/public/rfc/xml/rfc2616.xml' />
+</reference>
+
+
+
+<reference anchor='RFC3339'>
+
+<front>
+<title>Date and Time on the Internet: Timestamps</title>
+<author initials='G.' surname='Klyne' fullname='Graham Klyne' role='editor'>
+<organization>Clearswift Corporation</organization>
+<address>
+<postal>
+<street>1310 Waterside</street>
+<street>Arlington Business Park</street>
+<city>Theale</city>
+<region>Reading</region>
+<code>RG7 4SA</code>
+<country>UK</country></postal>
+<phone>+44 11 8903 8903</phone>
+<facsimile>+44 11 8903 9000</facsimile>
+<email>GK@ACM.ORG</email></address></author>
+<author initials='C.' surname='Newman' fullname='Chris Newman'>
+<organization>Sun Microsystems</organization>
+<address>
+<postal>
+<street>1050 Lakes Drive, Suite 250</street>
+<city>West Covina</city>
+<region>CA</region>
+<code>91790</code>
+<country>USA</country></postal>
+<email>chris.newman@sun.com</email></address></author>
+<date year='2002' month='July' />
+<abstract>
+<t>
+   This document defines a date and time format for use in Internet
+   protocols that is a profile of the ISO 8601 standard for
+   representation of dates and times using the Gregorian calendar.
+     </t></abstract></front>
+
+<seriesInfo name='RFC' value='3339' />
+<format type='TXT' octets='35064' target='http://www.rfc-editor.org/rfc/rfc3339.txt' />
+<format type='HTML' octets='61277' target='http://xml.resource.org/public/rfc/html/rfc3339.html' />
+<format type='XML' octets='37259' target='http://xml.resource.org/public/rfc/xml/rfc3339.xml' />
+</reference>
+
+
+
+<reference anchor='RFC4627'>
+
+<front>
+<title>The application/json Media Type for JavaScript Object Notation (JSON)</title>
+<author initials='D.' surname='Crockford' fullname='D. Crockford'>
+<organization /></author>
+<date year='2006' month='July' />
+<abstract>
+<t>JavaScript Object Notation (JSON) is a lightweight, text-based, language-independent data interchange format.  It was derived from the ECMAScript Programming Language Standard.  JSON defines a small set of formatting rules for the portable representation of structured data.  This memo provides information for the Internet community.</t></abstract></front>
+
+<seriesInfo name='RFC' value='4627' />
+<format type='TXT' octets='16319' target='http://www.rfc-editor.org/rfc/rfc4627.txt' />
+</reference>
+
+
+</t>
+
+<reference anchor="OAuth.2.0">
+    <front>
+        <title>OAuth 2.0 Authorization Protocol</title>
+
+
+        <author fullname="Eran Hammer-Lahav" initials="E." role="editor" surname="Hammer-Lahav">
+            <organization abbrev="">Yahoo</organization>
+
+    </author>
+
+
+        <author fullname="David Recordon" initials="D." surname="Recordon">
+            <organization abbrev="">Facebook</organization>
+
+    </author>
+
+
+        <author fullname="Dick Hardt" initials="D." surname="Hardt">
+            <organization abbrev="Microsoft">Microsoft</organization>
+
+    </author>
+
+
+        <date day="25" month="Jul" year="2011" />
+
+  </front>
+
+
+    <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2" type="HTML" />
+
+</reference>
+
+<reference anchor="OAuth.2.0.SC">
+    <front>
+        <title>OAuth 2.0 Threat Model and Security Considerations</title>
+
+
+        <author fullname="Torsten Lodderstedt" initials="T." role="editor" surname="Lodderstedt">
+            <organization abbrev="">Deutsche Telekom AG</organization>
+
+    </author>
+
+
+        <author fullname="Mark McGloin" initials="M." surname="McGloin">
+            <organization abbrev="">IBM</organization>
+
+    </author>
+
+
+        <author fullname="Phil Hunt" initials="P." surname="Hunt">
+            <organization abbrev="">Oracle Corporation</organization>
+
+    </author>
+
+
+        <date day="1" month="July" year="2011" />
+
+  </front>
+
+
+    <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-threatmodel" type="HTML" />
+
+</reference>
+
+
+  </references>
+
+</back>
+</rfc>
+

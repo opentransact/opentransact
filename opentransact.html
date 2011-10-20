@@ -1,0 +1,902 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en"><head><title>OpenTransact Core</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="OpenTransact Core">
+<meta name="keywords" content="Internet-Draft">
+<meta name="generator" content="xml2rfc v1.36 (http://xml.resource.org/)">
+<style type='text/css'><!--
+        body {
+                font-family: verdana, charcoal, helvetica, arial, sans-serif;
+                font-size: small; color: #000; background-color: #FFF;
+                margin: 2em;
+        }
+        h1, h2, h3, h4, h5, h6 {
+                font-family: helvetica, monaco, "MS Sans Serif", arial, sans-serif;
+                font-weight: bold; font-style: normal;
+        }
+        h1 { color: #900; background-color: transparent; text-align: right; }
+        h3 { color: #333; background-color: transparent; }
+
+        td.RFCbug {
+                font-size: x-small; text-decoration: none;
+                width: 30px; height: 30px; padding-top: 2px;
+                text-align: justify; vertical-align: middle;
+                background-color: #000;
+        }
+        td.RFCbug span.RFC {
+                font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+                font-weight: bold; color: #666;
+        }
+        td.RFCbug span.hotText {
+                font-family: charcoal, monaco, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+                font-weight: normal; text-align: center; color: #FFF;
+        }
+
+        table.TOCbug { width: 30px; height: 15px; }
+        td.TOCbug {
+                text-align: center; width: 30px; height: 15px;
+                color: #FFF; background-color: #900;
+        }
+        td.TOCbug a {
+                font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, sans-serif;
+                font-weight: bold; font-size: x-small; text-decoration: none;
+                color: #FFF; background-color: transparent;
+        }
+
+        td.header {
+                font-family: arial, helvetica, sans-serif; font-size: x-small;
+                vertical-align: top; width: 33%;
+                color: #FFF; background-color: #666;
+        }
+        td.author { font-weight: bold; font-size: x-small; margin-left: 4em; }
+        td.author-text { font-size: x-small; }
+
+        /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+        a.info {
+                /* This is the key. */
+                position: relative;
+                z-index: 24;
+                text-decoration: none;
+        }
+        a.info:hover {
+                z-index: 25;
+                color: #FFF; background-color: #900;
+        }
+        a.info span { display: none; }
+        a.info:hover span.info {
+                /* The span will display just on :hover state. */
+                display: block;
+                position: absolute;
+                font-size: smaller;
+                top: 2em; left: -5em; width: 15em;
+                padding: 2px; border: 1px solid #333;
+                color: #900; background-color: #EEE;
+                text-align: left;
+        }
+
+        a { font-weight: bold; }
+        a:link    { color: #900; background-color: transparent; }
+        a:visited { color: #633; background-color: transparent; }
+        a:active  { color: #633; background-color: transparent; }
+
+        p { margin-left: 2em; margin-right: 2em; }
+        p.copyright { font-size: x-small; }
+        p.toc { font-size: small; font-weight: bold; margin-left: 3em; }
+        table.toc { margin: 0 0 0 3em; padding: 0; border: 0; vertical-align: text-top; }
+        td.toc { font-size: small; font-weight: bold; vertical-align: text-top; }
+
+        ol.text { margin-left: 2em; margin-right: 2em; }
+        ul.text { margin-left: 2em; margin-right: 2em; }
+        li      { margin-left: 3em; }
+
+        /* RFC-2629 <spanx>s and <artwork>s. */
+        em     { font-style: italic; }
+        strong { font-weight: bold; }
+        dfn    { font-weight: bold; font-style: normal; }
+        cite   { font-weight: normal; font-style: normal; }
+        tt     { color: #036; }
+        tt, pre, pre dfn, pre em, pre cite, pre span {
+                font-family: "Courier New", Courier, monospace; font-size: small;
+        }
+        pre {
+                text-align: left; padding: 4px;
+                color: #000; background-color: #CCC;
+        }
+        pre dfn  { color: #900; }
+        pre em   { color: #66F; background-color: #FFC; font-weight: normal; }
+        pre .key { color: #33C; font-weight: bold; }
+        pre .id  { color: #900; }
+        pre .str { color: #000; background-color: #CFF; }
+        pre .val { color: #066; }
+        pre .rep { color: #909; }
+        pre .oth { color: #000; background-color: #FCF; }
+        pre .err { background-color: #FCC; }
+
+        /* RFC-2629 <texttable>s. */
+        table.all, table.full, table.headers, table.none {
+                font-size: small; text-align: center; border-width: 2px;
+                vertical-align: top; border-collapse: collapse;
+        }
+        table.all, table.full { border-style: solid; border-color: black; }
+        table.headers, table.none { border-style: none; }
+        th {
+                font-weight: bold; border-color: black;
+                border-width: 2px 2px 3px 2px;
+        }
+        table.all th, table.full th { border-style: solid; }
+        table.headers th { border-style: none none solid none; }
+        table.none th { border-style: none; }
+        table.all td {
+                border-style: solid; border-color: #333;
+                border-width: 1px 2px;
+        }
+        table.full td, table.headers td, table.none td { border-style: none; }
+
+        hr { height: 1px; }
+        hr.insert {
+                width: 80%; border-style: none; border-width: 0;
+                color: #CCC; background-color: #CCC;
+        }
+--></style>
+</head>
+<body>
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
+<tr><td class="header">OpenTransact</td><td class="header">P. Braendgaard</td></tr>
+<tr><td class="header">Internet-Draft</td><td class="header">PicoMoney Inc</td></tr>
+<tr><td class="header">Intended status: Informational</td><td class="header">N. Matake</td></tr>
+<tr><td class="header">Expires: April 21, 2012</td><td class="header">Cerego Japan Inc</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">T. Brown</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">October 19, 2011</td></tr>
+</table></td></tr></table>
+<h1><br />OpenTransact Core<br />draft-pelle-opentransact-core-00</h1>
+
+<h3>Abstract</h3>
+
+<p>
+      This document specifies the OpenTransact standard for requesting and performing transfers of assets over the http protocol.
+      
+</p>
+<h3>Status of this Memo</h3>
+<p>
+This Internet-Draft is submitted  in full
+conformance with the provisions of BCP&nbsp;78 and BCP&nbsp;79.</p>
+<p>
+Internet-Drafts are working documents of the Internet Engineering
+Task Force (IETF).  Note that other groups may also distribute
+working documents as Internet-Drafts.  The list of current
+Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
+<p>
+Internet-Drafts are draft documents valid for a maximum of six months
+and may be updated, replaced, or obsoleted by other documents at any time.
+It is inappropriate to use Internet-Drafts as reference material or to cite
+them other than as &ldquo;work in progress.&rdquo;</p>
+<p>
+This Internet-Draft will expire on April 21, 2012.</p>
+
+<h3>Copyright Notice</h3>
+<p>
+Copyright (c) 2011 IETF Trust and the persons identified as the
+document authors.  All rights reserved.</p>
+<p>
+This document is subject to BCP 78 and the IETF Trust's Legal
+Provisions Relating to IETF Documents
+(http://trustee.ietf.org/license-info) in effect on the date of
+publication of this document.  Please review these documents
+carefully, as they describe your rights and restrictions with respect
+to this document. Code Components extracted from this document must
+include Simplified BSD License text as described in Section 4.e of
+the Trust Legal Provisions and are provided without warranty as
+described in the Simplified BSD License.</p>
+<a name="toc"></a><br /><hr />
+<h3>Table of Contents</h3>
+<p class="toc">
+<a href="#status-of-document">1.</a>&nbsp;
+Status of Document<br />
+<a href="#introduction">2.</a>&nbsp;
+Introduction<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#assets">2.1.</a>&nbsp;
+Assets<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#asset-service">2.1.1.</a>&nbsp;
+Asset Service<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#transaction-url">2.1.2.</a>&nbsp;
+Transaction URL<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#example-of-asset-services">2.1.3.</a>&nbsp;
+Example of Asset Services<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#roles">2.2.</a>&nbsp;
+Roles<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#transfer">2.3.</a>&nbsp;
+Transfer<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#transfer-request">2.4.</a>&nbsp;
+Transfer Request<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#transfer-authorization">2.5.</a>&nbsp;
+Transfer Authorization<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#exchange-transaction">2.6.</a>&nbsp;
+Exchange Transaction<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#exchanged-item-uri">2.6.1.</a>&nbsp;
+Exchanged item URI<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#authorization">2.6.2.</a>&nbsp;
+Authorization<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#vocabulary">2.7.</a>&nbsp;
+Vocabulary<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#authentication">2.8.</a>&nbsp;
+Authentication<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#parameter-encoding">2.9.</a>&nbsp;
+Parameter encoding<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#extensions">2.10.</a>&nbsp;
+Extensions<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#notational-conventions">2.11.</a>&nbsp;
+Notational Conventions<br />
+<a href="#transfer-request-1">3.</a>&nbsp;
+Transfer Request<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#response">3.1.</a>&nbsp;
+Response<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#errors">3.2.</a>&nbsp;
+Errors<br />
+<a href="#transfer-authorization-1">4.</a>&nbsp;
+Transfer Authorization<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#response-1">4.1.</a>&nbsp;
+Response<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#errors-1">4.2.</a>&nbsp;
+Errors<br />
+<a href="#transfer-1">5.</a>&nbsp;
+Transfer<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#response-2">5.1.</a>&nbsp;
+Response<br />
+<a href="#receipt">6.</a>&nbsp;
+Receipt<br />
+<a href="#asset-meta-data">7.</a>&nbsp;
+Asset Meta data<br />
+<a href="#rfc.references1">8.</a>&nbsp;
+Normative References<br />
+<a href="#rfc.authors">&#167;</a>&nbsp;
+Authors' Addresses<br />
+</p>
+<br clear="all" />
+
+<a name="status-of-document"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1"></a><h3>1.&nbsp;
+Status of Document</h3>
+
+<p>This document is in draft and reflects the current designs from the OpenTransact mailing list.
+</p>
+<a name="introduction"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2"></a><h3>2.&nbsp;
+Introduction</h3>
+
+<p>The goal is to develop a very simple low level standard for transferring an amount of an asset from one account to another.
+</p>
+<p>Most payment systems and existing standards use the messaging paradigm for historical reasons. OpenTransact specifically rejects the message paradigm and prefers the restful resource approach as used on the web with URL&rsquo;s and HTTP at it&rsquo;s core.
+</p>
+<p>We aim to create a new standard from scratch ignoring all legacy systems, while leaving it flexible enough to allow applications built on top of it to deal with legacy systems.
+</p>
+<p>The standard is designed to follow standard RESTful practices and be concise and human readable.
+</p>
+<a name="assets"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.1"></a><h3>2.1.&nbsp;
+Assets</h3>
+
+<p>Within OpenTransact we use the accounting definition of the word &ldquo;Asset&rdquo; as anything of value. Eg.
+</p>
+<p></p>
+<ul class="text">
+<li>money
+</li>
+<li>shares
+</li>
+<li>bonds
+</li>
+<li>mobile phone minutes
+</li>
+<li>hours of work
+</li>
+<li>property
+</li>
+<li>domain names
+</li>
+<li>physical products etc.
+</li>
+</ul>
+
+<a name="asset-service"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.1.1"></a><h3>2.1.1.&nbsp;
+Asset Service</h3>
+
+<p>An Asset Service is a service maintained by an organization to manage accounts of one assets. For money and other financial assets the Asset Service would normally be run by a Financial Service Provider of some type. However there are many types of assets that could be offered by non financial services.
+</p>
+<a name="transaction-url"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.1.2"></a><h3>2.1.2.&nbsp;
+Transaction URL</h3>
+
+<p>Each Asset Service has a unique transaction URL. This allows us a  don&rsquo;t need to get into details in our standard about application specific details like currency, card type, size, color etc.
+</p>
+<p>This transaction URL would follow basic REST practices.
+</p>
+<p></p>
+<ul class="text">
+<li>A transaction URL should be a simple clean URL like http://eepay.com/transactions.
+</li>
+<li>A POST to the URL is used for creating a transaction transfering value.
+</li>
+<li>A GET to the URL from a normal html web browser should present a human readable description of the asset.
+</li>
+<li>A GET to the URL from a normal web browser with specific parameters becomes a payment request that the user can authorize.
+</li>
+<li>A GET to the URL in a machine readable form such as json returns meta data about the asset an optionally a list of transactions that the current user is allowed to see.
+</li>
+<li>Each transaction has a unique URL eg. http://epay.com/transactions/aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d.
+</li>
+</ul>
+
+<a name="example-of-asset-services"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.1.3"></a><h3>2.1.3.&nbsp;
+Example of Asset Services</h3>
+
+<p>Lets say it&rsquo;s an imaginary electronic currency eepay.com they only offer one asset type, their currency. So they would only have one transaction url:
+</p>
+<p></p>
+<ul class="text">
+<li>http://eepay.com/transactions
+</li>
+</ul>
+
+<p>If it offered multiple currencies it should have a url for each currency as they are really separate asset types:
+</p>
+<p></p>
+<ul class="text">
+<li>http://eepay.com/transactions/usd
+</li>
+<li>http://eepay.com/transactions/euro
+</li>
+</ul>
+
+<p>If a larger existing bank offered various kinds of services each one would have it&rsquo;s own URL:
+</p>
+<p></p>
+<ul class="text">
+<li>http://megabank.com/current
+</li>
+<li>http://megabank.com/savings
+</li>
+<li>http://megabank.com/bonds/mortgage
+</li>
+</ul>
+
+<p>A mutual fund company would have a url for each of their funds.
+</p>
+<p></p>
+<ul class="text">
+<li>http://fidelify.com/funds/sp500
+</li>
+<li>http://fidelify.com/funds/emergingmarkets
+</li>
+</ul>
+
+<p>A broker could actually also implement an OpenTransact API and have a different URL for each symbol eg:
+</p>
+<p></p>
+<ul class="text">
+<li>http://feetrade.com/trade/AAPL
+</li>
+<li>http://feetrade.com/trade/EBAY
+</li>
+</ul>
+
+<p>This would allow them to create their own internal market.
+</p>
+<p>If we let the URL do the describing, there are tons of different possibilities. We can keep the core API very simple, while allowing pretty open support for all manners of asset types.
+</p>
+<p>All the above examples are fungible assets. In general it is best practice that one item of value for one asset is fungible for one another.
+</p>
+<p>For unique items such as domain names, property titles and diamonds that are unique and infungible, we can still create asset urls for each item, but only accept transfer amounts of 1.
+</p>
+<a name="roles"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.2"></a><h3>2.2.&nbsp;
+Roles</h3>
+
+<p>OpenTransact defines 4 roles:
+</p>
+<p></p>
+<ul class="text">
+<li>Asset provider
+  
+<ul class="text">
+<li>The entity providing or issuing the asset
+</li>
+</ul>
+</li>
+<li>Transferer
+  
+<ul class="text">
+<li>The entity transfering an amount of the asset
+</li>
+</ul>
+</li>
+<li>Transferee
+  
+<ul class="text">
+<li>The entity receiving an amount of the asset
+</li>
+</ul>
+</li>
+<li>3rd party application
+  
+<ul class="text">
+<li>An application performing a transfer on behalf of the Transferer
+</li>
+</ul>
+</li>
+</ul>
+
+<a name="transfer"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.3"></a><h3>2.3.&nbsp;
+Transfer</h3>
+
+<p>We will use the term &ldquo;Transfer&rdquo; as it is more widely applicable than &ldquo;Payment&rdquo;.
+</p>
+<p>A Transfer is legally a transfer in owner ship of some amount of the Asset from the Transferer to the Transferee.
+</p>
+<p>Eg. A Payment of $12 from Bob to Alice is a Transfer of 12$ with Bob being the Transferer and Alice the Transferee.
+</p>
+<a name="transfer-request"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.4"></a><h3>2.4.&nbsp;
+Transfer Request</h3>
+
+<p>A Transfer request is when the Transferee requests a transfer of a given amount of an asset from the Transferer.
+</p>
+<p>Eg. Alice sends an invoice to Bob for $12. This is a Transfer Request from Alice to Bob where Alice is the Transferee and Bob the Transferer.
+</p>
+<p>A Transfer Request is simply a specially formatted payment link that takes Bob to Asset Service if followed. The Asset Service shall present the Transfer Request to Bob who can authorize or decline it.
+</p>
+<a name="transfer-authorization"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.5"></a><h3>2.5.&nbsp;
+Transfer Authorization</h3>
+
+<p>A Transfer Authorization is when  the Transferee or a third party application requests an authorization to transfer of a given amount of an asset from the Transferer.
+</p>
+<p>Eg. Bob wants to hire someone on an online job board to edit a document for $33. The Job Board creates a Transfer Authorization link. Bob follows this link to the Asset Service and authorizes the Job Board to transfer $33 from his account to some one else within a time period.
+</p>
+<p>A Transfer Request is simply a specially formatted payment link that takes Bob to Asset Service if followed. The Asset Service shall present the Transfer Request to Bob who can authorize or decline it. If Bob authorizes it the Asset Service issues an authorization code to the Job Board that they can use to exchange for an OAuth token.
+</p>
+<a name="exchange-transaction"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.6"></a><h3>2.6.&nbsp;
+Exchange Transaction</h3>
+
+<p>A Transfer is often but not always part of an exchange of value between 2 types of assets. Eg.:
+</p>
+<p></p>
+<ul class="text">
+<li>10 consulting hours exchanged for 1100EUR
+</li>
+<li>10 USD exchanged for 8 EURO
+</li>
+<li>0.99 USD exchanged for an mp3 song
+</li>
+</ul>
+
+<p>There are as many different exchange mechanisms for create exchanges as there are exchange types. eg.
+</p>
+<p></p>
+<ul class="text">
+<li>Invoicing system
+</li>
+<li>App Store
+</li>
+<li>Web shop
+</li>
+<li>Auction site
+</li>
+<li>Stock Exchange
+</li>
+</ul>
+
+<p>It is outside the scope for OpenTransact to define every single type of exchange that is possible. However OpenTransact should be able to be a fundamental building block in building such systems. It should also integrate well with exchange systems that don&rsquo;t yet understand OpenTransact.
+</p>
+<a name="exchanged-item-uri"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.6.1"></a><h3>2.6.1.&nbsp;
+Exchanged item URI</h3>
+
+<p>In an Exchange Transaction we can include a url to the exchanged item. This URI could either be a link to the exchanged item itself or the unique URI identifying the transaction itself.
+</p>
+<a name="authorization"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.6.2"></a><h3>2.6.2.&nbsp;
+Authorization</h3>
+
+<p>A useful building block for creating Exchange services is the Transfer Authorization flow.
+</p>
+<a name="vocabulary"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.7"></a><h3>2.7.&nbsp;
+Vocabulary</h3>
+
+<p>As part of OpenTransact we are creating a simple vocabulary of parameter names that can be used in various parts of the standard.
+</p>
+<p></p>
+<ul class="text">
+<li><em>asset</em> - Transaction URL
+</li>
+<li><em>from</em> - Transferer account identifier
+</li>
+<li><em>to</em> - Transferee account identifier
+</li>
+<li><em>amount</em> - Amount of asset
+</li>
+<li><em>note</em> - Textual description of transfer
+</li>
+<li><em>for</em> - Identifier of exchanged item. This SHOULD be a URI
+</li>
+<li><em>redirect_uri</em> - URI to redirect User Agent to
+</li>
+<li><em>callback_uri</em> - URI for performing callback after request
+</li>
+<li><em>client_id</em> - Identifier of 3rd party application
+</li>
+<li><em>expire_in</em> - Request that a token expires in given seconds
+</li>
+</ul>
+
+<p>They are designed to be small and semantically correct. eg
+</p>
+<p></p>
+<blockquote class="text">
+<p>A transfer of 10  USD  from Bob to Alice for consulting.
+</p>
+</blockquote>
+
+<p>Would become the following:
+</p>
+<p></p>
+<ul class="text">
+<li>amount=10
+</li>
+<li>asset=http://pay.me/usd
+</li>
+<li>from=bob@test.com
+</li>
+<li>to=alice@test.com
+</li>
+<li>note=Consulting on XYZ project
+</li>
+<li>for=http://myinvoice.test/invoices/123123
+</li>
+</ul>
+
+<a name="authentication"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.8"></a><h3>2.8.&nbsp;
+Authentication</h3>
+
+<p>OpenTransact does not define any new authentication mechanisms, but relies on the Asset Provider&rsquo;s existing mechanisms for authenticating the Transferer and  OAuth 2.0 <a class='info' href='#OAuth.2.0'>[OAuth.2.0]<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a> for authenticating 3rd party applications on behalf of the Transferer.
+</p>
+<a name="parameter-encoding"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.9"></a><h3>2.9.&nbsp;
+Parameter encoding</h3>
+
+<p>Since OpenTransact is designed to be simple to implement, the basic parameter encoding is URL form encoding.
+</p>
+<p>Any data responses should be in JSON format.
+</p>
+<a name="extensions"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.10"></a><h3>2.10.&nbsp;
+Extensions</h3>
+
+<p>OpenTransact is designed to be extensible, either through proprietary extensions, conventions or futher standards.
+</p>
+<p>For example it may be useful to follow the lat/lon convention allowing geotagging of data.
+</p>
+<a name="notational-conventions"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.11"></a><h3>2.11.&nbsp;
+Notational Conventions</h3>
+
+<p>The key words &lsquo;MUST&rsquo;, &lsquo;MUST NOT&rsquo;, &lsquo;REQUIRED&rsquo;, &lsquo;SHALL&rsquo;, &lsquo;SHALL NOT&rsquo;, &lsquo;SHOULD&rsquo;, &lsquo;SHOULD NOT&rsquo;, &lsquo;RECOMMENDED&rsquo;, &lsquo;MAY&rsquo;, and &lsquo;OPTIONAL&rsquo; in this specification are to be interpreted as described in <a class='info' href='#RFC2119'>[RFC2119]<span> (</span><span class='info'>Bradner, S., &ldquo;Key words for use in RFCs to Indicate Requirement Levels,&rdquo; March&nbsp;1997.</span><span>)</span></a>.
+</p>
+<p>This specification uses the Augmented Backus-Naur Form (ABNF) notation of <a class='info' href='#RFC5234'>[RFC5234]<span> (</span><span class='info'>Crocker, D. and P. Overell, &ldquo;Augmented BNF for Syntax Specifications: ABNF,&rdquo; January&nbsp;2008.</span><span>)</span></a>.
+</p>
+<p>Certain security-related terms are to be understood in the sense defined in <a class='info' href='#RFC4949'>[RFC4949]<span> (</span><span class='info'>Shirey, R., &ldquo;Internet Security Glossary, Version 2,&rdquo; August&nbsp;2007.</span><span>)</span></a>. These terms include, but are not limited to, &lsquo;attack&rsquo;, &lsquo;authentication&rsquo;, &lsquo;authorization&rsquo;, &lsquo;certificate&rsquo;, &lsquo;confidentiality&rsquo;, &lsquo;credential&rsquo;, &lsquo;encryption&rsquo;, &lsquo;identity&rsquo;, &lsquo;sign&rsquo;, &lsquo;signature&rsquo;, &lsquo;trust&rsquo;, &lsquo;validate&rsquo;, and &lsquo;verify&rsquo;.
+</p>
+<p>Unless otherwise noted, all the protocol parameter names and values are case sensitive.
+</p>
+<a name="transfer-request-1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3"></a><h3>3.&nbsp;
+Transfer Request</h3>
+
+<p>A Transfer Request consists of a GET to the Asset URL.
+</p><br /><hr class="insert" />
+<a name="get-usdtobillexamplecomamount10000notemilkredirecturihttpsitecomcallback-http11host-payme"></a>
+<div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+GET /usd?to=bill@example.com&amp;amount=100.00&amp;note=Milk&amp;redirect_uri=http://site.com/callback HTTP/1.1
+Host: pay.me
+</pre></div><table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;1&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+
+<p>We use the following parameters from our common vocabulary. All fields are optional:
+</p>
+<p></p>
+<ul class="text">
+<li><em>to</em> Account identifier of Transferee. If left out it defaults to the 3rd party applications own account on Asset Service or a predefined account as specified when authorizing the access token.
+</li>
+<li><em>amount</em> Amount as a number with decimal points. Symbols are allowed but SHOULD be ignored. If left out it defaults to the Asset&rsquo;s minimum transfer, 1 or an amount predefined when authorizing the access token.
+</li>
+<li><em>note</em> Textual description, which can include hash tags. Asset Service may truncate this. No default.
+</li>
+<li><em>from</em> Account identifier of Transferer. This should normally be left out as it is implied by the authorizer of the Access Token. The Asset Service MUST verify that the Access Token is authorized to transfer from this account. This could be useful for Asset providers charging their customers accounts.
+</li>
+<li><em>for</em> URI identifying the exchanged item.
+</li>
+<li><em>redirect_uri</em> URI for redirecting client to afterwards
+</li>
+<li><em>callback_uri</em> URI for performing a web callback
+</li>
+</ul>
+
+<p>When a user follows this link, the Asset Service should present the user with a form authorizing the payment.
+</p>
+<p>Note: Client can include OpenID Connect parameters.
+</p>
+<a name="response"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.1"></a><h3>3.1.&nbsp;
+Response</h3>
+
+<p>The user is redirected back to the clients redirect uri with the following url encoded parameters:
+</p>
+<p></p>
+<ul class="text">
+<li><em>txn_url</em> A url identifying the transaction.
+</li>
+</ul>
+
+<p>Asset provider can include an access_token in the query string of txn_url.
+</p>
+<a name="errors"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.2"></a><h3>3.2.&nbsp;
+Errors</h3>
+
+<p>Error types use OAuth 2.0&rsquo;s error codes. <a class='info' href='#OAuth.2.0'>[OAuth.2.0]<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a>
+</p>
+<a name="transfer-authorization-1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4"></a><h3>4.&nbsp;
+Transfer Authorization</h3>
+
+<p>A Transfer Authorization consists of a GET to the Asset URL with a client_id.
+</p><br /><hr class="insert" />
+<a name="get-usdtobillexamplecomamount10000notemilkredirecturihttpsitecomcallbackclientid1234-http11host-payme"></a>
+<div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+GET /usd?to=bill@example.com&amp;amount=100.00&amp;note=Milk&amp;redirect_uri=http://site.com/callback&amp;client_id=1234 HTTP/1.1
+Host: pay.me
+</pre></div><table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;2&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+
+<p>A Transfer Authorization is really a OAuth2 Authorization <a class='info' href='#OAuth.2.0'>[OAuth.2.0]<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a> with a few extra payment related parameters.
+</p>
+<p>We use the following parameters from our common vocabulary. All fields are optional:
+</p>
+<p></p>
+<ul class="text">
+<li><em>to</em> Account identifier of Transferee. If left out it defaults to the 3rd party applications own account on Asset Service or a predefined account as specified when authorizing the access token.
+</li>
+<li><em>amount</em> Amount as a number with decimal points. Symbols are allowed but SHOULD be ignored. If left out it defaults to the Asset&rsquo;s minimum transfer, 1 or an amount predefined when authorizing the access token.
+</li>
+<li><em>note</em> Textual description, which can include hash tags. Asset Service may truncate this. No default.
+</li>
+<li><em>from</em> Account identifier of Transferer. This should normally be left out as it is implied by the authorizer of the Access Token. The Asset Service MUST verify that the Access Token is authorized to transfer from this account. This could be useful for Asset providers charging their customers accounts.
+</li>
+<li><em>for</em> URI identifying the exchanged item.
+</li>
+</ul>
+
+<p>OAuth2 related parameters. See <a class='info' href='#OAuth.2.0'>[OAuth.2.0]<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a> section 5 for full details
+</p>
+<p></p>
+<ul class="text">
+<li><em>client_id</em> OAuth2 client id
+</li>
+<li><em>redirect_uri</em> URI for redirecting client to afterwards
+</li>
+<li><em>callback_uri</em> URI for performing a web callback
+</li>
+<li><em>response_type</em> token or code REQUIRED
+</li>
+<li><em>expire_in</em> Request the amount of time in seconds this token should be valid
+</li>
+</ul>
+
+<p>When a user follows this link, the Asset Service should present the user with a form authorizing the payment.
+</p>
+<p>Note: Client can include OpenID Connect parameters.
+</p>
+<a name="response-1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.1"></a><h3>4.1.&nbsp;
+Response</h3>
+
+<p>Follows OAuth 2 response depending on response_type requested. <a class='info' href='#OAuth.2.0'>[OAuth.2.0]<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a>
+</p>
+<a name="errors-1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.2"></a><h3>4.2.&nbsp;
+Errors</h3>
+
+<p>Error types use OAuth 2.0&rsquo;s error codes. <a class='info' href='#OAuth.2.0'>[OAuth.2.0]<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a>
+</p>
+<a name="transfer-1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5"></a><h3>5.&nbsp;
+Transfer</h3>
+
+<p>A transfer consists of a HTTP POST to the asset url by a 3rd party application on behalf of the Transferer.
+</p>
+<p>The Application should have an OAuth 2.0 access token issued as defined in the OAuth 2.0 draft section 5.
+</p><br /><hr class="insert" />
+<a name="post-usd-http11host-paymeauthorization-bearer-vf9dft4qmttobillexamplecomamount10000notemilk"></a>
+<div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+POST /usd HTTP/1.1
+Host: pay.me
+Authorization: Bearer vF9dft4qmT
+
+to=bill@example.com&amp;amount=100.00&amp;note=Milk
+</pre></div><table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;3&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+
+<p>We use the following parameters from our common vocabulary in 1.6. All fields are optional:
+</p>
+<p></p>
+<ul class="text">
+<li><em>to</em> Account identifier of Transferee. If left out it defaults to the 3rd party applications own account on Asset Service or a predefined account as specified when authorizing the access token.
+</li>
+<li><em>amount</em> Amount as a number with decimal points. Symbols are allowed but SHOULD be ignored. If left out it defaults to the Asset&rsquo;s minimum transfer, 1 or an amount predefined when authorizing the access token.
+</li>
+<li><em>note</em> Textual description, which can include hash tags. Asset Service may truncate this. No default.
+</li>
+<li><em>from</em> Account identifier of Transferer. This should normally be left out as it is implied by the authorizer of the Access Token. The Asset Service MUST verify that the Access Token is authorized to transfer from this account. This could be useful for Asset providers charging their customers accounts.
+</li>
+<li><em>for</em> URI identifying the exchanged item.
+</li>
+</ul>
+
+<a name="response-2"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.1"></a><h3>5.1.&nbsp;
+Response</h3>
+
+<p>http 201 with Receipt json.
+</p>
+<a name="receipt"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.6"></a><h3>6.&nbsp;
+Receipt</h3>
+
+<p>The receipt is returned when creating a transaction as well as when accessing a transaction url. It can also be used for creating a transaction list by the asset provider.
+</p>
+<p>The receipt is a JSON object consisting of the following fields:
+</p>
+<p></p>
+<ul class="text">
+<li><em>txn_url</em>
+</li>
+<li><em>to</em>
+</li>
+<li><em>from</em>
+</li>
+<li><em>amount</em>
+</li>
+<li><em>note</em>
+</li>
+<li><em>for</em>
+</li>
+<li><em>asset_url</em>
+</li>
+<li><em>timestamp</em>
+</li>
+</ul>
+
+<a name="asset-meta-data"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.7"></a><h3>7.&nbsp;
+Asset Meta data</h3>
+
+<p>A client can find out information about an asset by accessing the asset url directly with a http Accept header of application/json:
+</p><br /><hr class="insert" />
+<a name="get-usd-http11host-paymeaccept-applicationjson"></a>
+<div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+GET /usd HTTP/1.1
+Host: pay.me
+Accept: application/json
+</pre></div><table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;4&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+
+<p>This returns a json hash of meta information about the asset.
+</p>
+<p>The minimum required data would be:
+</p>
+<p></p>
+<ul class="text">
+<li>name - Short name of asset
+</li>
+</ul>
+
+<p>Further opentransact specific parameters could be:
+</p>
+<p></p>
+<ul class="text">
+<li>default_amount - The default amount transfered if an amount is not specified in a transfer
+</li>
+<li>provider_url - The provider of the asset&rsquo;s home page
+</li>
+<li>description - Short descriptio
+</li>
+<li>logo_url - Image url for Assets logo
+</li>
+<li>unit - ISO currency unit of asset if monetary or other such as (minute, gram, point etc)
+</li>
+</ul>
+
+<p>Asset services can provide further information more specific to their particular asset type.
+</p>
+<p>If an OAuth Access Token is provided the Asset Service should provide information related to the capabilities of the token.
+</p>
+<p></p>
+<ul class="text">
+<li>balance - balance of account
+</li>
+<li>available_balance - available balance of account
+</li>
+</ul>
+
+<p>For tokens obtained through a Transfer Authentication this should reflect the remaining balance of the authorized amount.
+</p>
+<p>If tokens scope allows access to accounts transaction history, the transaction history should be included here:
+</p>
+<p></p>
+<ul class="text">
+<li>transactions - array of receipts
+</li>
+</ul>
+
+<a name="rfc.references1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>8.&nbsp;Normative References</h3>
+<table width="99%" border="0">
+<tr><td class="author-text" valign="top"><a name="OAuth.2.0">[OAuth.2.0]</a></td>
+<td class="author-text">Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;<a href="http://tools.ietf.org/html/draft-ietf-oauth-v2">OAuth 2.0 Authorization Protocol</a>,&rdquo; Jul&nbsp;2011.</td></tr>
+</table>
+
+<a name="rfc.authors"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>Authors' Addresses</h3>
+<table width="99%" border="0" cellpadding="0" cellspacing="0">
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Pelle Braendgaard</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">PicoMoney Inc</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:pelle@picomoney.com">pelle@picomoney.com</a></td></tr>
+<tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Nov Matake</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Cerego Japan Inc</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:nov@matake.jp">nov@matake.jp</a></td></tr>
+<tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Tom Brown</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:herestomwiththeweather@gmail.com">herestomwiththeweather@gmail.com</a></td></tr>
+</table>
+</body></html>

@@ -4,7 +4,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
 ]>
 
-<rfc ipr="trust200902" docName="draft-pelle-opentransact-basic-00"
+<rfc ipr="trust200902" docName="draft-pelle-opentransact-core-00"
      category="info" >
 
 <?rfc toc="yes"?>
@@ -13,7 +13,7 @@
 
   <front>
     <title abbrev="opentransact">
-      OpenTransact Basic
+      OpenTransact Core
     </title>
     <author initials="P" surname="Braendgaard" fullname="Pelle Braendgaard">
       <organization>PicoMoney Inc</organization>
@@ -49,13 +49,13 @@
 
 {:/nomarkdown}
 
-##Status of Document
+# Status of Document
 
 This document is in draft and reflects the current designs from the OpenTransact mailing list.
 
-## Introduction
+# Introduction
 
-The goal is to develop an extremly simple low level standard for transfering an amount of an asset from one account to another.
+The goal is to develop a very simple low level standard for transferring an amount of an asset from one account to another.
 
 Most payment systems and existing standards use the messaging paradigm for historical reasons. OpenTransact specifically rejects the message paradigm and prefers the restful resource approach as used on the web with URL's and HTTP at it's core.
 
@@ -63,7 +63,7 @@ We aim to create a new standard from scratch ignoring all legacy systems, while 
 
 The standard is designed to follow standard RESTful practices and be concise and human readable.
 
-### Assets
+## Assets
 
 Within OpenTransact we use the accounting definition of the word "Asset" as anything of value. Eg.
 
@@ -76,11 +76,11 @@ Within OpenTransact we use the accounting definition of the word "Asset" as anyt
 - domain names
 - physical products etc.
 
-#### Asset Service
+### Asset Service
 
 An Asset Service is a service maintained by an organization to manage accounts of one assets. For money and other financial assets the Asset Service would normally be run by a Financial Service Provider of some type. However there are many types of assets that could be offered by non financial services.
 
-#### Transaction URL
+### Transaction URL
 
 Each Asset Service has a unique transaction URL. This allows us a  don't need to get into details in our standard about application specific details like currency, card type, size, color etc.
 
@@ -93,7 +93,7 @@ This transaction URL would follow basic REST practices.
 - A GET to the URL in a machine readable form such as json returns meta data about the asset an optionally a list of transactions that the current user is allowed to see.
 - Each transaction has a unique URL eg. http://epay.com/transactions/aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d.
 
-#### Example of Asset Services
+### Example of Asset Services
 
 Lets say it's an imaginary electronic currency eepay.com they only offer one asset type, their currency. So they would only have one transaction url:
 
@@ -128,7 +128,7 @@ All the above examples are fungible assets. In general it is best practice that 
 
 For unique items such as domain names, property titles and diamonds that are unique and infungible, we can still create asset urls for each item, but only accept transfer amounts of 1.
 
-### Roles
+## Roles
 
 OpenTransact defines 4 roles:
 
@@ -141,7 +141,7 @@ OpenTransact defines 4 roles:
 - 3rd party application
 	- An application performing a transfer on behalf of the Transferer
 
-### Transfer
+## Transfer
 
 We will use the term "Transfer" as it is more widely applicable than "Payment".
 
@@ -149,7 +149,7 @@ A Transfer is legally a transfer in owner ship of some amount of the Asset from 
 
 Eg. A Payment of $12 from Bob to Alice is a Transfer of 12$ with Bob being the Transferer and Alice the Transferee.
 
-### Transfer Request
+## Transfer Request
 
 A Transfer request is when the Transferee requests a transfer of a given amount of an asset from the Transferer.
 
@@ -157,7 +157,7 @@ Eg. Alice sends an invoice to Bob for $12. This is a Transfer Request from Alice
 
 A Transfer Request is simply a specially formatted payment link that takes Bob to Asset Service if followed. The Asset Service shall present the Transfer Request to Bob who can authorize or decline it.
 
-### Transfer Authorization
+## Transfer Authorization
 
 A Transfer Authorization is when  the Transferee or a third party application requests an authorization to transfer of a given amount of an asset from the Transferer.
 
@@ -165,7 +165,7 @@ Eg. Bob wants to hire someone on an online job board to edit a document for $33.
 
 A Transfer Request is simply a specially formatted payment link that takes Bob to Asset Service if followed. The Asset Service shall present the Transfer Request to Bob who can authorize or decline it. If Bob authorizes it the Asset Service issues an authorization code to the Job Board that they can use to exchange for an OAuth token.
 
-### Exchange Transaction
+## Exchange Transaction
 
 A Transfer is often but not always part of an exchange of value between 2 types of assets. Eg.:
 
@@ -183,15 +183,15 @@ There are as many different exchange mechanisms for create exchanges as there ar
 
 It is outside the scope for OpenTransact to define every single type of exchange that is possible. However OpenTransact should be able to be a fundamental building block in building such systems. It should also integrate well with exchange systems that don't yet understand OpenTransact.
 
-#### Exchanged item URI
+### Exchanged item URI
 
 In an Exchange Transaction we can include a url to the exchanged item. This URI could either be a link to the exchanged item itself or the unique URI identifying the transaction itself.
 
-#### Authorization
+### Authorization
 
-A useful building block for creating Exchange services is the Transfer Authorization Request [1.5].
+A useful building block for creating Exchange services is the Transfer Authorization flow.
 
-### Vocabulary
+## Vocabulary
 
 As part of OpenTransact we are creating a simple vocabulary of parameter names that can be used in various parts of the standard.
 
@@ -219,41 +219,41 @@ Would become the following:
 - note=Consulting on XYZ project
 - for=http://myinvoice.test/invoices/123123
 
-### Authentication
+## Authentication
 
-OpenTransact does not define any new authentication mechanisms, but relies on the Asset Provider's existing mechanisms for authenticating the Transferer and  OAuth 2.0 [OAuth.2.0] for authenticating 3rd party applications on behalf of the Transferer.
+OpenTransact does not define any new authentication mechanisms, but relies on the Asset Provider's existing mechanisms for authenticating the Transferer and  OAuth 2.0 {{OAuth.2.0}} for authenticating 3rd party applications on behalf of the Transferer.
 
-### Parameter encoding
+## Parameter encoding
 
 Since OpenTransact is designed to be simple to implement, the basic parameter encoding is URL form encoding.
 
 Any data responses should be in JSON format.
 
-### Extensions
+## Extensions
 
 OpenTransact is designed to be extensible, either through proprietary extensions, conventions or futher standards.
 
 For example it may be useful to follow the lat/lon convention allowing geotagging of data.
 
 
-### Notational Conventions
+## Notational Conventions
 
-The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'MAY', and 'OPTIONAL' in this specification are to be interpreted as described in [RFC2119].
+The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'MAY', and 'OPTIONAL' in this specification are to be interpreted as described in {{RFC2119}}.
 
-This specification uses the Augmented Backus-Naur Form (ABNF) notation of [RFC5234].
+This specification uses the Augmented Backus-Naur Form (ABNF) notation of {{RFC5234}}.
 
-Certain security-related terms are to be understood in the sense defined in [RFC4949]. These terms include, but are not limited to, 'attack', 'authentication', 'authorization', 'certificate', 'confidentiality', 'credential', 'encryption', 'identity', 'sign', 'signature', 'trust', 'validate', and 'verify'.
+Certain security-related terms are to be understood in the sense defined in {{RFC4949}}. These terms include, but are not limited to, 'attack', 'authentication', 'authorization', 'certificate', 'confidentiality', 'credential', 'encryption', 'identity', 'sign', 'signature', 'trust', 'validate', and 'verify'.
 
 Unless otherwise noted, all the protocol parameter names and values are case sensitive.
 
-## Transfer Request
+# Transfer Request
 
 A Transfer Request consists of a GET to the Asset URL.
 
     GET /usd?to=bill@example.com&amount=100.00&note=Milk&redirect_uri=http://site.com/callback HTTP/1.1
     Host: pay.me
 
-We use the following parameters from our common vocabulary in [1.6]. All fields are optional:
+We use the following parameters from our common vocabulary. All fields are optional:
 
 - *to* Account identifier of Transferee. If left out it defaults to the 3rd party applications own account on Asset Service or a predefined account as specified when authorizing the access token.
 - *amount* Amount as a number with decimal points. Symbols are allowed but SHOULD be ignored. If left out it defaults to the Asset's minimum transfer, 1 or an amount predefined when authorizing the access token.
@@ -267,7 +267,7 @@ When a user follows this link, the Asset Service should present the user with a 
 
 Note: Client can include OpenID Connect parameters.
 
-### Response
+## Response
 
 The user is redirected back to the clients redirect uri with the following url encoded parameters:
 
@@ -275,19 +275,20 @@ The user is redirected back to the clients redirect uri with the following url e
 
 Asset provider can include an access_token in the query string of txn_url.
 
-### Errors
+## Errors
 
-Error types use OAuth 2.0's error codes.
+Error types use OAuth 2.0's error codes. {{OAuth.2.0}}
 
-## Transfer Authorization
+# Transfer Authorization
 
 A Transfer Authorization consists of a GET to the Asset URL with a client_id.
 
     GET /usd?to=bill@example.com&amount=100.00&note=Milk&redirect_uri=http://site.com/callback&client_id=1234 HTTP/1.1
     Host: pay.me
 
-A Transfer Authorization is really a OAuth2 Authorization so everything in the OAuth2
-We use the following parameters from our common vocabulary in [1.6]. All fields are optional:
+A Transfer Authorization is really a OAuth2 Authorization {{OAuth.2.0}} with a few extra payment related parameters.
+
+We use the following parameters from our common vocabulary. All fields are optional:
 
 - *to* Account identifier of Transferee. If left out it defaults to the 3rd party applications own account on Asset Service or a predefined account as specified when authorizing the access token.
 - *amount* Amount as a number with decimal points. Symbols are allowed but SHOULD be ignored. If left out it defaults to the Asset's minimum transfer, 1 or an amount predefined when authorizing the access token.
@@ -295,7 +296,7 @@ We use the following parameters from our common vocabulary in [1.6]. All fields 
 - *from* Account identifier of Transferer. This should normally be left out as it is implied by the authorizer of the Access Token. The Asset Service MUST verify that the Access Token is authorized to transfer from this account. This could be useful for Asset providers charging their customers accounts.
 - *for* URI identifying the exchanged item.
 
-OAuth2 related parameters. See OAuth2 section 5 for full details
+OAuth2 related parameters. See {{OAuth.2.0}} section 5 for full details
 
 - *client_id* OAuth2 client id
 - *redirect_uri* URI for redirecting client to afterwards
@@ -307,15 +308,15 @@ When a user follows this link, the Asset Service should present the user with a 
 
 Note: Client can include OpenID Connect parameters.
 
-### Response
+## Response
 
-Follows OAuth 2 response depending on response_type requested.
+Follows OAuth 2 response depending on response_type requested. {{OAuth.2.0}}
 
-### Errors
+## Errors
 
-Error types use OAuth 2.0's error codes.
+Error types use OAuth 2.0's error codes. {{OAuth.2.0}}
 
-## Transfer
+# Transfer
 
 A transfer consists of a HTTP POST to the asset url by a 3rd party application on behalf of the Transferer.
 
@@ -339,7 +340,7 @@ We use the following parameters from our common vocabulary in 1.6. All fields ar
 
 http 201 with Receipt json.
 
-## Receipt
+# Receipt
 
 The receipt is returned when creating a transaction as well as when accessing a transaction url. It can also be used for creating a transaction list by the asset provider.
 
@@ -355,7 +356,7 @@ The receipt is a JSON object consisting of the following fields:
 - *timestamp*
 
 
-## Asset Meta data
+# Asset Meta data
 
 A client can find out information about an asset by accessing the asset url directly with a http Accept header of application/json:
 
@@ -399,12 +400,12 @@ If tokens scope allows access to accounts transaction history, the transaction h
   <references title='Normative References'>
 
 {:/nomarkdown}
-![:include:](rfc2119)
+![:include:](RFC2119)
 ![:include:](RFC2616)
 ![:include:](RFC3339)
 ![:include:](RFC4627)
-![:include:](rfc5234)
-![:include:](rfc4949)
+![:include:](RFC5234)
+![:include:](RFC4949)
 
 <reference anchor="OAuth.2.0">
   <front>
@@ -427,30 +428,6 @@ If tokens scope allows access to accounts transaction history, the transaction h
   </front>
 
   <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
-          type="HTML" />
-</reference>
-
-<reference anchor="OAuth.2.0.SC">
-  <front>
-    <title>OAuth 2.0 Threat Model and Security Considerations</title>
-
-    <author fullname="Torsten Lodderstedt" initials="T." role="editor"
-            surname="Lodderstedt">
-      <organization abbrev="">Deutsche Telekom AG</organization>
-    </author>
-
-    <author fullname="Mark McGloin" initials="M." surname="McGloin">
-      <organization abbrev="">IBM</organization>
-    </author>
-
-    <author fullname="Phil Hunt" initials="P." surname="Hunt">
-      <organization abbrev="">Oracle Corporation</organization>
-    </author>
-
-    <date day="1" month="July" year="2011" />
-  </front>
-
-  <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-threatmodel"
           type="HTML" />
 </reference>
 

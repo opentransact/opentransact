@@ -9,8 +9,8 @@ Expires: April 21, 2012                                 Cerego Japan Inc
                                                         October 19, 2011
 
 
-                           OpenTransact Basic
-                   draft-pelle-opentransact-basic-00
+                           OpenTransact Core
+                    draft-pelle-opentransact-core-00
 
 Abstract
 
@@ -60,35 +60,35 @@ Internet-Draft                opentransact                  October 2011
 Table of Contents
 
    1.  Status of Document . . . . . . . . . . . . . . . . . . . . . .  3
-     1.1.  Introduction . . . . . . . . . . . . . . . . . . . . . . .  3
-       1.1.1.  Assets . . . . . . . . . . . . . . . . . . . . . . . .  3
-       1.1.2.  Roles  . . . . . . . . . . . . . . . . . . . . . . . .  5
-       1.1.3.  Transfer . . . . . . . . . . . . . . . . . . . . . . .  6
-       1.1.4.  Transfer Request . . . . . . . . . . . . . . . . . . .  6
-       1.1.5.  Transfer Authorization . . . . . . . . . . . . . . . .  6
-       1.1.6.  Exchange Transaction . . . . . . . . . . . . . . . . .  7
-       1.1.7.  Vocabulary . . . . . . . . . . . . . . . . . . . . . .  7
-       1.1.8.  Authentication . . . . . . . . . . . . . . . . . . . .  8
-       1.1.9.  Parameter encoding . . . . . . . . . . . . . . . . . .  9
-       1.1.10. Extensions . . . . . . . . . . . . . . . . . . . . . .  9
-       1.1.11. Notational Conventions . . . . . . . . . . . . . . . .  9
-     1.2.  Transfer Request . . . . . . . . . . . . . . . . . . . . .  9
-       1.2.1.  Response . . . . . . . . . . . . . . . . . . . . . . . 10
-       1.2.2.  Errors . . . . . . . . . . . . . . . . . . . . . . . . 10
-     1.3.  Transfer Authorization . . . . . . . . . . . . . . . . . . 10
-       1.3.1.  Response . . . . . . . . . . . . . . . . . . . . . . . 11
-       1.3.2.  Errors . . . . . . . . . . . . . . . . . . . . . . . . 12
-     1.4.  Transfer . . . . . . . . . . . . . . . . . . . . . . . . . 12
-     1.5.  Response . . . . . . . . . . . . . . . . . . . . . . . . . 12
-     1.6.  Receipt  . . . . . . . . . . . . . . . . . . . . . . . . . 13
-     1.7.  Asset Meta data  . . . . . . . . . . . . . . . . . . . . . 13
-   2.  Normative References . . . . . . . . . . . . . . . . . . . . . 15
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 16
-
-
-
-
-
+   2.  Introduction . . . . . . . . . . . . . . . . . . . . . . . . .  4
+     2.1.  Assets . . . . . . . . . . . . . . . . . . . . . . . . . .  4
+       2.1.1.  Asset Service  . . . . . . . . . . . . . . . . . . . .  4
+       2.1.2.  Transaction URL  . . . . . . . . . . . . . . . . . . .  5
+       2.1.3.  Example of Asset Services  . . . . . . . . . . . . . .  5
+     2.2.  Roles  . . . . . . . . . . . . . . . . . . . . . . . . . .  6
+     2.3.  Transfer . . . . . . . . . . . . . . . . . . . . . . . . .  7
+     2.4.  Transfer Request . . . . . . . . . . . . . . . . . . . . .  7
+     2.5.  Transfer Authorization . . . . . . . . . . . . . . . . . .  7
+     2.6.  Exchange Transaction . . . . . . . . . . . . . . . . . . .  8
+       2.6.1.  Exchanged item URI . . . . . . . . . . . . . . . . . .  8
+       2.6.2.  Authorization  . . . . . . . . . . . . . . . . . . . .  8
+     2.7.  Vocabulary . . . . . . . . . . . . . . . . . . . . . . . .  8
+     2.8.  Authentication . . . . . . . . . . . . . . . . . . . . . .  9
+     2.9.  Parameter encoding . . . . . . . . . . . . . . . . . . . . 10
+     2.10. Extensions . . . . . . . . . . . . . . . . . . . . . . . . 10
+     2.11. Notational Conventions . . . . . . . . . . . . . . . . . . 10
+   3.  Transfer Request . . . . . . . . . . . . . . . . . . . . . . . 11
+     3.1.  Response . . . . . . . . . . . . . . . . . . . . . . . . . 11
+     3.2.  Errors . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+   4.  Transfer Authorization . . . . . . . . . . . . . . . . . . . . 13
+     4.1.  Response . . . . . . . . . . . . . . . . . . . . . . . . . 14
+     4.2.  Errors . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+   5.  Transfer . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+     5.1.  Response . . . . . . . . . . . . . . . . . . . . . . . . . 15
+   6.  Receipt  . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
+   7.  Asset Meta data  . . . . . . . . . . . . . . . . . . . . . . . 17
+   8.  Normative References . . . . . . . . . . . . . . . . . . . . . 19
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 20
 
 
 
@@ -118,10 +118,61 @@ Internet-Draft                opentransact                  October 2011
    This document is in draft and reflects the current designs from the
    OpenTransact mailing list.
 
-1.1.  Introduction
 
-   The goal is to develop an extremly simple low level standard for
-   transfering an amount of an asset from one account to another.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Braendgaard, et al.      Expires April 21, 2012                 [Page 3]
+
+Internet-Draft                opentransact                  October 2011
+
+
+2.  Introduction
+
+   The goal is to develop a very simple low level standard for
+   transferring an amount of an asset from one account to another.
 
    Most payment systems and existing standards use the messaging
    paradigm for historical reasons.  OpenTransact specifically rejects
@@ -135,7 +186,7 @@ Internet-Draft                opentransact                  October 2011
    The standard is designed to follow standard RESTful practices and be
    concise and human readable.
 
-1.1.1.  Assets
+2.1.  Assets
 
    Within OpenTransact we use the accounting definition of the word
    "Asset" as anything of value.  Eg.
@@ -156,23 +207,25 @@ Internet-Draft                opentransact                  October 2011
 
    o  physical products etc.
 
-1.1.1.1.  Asset Service
+2.1.1.  Asset Service
 
    An Asset Service is a service maintained by an organization to manage
    accounts of one assets.  For money and other financial assets the
    Asset Service would normally be run by a Financial Service Provider
+   of some type.  However there are many types of assets that could be
+   offered by non financial services.
 
 
 
-Braendgaard, et al.      Expires April 21, 2012                 [Page 3]
+
+
+
+Braendgaard, et al.      Expires April 21, 2012                 [Page 4]
 
 Internet-Draft                opentransact                  October 2011
 
 
-   of some type.  However there are many types of assets that could be
-   offered by non financial services.
-
-1.1.1.2.  Transaction URL
+2.1.2.  Transaction URL
 
    Each Asset Service has a unique transaction URL.  This allows us a
    don't need to get into details in our standard about application
@@ -199,7 +252,7 @@ Internet-Draft                opentransact                  October 2011
    o  Each transaction has a unique URL eg. http://epay.com/
       transactions/aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d.
 
-1.1.1.3.  Example of Asset Services
+2.1.3.  Example of Asset Services
 
    Lets say it's an imaginary electronic currency eepay.com they only
    offer one asset type, their currency.  So they would only have one
@@ -217,15 +270,16 @@ Internet-Draft                opentransact                  October 2011
    If a larger existing bank offered various kinds of services each one
    would have it's own URL:
 
+   o  http://megabank.com/current
 
 
 
-Braendgaard, et al.      Expires April 21, 2012                 [Page 4]
+
+
+Braendgaard, et al.      Expires April 21, 2012                 [Page 5]
 
 Internet-Draft                opentransact                  October 2011
 
-
-   o  http://megabank.com/current
 
    o  http://megabank.com/savings
 
@@ -258,7 +312,7 @@ Internet-Draft                opentransact                  October 2011
    that are unique and infungible, we can still create asset urls for
    each item, but only accept transfer amounts of 1.
 
-1.1.2.  Roles
+2.2.  Roles
 
    OpenTransact defines 4 roles:
 
@@ -272,23 +326,23 @@ Internet-Draft                opentransact                  October 2011
 
    o  Transferee
 
+      *  The entity receiving an amount of the asset
 
 
 
 
-Braendgaard, et al.      Expires April 21, 2012                 [Page 5]
+
+Braendgaard, et al.      Expires April 21, 2012                 [Page 6]
 
 Internet-Draft                opentransact                  October 2011
 
-
-      *  The entity receiving an amount of the asset
 
    o  3rd party application
 
       *  An application performing a transfer on behalf of the
          Transferer
 
-1.1.3.  Transfer
+2.3.  Transfer
 
    We will use the term "Transfer" as it is more widely applicable than
    "Payment".
@@ -299,7 +353,7 @@ Internet-Draft                opentransact                  October 2011
    Eg.  A Payment of $12 from Bob to Alice is a Transfer of 12$ with Bob
    being the Transferer and Alice the Transferee.
 
-1.1.4.  Transfer Request
+2.4.  Transfer Request
 
    A Transfer request is when the Transferee requests a transfer of a
    given amount of an asset from the Transferer.
@@ -312,7 +366,7 @@ Internet-Draft                opentransact                  October 2011
    takes Bob to Asset Service if followed.  The Asset Service shall
    present the Transfer Request to Bob who can authorize or decline it.
 
-1.1.5.  Transfer Authorization
+2.5.  Transfer Authorization
 
    A Transfer Authorization is when the Transferee or a third party
    application requests an authorization to transfer of a given amount
@@ -332,12 +386,14 @@ Internet-Draft                opentransact                  October 2011
 
 
 
-Braendgaard, et al.      Expires April 21, 2012                 [Page 6]
+
+
+Braendgaard, et al.      Expires April 21, 2012                 [Page 7]
 
 Internet-Draft                opentransact                  October 2011
 
 
-1.1.6.  Exchange Transaction
+2.6.  Exchange Transaction
 
    A Transfer is often but not always part of an exchange of value
    between 2 types of assets.  Eg.:
@@ -367,18 +423,18 @@ Internet-Draft                opentransact                  October 2011
    also integrate well with exchange systems that don't yet understand
    OpenTransact.
 
-1.1.6.1.  Exchanged item URI
+2.6.1.  Exchanged item URI
 
    In an Exchange Transaction we can include a url to the exchanged
    item.  This URI could either be a link to the exchanged item itself
    or the unique URI identifying the transaction itself.
 
-1.1.6.2.  Authorization
+2.6.2.  Authorization
 
    A useful building block for creating Exchange services is the
-   Transfer Authorization Request [1.5].
+   Transfer Authorization flow.
 
-1.1.7.  Vocabulary
+2.7.  Vocabulary
 
    As part of OpenTransact we are creating a simple vocabulary of
    parameter names that can be used in various parts of the standard.
@@ -388,7 +444,7 @@ Internet-Draft                opentransact                  October 2011
 
 
 
-Braendgaard, et al.      Expires April 21, 2012                 [Page 7]
+Braendgaard, et al.      Expires April 21, 2012                 [Page 8]
 
 Internet-Draft                opentransact                  October 2011
 
@@ -431,7 +487,7 @@ Internet-Draft                opentransact                  October 2011
 
    o  for=http://myinvoice.test/invoices/123123
 
-1.1.8.  Authentication
+2.8.  Authentication
 
    OpenTransact does not define any new authentication mechanisms, but
    relies on the Asset Provider's existing mechanisms for authenticating
@@ -444,19 +500,19 @@ Internet-Draft                opentransact                  October 2011
 
 
 
-Braendgaard, et al.      Expires April 21, 2012                 [Page 8]
+Braendgaard, et al.      Expires April 21, 2012                 [Page 9]
 
 Internet-Draft                opentransact                  October 2011
 
 
-1.1.9.  Parameter encoding
+2.9.  Parameter encoding
 
    Since OpenTransact is designed to be simple to implement, the basic
    parameter encoding is URL form encoding.
 
    Any data responses should be in JSON format.
 
-1.1.10.  Extensions
+2.10.  Extensions
 
    OpenTransact is designed to be extensible, either through proprietary
    extensions, conventions or futher standards.
@@ -464,7 +520,7 @@ Internet-Draft                opentransact                  October 2011
    For example it may be useful to follow the lat/lon convention
    allowing geotagging of data.
 
-1.1.11.  Notational Conventions
+2.11.  Notational Conventions
 
    The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL NOT',
    'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'MAY', and 'OPTIONAL' in this
@@ -482,77 +538,21 @@ Internet-Draft                opentransact                  October 2011
    Unless otherwise noted, all the protocol parameter names and values
    are case sensitive.
 
-1.2.  Transfer Request
-
-   A Transfer Request consists of a GET to the Asset URL.
-
-GET /usd?to=bill@example.com&amount=100.00&note=Milk&redirect_uri=http://site.com/callback HTTP/1.1
-Host: pay.me
-
-                                 Figure 1
-
-   We use the following parameters from our common vocabulary in [1.6].
-   All fields are optional:
-
-   o  _to_ Account identifier of Transferee.  If left out it defaults to
-      the 3rd party applications own account on Asset Service or a
-      predefined account as specified when authorizing the access token.
 
 
 
-Braendgaard, et al.      Expires April 21, 2012                 [Page 9]
-
-Internet-Draft                opentransact                  October 2011
 
 
-   o  _amount_ Amount as a number with decimal points.  Symbols are
-      allowed but SHOULD be ignored.  If left out it defaults to the
-      Asset's minimum transfer, 1 or an amount predefined when
-      authorizing the access token.
 
-   o  _note_ Textual description, which can include hash tags.  Asset
-      Service may truncate this.  No default.
 
-   o  _from_ Account identifier of Transferer.  This should normally be
-      left out as it is implied by the authorizer of the Access Token.
-      The Asset Service MUST verify that the Access Token is authorized
-      to transfer from this account.  This could be useful for Asset
-      providers charging their customers accounts.
 
-   o  _for_ URI identifying the exchanged item.
 
-   o  _redirect_uri_ URI for redirecting client to afterwards
 
-   o  _callback_uri_ URI for performing a web callback
 
-   When a user follows this link, the Asset Service should present the
-   user with a form authorizing the payment.
 
-   Note: Client can include OpenID Connect parameters.
 
-1.2.1.  Response
 
-   The user is redirected back to the clients redirect uri with the
-   following url encoded parameters:
 
-   o  _txn_url_ A url identifying the transaction.
-
-   Asset provider can include an access_token in the query string of
-   txn_url.
-
-1.2.2.  Errors
-
-   Error types use OAuth 2.0's error codes.
-
-1.3.  Transfer Authorization
-
-   A Transfer Authorization consists of a GET to the Asset URL with a
-   client_id.
-
-GET /usd?to=bill@example.com&amount=100.00&note=Milk&redirect_uri=http://site.com/callback&client_id=1234 HTTP/1.1
-Host: pay.me
-
-                                 Figure 2
 
 
 
@@ -561,9 +561,17 @@ Braendgaard, et al.      Expires April 21, 2012                [Page 10]
 Internet-Draft                opentransact                  October 2011
 
 
-   A Transfer Authorization is really a OAuth2 Authorization so
-   everything in the OAuth2 We use the following parameters from our
-   common vocabulary in [1.6].  All fields are optional:
+3.  Transfer Request
+
+   A Transfer Request consists of a GET to the Asset URL.
+
+GET /usd?to=bill@example.com&amount=100.00&note=Milk&redirect_uri=http://site.com/callback HTTP/1.1
+Host: pay.me
+
+                                 Figure 1
+
+   We use the following parameters from our common vocabulary.  All
+   fields are optional:
 
    o  _to_ Account identifier of Transferee.  If left out it defaults to
       the 3rd party applications own account on Asset Service or a
@@ -585,27 +593,19 @@ Internet-Draft                opentransact                  October 2011
 
    o  _for_ URI identifying the exchanged item.
 
-   OAuth2 related parameters.  See OAuth2 section 5 for full details
-
-   o  _client_id_ OAuth2 client id
-
    o  _redirect_uri_ URI for redirecting client to afterwards
 
    o  _callback_uri_ URI for performing a web callback
-
-   o  _response_type_ token or code REQUIRED
-
-   o  _expire_in_ Request the amount of time in seconds this token
-      should be valid
 
    When a user follows this link, the Asset Service should present the
    user with a form authorizing the payment.
 
    Note: Client can include OpenID Connect parameters.
 
-1.3.1.  Response
+3.1.  Response
 
-   Follows OAuth 2 response depending on response_type requested.
+   The user is redirected back to the clients redirect uri with the
+   following url encoded parameters:
 
 
 
@@ -617,11 +617,175 @@ Braendgaard, et al.      Expires April 21, 2012                [Page 11]
 Internet-Draft                opentransact                  October 2011
 
 
-1.3.2.  Errors
+   o  _txn_url_ A url identifying the transaction.
 
-   Error types use OAuth 2.0's error codes.
+   Asset provider can include an access_token in the query string of
+   txn_url.
 
-1.4.  Transfer
+3.2.  Errors
+
+   Error types use OAuth 2.0's error codes.  [OAuth.2.0]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Braendgaard, et al.      Expires April 21, 2012                [Page 12]
+
+Internet-Draft                opentransact                  October 2011
+
+
+4.  Transfer Authorization
+
+   A Transfer Authorization consists of a GET to the Asset URL with a
+   client_id.
+
+GET /usd?to=bill@example.com&amount=100.00&note=Milk&redirect_uri=http://site.com/callback&client_id=1234 HTTP/1.1
+Host: pay.me
+
+                                 Figure 2
+
+   A Transfer Authorization is really a OAuth2 Authorization [OAuth.2.0]
+   with a few extra payment related parameters.
+
+   We use the following parameters from our common vocabulary.  All
+   fields are optional:
+
+   o  _to_ Account identifier of Transferee.  If left out it defaults to
+      the 3rd party applications own account on Asset Service or a
+      predefined account as specified when authorizing the access token.
+
+   o  _amount_ Amount as a number with decimal points.  Symbols are
+      allowed but SHOULD be ignored.  If left out it defaults to the
+      Asset's minimum transfer, 1 or an amount predefined when
+      authorizing the access token.
+
+   o  _note_ Textual description, which can include hash tags.  Asset
+      Service may truncate this.  No default.
+
+   o  _from_ Account identifier of Transferer.  This should normally be
+      left out as it is implied by the authorizer of the Access Token.
+      The Asset Service MUST verify that the Access Token is authorized
+      to transfer from this account.  This could be useful for Asset
+      providers charging their customers accounts.
+
+   o  _for_ URI identifying the exchanged item.
+
+   OAuth2 related parameters.  See [OAuth.2.0] section 5 for full
+   details
+
+   o  _client_id_ OAuth2 client id
+
+   o  _redirect_uri_ URI for redirecting client to afterwards
+
+   o  _callback_uri_ URI for performing a web callback
+
+   o  _response_type_ token or code REQUIRED
+
+
+
+
+
+Braendgaard, et al.      Expires April 21, 2012                [Page 13]
+
+Internet-Draft                opentransact                  October 2011
+
+
+   o  _expire_in_ Request the amount of time in seconds this token
+      should be valid
+
+   When a user follows this link, the Asset Service should present the
+   user with a form authorizing the payment.
+
+   Note: Client can include OpenID Connect parameters.
+
+4.1.  Response
+
+   Follows OAuth 2 response depending on response_type requested.
+   [OAuth.2.0]
+
+4.2.  Errors
+
+   Error types use OAuth 2.0's error codes.  [OAuth.2.0]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Braendgaard, et al.      Expires April 21, 2012                [Page 14]
+
+Internet-Draft                opentransact                  October 2011
+
+
+5.  Transfer
 
    A transfer consists of a HTTP POST to the asset url by a 3rd party
    application on behalf of the Transferer.
@@ -660,7 +824,7 @@ Internet-Draft                opentransact                  October 2011
 
    o  _for_ URI identifying the exchanged item.
 
-1.5.  Response
+5.1.  Response
 
    http 201 with Receipt json.
 
@@ -668,12 +832,16 @@ Internet-Draft                opentransact                  October 2011
 
 
 
-Braendgaard, et al.      Expires April 21, 2012                [Page 12]
+
+
+
+
+Braendgaard, et al.      Expires April 21, 2012                [Page 15]
 
 Internet-Draft                opentransact                  October 2011
 
 
-1.6.  Receipt
+6.  Receipt
 
    The receipt is returned when creating a transaction as well as when
    accessing a transaction url.  It can also be used for creating a
@@ -697,7 +865,39 @@ Internet-Draft                opentransact                  October 2011
 
    o  _timestamp_
 
-1.7.  Asset Meta data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Braendgaard, et al.      Expires April 21, 2012                [Page 16]
+
+Internet-Draft                opentransact                  October 2011
+
+
+7.  Asset Meta data
 
    A client can find out information about an asset by accessing the
    asset url directly with a http Accept header of application/json:
@@ -721,14 +921,6 @@ Internet-Draft                opentransact                  October 2011
 
    o  provider_url - The provider of the asset's home page
 
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                [Page 13]
-
-Internet-Draft                opentransact                  October 2011
-
-
    o  description - Short descriptio
 
    o  logo_url - Image url for Assets logo
@@ -751,6 +943,15 @@ Internet-Draft                opentransact                  October 2011
 
    If tokens scope allows access to accounts transaction history, the
    transaction history should be included here:
+
+
+
+
+
+Braendgaard, et al.      Expires April 21, 2012                [Page 17]
+
+Internet-Draft                opentransact                  October 2011
+
 
    o  transactions - array of receipts
 
@@ -780,20 +981,40 @@ Internet-Draft                opentransact                  October 2011
 
 
 
-Braendgaard, et al.      Expires April 21, 2012                [Page 14]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Braendgaard, et al.      Expires April 21, 2012                [Page 18]
 
 Internet-Draft                opentransact                  October 2011
 
 
-2.  Normative References
+8.  Normative References
 
    [OAuth.2.0]
               Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, "OAuth
               2.0 Authorization Protocol", Jul 2011.
 
-   [OAuth.2.0.SC]
-              Lodderstedt, T., Ed., McGloin, M., and P. Hunt, "OAuth 2.0
-              Threat Model and Security Considerations", July 2011.
 
 
 
@@ -836,7 +1057,10 @@ Internet-Draft                opentransact                  October 2011
 
 
 
-Braendgaard, et al.      Expires April 21, 2012                [Page 15]
+
+
+
+Braendgaard, et al.      Expires April 21, 2012                [Page 19]
 
 Internet-Draft                opentransact                  October 2011
 
@@ -892,5 +1116,5 @@ Authors' Addresses
 
 
 
-Braendgaard, et al.      Expires April 21, 2012                [Page 16]
+Braendgaard, et al.      Expires April 21, 2012                [Page 20]
 

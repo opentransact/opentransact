@@ -4,7 +4,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
 ]>
 
-<rfc ipr="trust200902" docName="draft-pelle-opentransact-basic-00"
+<rfc ipr="trust200902" docName="draft-pelle-opentransact-core-00"
      category="info" >
 
 <?rfc toc="yes"?>
@@ -13,7 +13,7 @@
 
   <front>
     <title abbrev="opentransact">
-      OpenTransact Basic
+      OpenTransact Core
     </title>
     <author initials="P" surname="Braendgaard" fullname="Pelle Braendgaard">
       <organization>PicoMoney Inc</organization>
@@ -52,9 +52,10 @@
 
 <t>This document is in draft and reflects the current designs from the OpenTransact mailing list.</t>
 
+</section>
 <section anchor="introduction" title="Introduction">
 
-<t>The goal is to develop an extremly simple low level standard for transfering an amount of an asset from one account to another.</t>
+<t>The goal is to develop a very simple low level standard for transferring an amount of an asset from one account to another.</t>
 
 <t>Most payment systems and existing standards use the messaging paradigm for historical reasons. OpenTransact specifically rejects the message paradigm and prefers the restful resource approach as used on the web with URL&rsquo;s and HTTP at it&rsquo;s core.</t>
 
@@ -225,7 +226,7 @@
 </section>
 <section anchor="authorization" title="Authorization">
 
-<t>A useful building block for creating Exchange services is the Transfer Authorization Request [1.5].</t>
+<t>A useful building block for creating Exchange services is the Transfer Authorization flow.</t>
 
 </section>
 </section>
@@ -266,7 +267,7 @@
 </section>
 <section anchor="authentication" title="Authentication">
 
-<t>OpenTransact does not define any new authentication mechanisms, but relies on the Asset Provider&rsquo;s existing mechanisms for authenticating the Transferer and  OAuth 2.0 [OAuth.2.0] for authenticating 3rd party applications on behalf of the Transferer.</t>
+<t>OpenTransact does not define any new authentication mechanisms, but relies on the Asset Provider&rsquo;s existing mechanisms for authenticating the Transferer and  OAuth 2.0 <xref target="OAuth.2.0"/> for authenticating 3rd party applications on behalf of the Transferer.</t>
 
 </section>
 <section anchor="parameter-encoding" title="Parameter encoding">
@@ -285,11 +286,11 @@
 </section>
 <section anchor="notational-conventions" title="Notational Conventions">
 
-<t>The key words &lsquo;MUST&rsquo;, &lsquo;MUST NOT&rsquo;, &lsquo;REQUIRED&rsquo;, &lsquo;SHALL&rsquo;, &lsquo;SHALL NOT&rsquo;, &lsquo;SHOULD&rsquo;, &lsquo;SHOULD NOT&rsquo;, &lsquo;RECOMMENDED&rsquo;, &lsquo;MAY&rsquo;, and &lsquo;OPTIONAL&rsquo; in this specification are to be interpreted as described in [RFC2119].</t>
+<t>The key words &lsquo;MUST&rsquo;, &lsquo;MUST NOT&rsquo;, &lsquo;REQUIRED&rsquo;, &lsquo;SHALL&rsquo;, &lsquo;SHALL NOT&rsquo;, &lsquo;SHOULD&rsquo;, &lsquo;SHOULD NOT&rsquo;, &lsquo;RECOMMENDED&rsquo;, &lsquo;MAY&rsquo;, and &lsquo;OPTIONAL&rsquo; in this specification are to be interpreted as described in <xref target="RFC2119"/>.</t>
 
-<t>This specification uses the Augmented Backus-Naur Form (ABNF) notation of [RFC5234].</t>
+<t>This specification uses the Augmented Backus-Naur Form (ABNF) notation of <xref target="RFC5234"/>.</t>
 
-<t>Certain security-related terms are to be understood in the sense defined in [RFC4949]. These terms include, but are not limited to, &lsquo;attack&rsquo;, &lsquo;authentication&rsquo;, &lsquo;authorization&rsquo;, &lsquo;certificate&rsquo;, &lsquo;confidentiality&rsquo;, &lsquo;credential&rsquo;, &lsquo;encryption&rsquo;, &lsquo;identity&rsquo;, &lsquo;sign&rsquo;, &lsquo;signature&rsquo;, &lsquo;trust&rsquo;, &lsquo;validate&rsquo;, and &lsquo;verify&rsquo;.</t>
+<t>Certain security-related terms are to be understood in the sense defined in <xref target="RFC4949"/>. These terms include, but are not limited to, &lsquo;attack&rsquo;, &lsquo;authentication&rsquo;, &lsquo;authorization&rsquo;, &lsquo;certificate&rsquo;, &lsquo;confidentiality&rsquo;, &lsquo;credential&rsquo;, &lsquo;encryption&rsquo;, &lsquo;identity&rsquo;, &lsquo;sign&rsquo;, &lsquo;signature&rsquo;, &lsquo;trust&rsquo;, &lsquo;validate&rsquo;, and &lsquo;verify&rsquo;.</t>
 
 <t>Unless otherwise noted, all the protocol parameter names and values are case sensitive.</t>
 
@@ -304,7 +305,7 @@ GET /usd?to=bill@example.com&amount=100.00&note=Milk&redirect_uri=http://site.co
 Host: pay.me
 ]]></artwork></figure>
 
-<t>We use the following parameters from our common vocabulary in [1.6]. All fields are optional:</t>
+<t>We use the following parameters from our common vocabulary. All fields are optional:</t>
 
 <t><list style='symbols'>
   <t><spanx style='emph'>to</spanx> Account identifier of Transferee. If left out it defaults to the 3rd party applications own account on Asset Service or a predefined account as specified when authorizing the access token.</t>
@@ -333,7 +334,7 @@ Host: pay.me
 </section>
 <section anchor="errors" title="Errors">
 
-<t>Error types use OAuth 2.0&rsquo;s error codes.</t>
+<t>Error types use OAuth 2.0&rsquo;s error codes. <xref target="OAuth.2.0"/></t>
 
 </section>
 </section>
@@ -346,8 +347,9 @@ GET /usd?to=bill@example.com&amount=100.00&note=Milk&redirect_uri=http://site.co
 Host: pay.me
 ]]></artwork></figure>
 
-<t>A Transfer Authorization is really a OAuth2 Authorization so everything in the OAuth2
-We use the following parameters from our common vocabulary in [1.6]. All fields are optional:</t>
+<t>A Transfer Authorization is really a OAuth2 Authorization <xref target="OAuth.2.0"/> with a few extra payment related parameters.</t>
+
+<t>We use the following parameters from our common vocabulary. All fields are optional:</t>
 
 <t><list style='symbols'>
   <t><spanx style='emph'>to</spanx> Account identifier of Transferee. If left out it defaults to the 3rd party applications own account on Asset Service or a predefined account as specified when authorizing the access token.</t>
@@ -357,7 +359,7 @@ We use the following parameters from our common vocabulary in [1.6]. All fields 
   <t><spanx style='emph'>for</spanx> URI identifying the exchanged item.</t>
 </list></t>
 
-<t>OAuth2 related parameters. See OAuth2 section 5 for full details</t>
+<t>OAuth2 related parameters. See <xref target="OAuth.2.0"/> section 5 for full details</t>
 
 <t><list style='symbols'>
   <t><spanx style='emph'>client_id</spanx> OAuth2 client id</t>
@@ -373,12 +375,12 @@ We use the following parameters from our common vocabulary in [1.6]. All fields 
 
 <section anchor="response-1" title="Response">
 
-<t>Follows OAuth 2 response depending on response_type requested.</t>
+<t>Follows OAuth 2 response depending on response_type requested. <xref target="OAuth.2.0"/></t>
 
 </section>
 <section anchor="errors-1" title="Errors">
 
-<t>Error types use OAuth 2.0&rsquo;s error codes.</t>
+<t>Error types use OAuth 2.0&rsquo;s error codes. <xref target="OAuth.2.0"/></t>
 
 </section>
 </section>
@@ -406,11 +408,11 @@ to=bill@example.com&amount=100.00&note=Milk
   <t><spanx style='emph'>for</spanx> URI identifying the exchanged item.</t>
 </list></t>
 
-</section>
 <section anchor="response-2" title="Response">
 
 <t>http 201 with Receipt json.</t>
 
+</section>
 </section>
 <section anchor="receipt" title="Receipt">
 
@@ -476,7 +478,6 @@ Accept: application/json
 </list></t>
 
 </section>
-</section>
 </middle>
 
 <back>
@@ -484,6 +485,50 @@ Accept: application/json
   <references title='Normative References'>
 
 <t>
+
+<reference anchor='RFC2119'>
+
+<front>
+<title abbrev='RFC Key Words'>Key words for use in RFCs to Indicate Requirement Levels</title>
+<author initials='S.' surname='Bradner' fullname='Scott Bradner'>
+<organization>Harvard University</organization>
+<address>
+<postal>
+<street>1350 Mass. Ave.</street>
+<street>Cambridge</street>
+<street>MA 02138</street></postal>
+<phone>- +1 617 495 3864</phone>
+<email>sob@harvard.edu</email></address></author>
+<date year='1997' month='March' />
+<area>General</area>
+<keyword>keyword</keyword>
+<abstract>
+<t>
+   In many standards track documents several words are used to signify
+   the requirements in the specification.  These words are often
+   capitalized.  This document defines these words as they should be
+   interpreted in IETF documents.  Authors who follow these guidelines
+   should incorporate this phrase near the beginning of their document:
+
+<list>
+<t>
+      The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+      NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
+      "OPTIONAL" in this document are to be interpreted as described in
+      RFC 2119.
+</t></list></t>
+<t>
+   Note that the force of these words is modified by the requirement
+   level of the document in which they are used.
+</t></abstract></front>
+
+<seriesInfo name='BCP' value='14' />
+<seriesInfo name='RFC' value='2119' />
+<format type='TXT' octets='4723' target='http://www.rfc-editor.org/rfc/rfc2119.txt' />
+<format type='HTML' octets='17491' target='http://xml.resource.org/public/rfc/html/rfc2119.html' />
+<format type='XML' octets='5777' target='http://xml.resource.org/public/rfc/xml/rfc2119.xml' />
+</reference>
+
 
 
 <reference anchor='RFC2616'>
@@ -648,6 +693,39 @@ Accept: application/json
 </reference>
 
 
+
+<reference anchor='RFC5234'>
+
+<front>
+<title>Augmented BNF for Syntax Specifications: ABNF</title>
+<author initials='D.' surname='Crocker' fullname='D. Crocker'>
+<organization /></author>
+<author initials='P.' surname='Overell' fullname='P. Overell'>
+<organization /></author>
+<date year='2008' month='January' />
+<abstract>
+<t>Internet technical specifications often need to define a formal syntax.  Over the years, a modified version of Backus-Naur Form (BNF), called Augmented BNF (ABNF), has been popular among many Internet specifications.  The current specification documents ABNF.  It balances compactness and simplicity with reasonable representational power.  The differences between standard BNF and ABNF involve naming rules, repetition, alternatives, order-independence, and value ranges.  This specification also supplies additional rule definitions and encoding for a core lexical analyzer of the type common to several Internet specifications. [STANDARDS-TRACK]</t></abstract></front>
+
+<seriesInfo name='STD' value='68' />
+<seriesInfo name='RFC' value='5234' />
+<format type='TXT' octets='26359' target='http://www.rfc-editor.org/rfc/rfc5234.txt' />
+</reference>
+
+
+
+<reference anchor='RFC4949'>
+
+<front>
+<title>Internet Security Glossary, Version 2</title>
+<author initials='R.' surname='Shirey' fullname='R. Shirey'>
+<organization /></author>
+<date year='2007' month='August' />
+<abstract>
+<t>This Glossary provides definitions, abbreviations, and explanations of terminology for information system security.  The 334 pages of entries offer recommendations to improve the comprehensibility of written material that is generated in the Internet Standards Process (RFC 2026).  The recommendations follow the principles that such writing should (a) use the same term or definition whenever the same concept is mentioned; (b) use terms in their plainest, dictionary sense; (c) use terms that are already well-established in open publications; and (d) avoid terms that either favor a particular vendor or favor a particular technology or mechanism over other, competing techniques that already exist or could be developed.  This memo provides information for the Internet community.</t></abstract></front>
+
+<seriesInfo name='RFC' value='4949' />
+<format type='TXT' octets='867626' target='http://www.rfc-editor.org/rfc/rfc4949.txt' />
+</reference>
 </t>
 
 <reference anchor="OAuth.2.0">
@@ -679,38 +757,6 @@ Accept: application/json
 
 
     <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2" type="HTML" />
-
-</reference>
-
-<reference anchor="OAuth.2.0.SC">
-    <front>
-        <title>OAuth 2.0 Threat Model and Security Considerations</title>
-
-
-        <author fullname="Torsten Lodderstedt" initials="T." role="editor" surname="Lodderstedt">
-            <organization abbrev="">Deutsche Telekom AG</organization>
-
-    </author>
-
-
-        <author fullname="Mark McGloin" initials="M." surname="McGloin">
-            <organization abbrev="">IBM</organization>
-
-    </author>
-
-
-        <author fullname="Phil Hunt" initials="P." surname="Hunt">
-            <organization abbrev="">Oracle Corporation</organization>
-
-    </author>
-
-
-        <date day="1" month="July" year="2011" />
-
-  </front>
-
-
-    <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-threatmodel" type="HTML" />
 
 </reference>
 

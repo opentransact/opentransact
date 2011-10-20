@@ -1,0 +1,12 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    kramdown (0.13.3)
+    kramdown-rfc2629 (0.13.1)
+      kramdown (~> 0.13)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  kramdown-rfc2629

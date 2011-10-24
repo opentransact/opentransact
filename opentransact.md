@@ -78,28 +78,28 @@ Within OpenTransact we use the accounting definition of the word "Asset" as anyt
 
 ### Asset Service
 
-An Asset Service is a service maintained by an organization to manage accounts of one assets. For money and other financial assets the Asset Service would normally be run by a Financial Service Provider of some type. However there are many types of assets that could be offered by non financial services.
+An Asset Service is a service maintained by an organization to manage accounts of one asset. For money and other financial assets the Asset Service would normally be run by a Financial Service Provider of some type. However there are many types of assets that could be offered by non financial services.
 
 ### Transaction URL
 
-Each Asset Service has a unique transaction URL. This allows us a  don't need to get into details in our standard about application specific details like currency, card type, size, color etc.
+Each Asset Service has a unique transaction URL. There is no need to get into details in the standard about application specific details like currency, card type, size, color etc.
 
 This transaction URL would follow basic REST practices.
 
 - A transaction URL should be a simple clean URL like http://eepay.com/transactions.
-- A POST to the URL is used for creating a transaction transfering value.
+- A POST to the URL is used for creating a transaction transferring value.
 - A GET to the URL from a normal html web browser should present a human readable description of the asset.
 - A GET to the URL from a normal web browser with specific parameters becomes a payment request that the user can authorize.
-- A GET to the URL in a machine readable form such as json returns meta data about the asset an optionally a list of transactions that the current user is allowed to see.
+- A GET to the URL in a machine readable form such as json returns meta data about the asset and optionally a list of transactions that the current user is allowed to see.
 - Each transaction has a unique URL eg. http://epay.com/transactions/aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d.
 
 ### Example of Asset Services
 
-Lets say it's an imaginary electronic currency eepay.com they only offer one asset type, their currency. So they would only have one transaction url:
+Lets say it's an imaginary electronic currency asset provider eepay.com they only offer one asset type, their currency. So they would only have one transaction url:
 
 * http://eepay.com/transactions
 
-If it offered multiple currencies it should have a url for each currency as they are really separate asset types:
+If the asset provider offered multiple currencies it should have a url for each currency as they are really separate asset types:
 
 * http://eepay.com/transactions/usd
 * http://eepay.com/transactions/euro
@@ -122,7 +122,7 @@ A broker could actually also implement an OpenTransact API and have a different 
 
 This would allow them to create their own internal market.
 
-If we let the URL do the describing, there are tons of different possibilities. We can keep the core API very simple, while allowing pretty open support for all manners of asset types.
+If we let the URL do the describing, there are many different possibilities. This allows support for all manners of asset types.
 
 All the above examples are fungible assets. In general it is best practice that one item of value for one asset is fungible for one another.
 
@@ -145,9 +145,9 @@ OpenTransact defines 4 roles:
 
 We will use the term "Transfer" as it is more widely applicable than "Payment".
 
-A Transfer is legally a transfer in owner ship of some amount of the Asset from the Transferer to the Transferee.
+A Transfer is legally a transfer in ownership of some amount of the Asset from the Transferer to the Transferee.
 
-Eg. A Payment of $12 from Bob to Alice is a Transfer of 12$ with Bob being the Transferer and Alice the Transferee.
+Eg. A Payment of $12 from Bob to Alice is a Transfer of $12 with Bob being the Transferer and Alice the Transferee.
 
 ## Transfer Request
 

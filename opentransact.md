@@ -204,7 +204,7 @@ As part of OpenTransact we are creating a simple vocabulary of parameter names t
 - *redirect_uri* - URI to redirect User Agent to
 - *callback_uri* - URI for performing callback after request
 - *client_id* - Identifier of 3rd party application
-- *expire_in* - Request that a token expires in given seconds
+- *expires_in* - Request that a token expires in given seconds
 
 They are designed to be small and semantically correct. eg
 
@@ -302,7 +302,7 @@ OAuth2 related parameters. See {{OAuth.2.0}} section 5 for full details
 - *redirect_uri* URI for redirecting client to afterwards
 - *callback_uri* URI for performing a web callback
 - *response_type* token or code REQUIRED
-- *expire_in* Request the amount of time in seconds this token should be valid
+- *expires_in* Request the amount of time in seconds this token should be valid
 
 When a user follows this link, the Asset Service should present the user with a form authorizing the payment.
 
@@ -374,7 +374,7 @@ Further opentransact specific parameters could be:
 
 - default_amount - The default amount transfered if an amount is not specified in a transfer
 - provider_url - The provider of the asset's home page
-- description - Short descriptio
+- description - Short description
 - logo_url - Image url for Assets logo
 - unit - ISO currency unit of asset if monetary or other such as (minute, gram, point etc)
 

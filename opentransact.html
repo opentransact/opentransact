@@ -306,14 +306,14 @@ Assets</h3>
 <a name="rfc.section.2.1.1"></a><h3>2.1.1.&nbsp;
 Asset Service</h3>
 
-<p>An Asset Service is a service maintained by an organization to manage accounts of one assets. For money and other financial assets the Asset Service would normally be run by a Financial Service Provider of some type. However there are many types of assets that could be offered by non financial services.
+<p>An Asset Service is a service maintained by an organization to manage accounts of one asset. For money and other financial assets the Asset Service would normally be run by a Financial Service Provider of some type. However there are many types of assets that could be offered by non financial services.
 </p>
 <a name="transaction-url"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.2.1.2"></a><h3>2.1.2.&nbsp;
 Transaction URL</h3>
 
-<p>Each Asset Service has a unique transaction URL. This allows us a  don&rsquo;t need to get into details in our standard about application specific details like currency, card type, size, color etc.
+<p>Each Asset Service has a unique transaction URL. There is no need to get into details in the standard about application specific details like currency, card type, size, color etc.
 </p>
 <p>This transaction URL would follow basic REST practices.
 </p>
@@ -321,13 +321,13 @@ Transaction URL</h3>
 <ul class="text">
 <li>A transaction URL should be a simple clean URL like http://eepay.com/transactions.
 </li>
-<li>A POST to the URL is used for creating a transaction transfering value.
+<li>A POST to the URL is used for creating a transaction transferring value.
 </li>
 <li>A GET to the URL from a normal html web browser should present a human readable description of the asset.
 </li>
 <li>A GET to the URL from a normal web browser with specific parameters becomes a payment request that the user can authorize.
 </li>
-<li>A GET to the URL in a machine readable form such as json returns meta data about the asset an optionally a list of transactions that the current user is allowed to see.
+<li>A GET to the URL in a machine readable form such as json returns meta data about the asset and optionally a list of transactions that the current user is allowed to see.
 </li>
 <li>Each transaction has a unique URL eg. http://epay.com/transactions/aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d.
 </li>
@@ -338,7 +338,7 @@ Transaction URL</h3>
 <a name="rfc.section.2.1.3"></a><h3>2.1.3.&nbsp;
 Example of Asset Services</h3>
 
-<p>Lets say it&rsquo;s an imaginary electronic currency eepay.com they only offer one asset type, their currency. So they would only have one transaction url:
+<p>Lets say it&rsquo;s an imaginary electronic currency asset provider eepay.com they only offer one asset type, their currency. So they would only have one transaction url:
 </p>
 <p></p>
 <ul class="text">
@@ -346,7 +346,7 @@ Example of Asset Services</h3>
 </li>
 </ul>
 
-<p>If it offered multiple currencies it should have a url for each currency as they are really separate asset types:
+<p>If the asset provider offered multiple currencies it should have a url for each currency as they are really separate asset types:
 </p>
 <p></p>
 <ul class="text">
@@ -390,7 +390,7 @@ Example of Asset Services</h3>
 
 <p>This would allow them to create their own internal market.
 </p>
-<p>If we let the URL do the describing, there are tons of different possibilities. We can keep the core API very simple, while allowing pretty open support for all manners of asset types.
+<p>If we let the URL do the describing, there are many different possibilities. This allows support for all manners of asset types.
 </p>
 <p>All the above examples are fungible assets. In general it is best practice that one item of value for one asset is fungible for one another.
 </p>
@@ -442,9 +442,9 @@ Transfer</h3>
 
 <p>We will use the term &ldquo;Transfer&rdquo; as it is more widely applicable than &ldquo;Payment&rdquo;.
 </p>
-<p>A Transfer is legally a transfer in owner ship of some amount of the Asset from the Transferer to the Transferee.
+<p>A Transfer is legally a transfer in ownership of some amount of the Asset from the Transferer to the Transferee.
 </p>
-<p>Eg. A Payment of $12 from Bob to Alice is a Transfer of 12$ with Bob being the Transferer and Alice the Transferee.
+<p>Eg. A Payment of $12 from Bob to Alice is a Transfer of $12 with Bob being the Transferer and Alice the Transferee.
 </p>
 <a name="transfer-request"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -544,7 +544,7 @@ Vocabulary</h3>
 </li>
 <li><em>client_id</em> - Identifier of 3rd party application
 </li>
-<li><em>expire_in</em> - Request that a token expires in given seconds
+<li><em>expires_in</em> - Request that a token expires in given seconds
 </li>
 </ul>
 
@@ -714,7 +714,7 @@ Host: pay.me
 </li>
 <li><em>response_type</em> token or code REQUIRED
 </li>
-<li><em>expire_in</em> Request the amount of time in seconds this token should be valid
+<li><em>expires_in</em> Request the amount of time in seconds this token should be valid
 </li>
 </ul>
 
@@ -838,7 +838,7 @@ Accept: application/json
 </li>
 <li>provider_url - The provider of the asset&rsquo;s home page
 </li>
-<li>description - Short descriptio
+<li>description - Short description
 </li>
 <li>logo_url - Image url for Assets logo
 </li>

@@ -210,7 +210,7 @@ Internet-Draft                opentransact                  October 2011
 2.1.1.  Asset Service
 
    An Asset Service is a service maintained by an organization to manage
-   accounts of one assets.  For money and other financial assets the
+   accounts of one asset.  For money and other financial assets the
    Asset Service would normally be run by a Financial Service Provider
    of some type.  However there are many types of assets that could be
    offered by non financial services.
@@ -227,16 +227,16 @@ Internet-Draft                opentransact                  October 2011
 
 2.1.2.  Transaction URL
 
-   Each Asset Service has a unique transaction URL.  This allows us a
-   don't need to get into details in our standard about application
-   specific details like currency, card type, size, color etc.
+   Each Asset Service has a unique transaction URL.  There is no need to
+   get into details in the standard about application specific details
+   like currency, card type, size, color etc.
 
    This transaction URL would follow basic REST practices.
 
    o  A transaction URL should be a simple clean URL like
       http://eepay.com/transactions.
 
-   o  A POST to the URL is used for creating a transaction transfering
+   o  A POST to the URL is used for creating a transaction transferring
       value.
 
    o  A GET to the URL from a normal html web browser should present a
@@ -246,7 +246,7 @@ Internet-Draft                opentransact                  October 2011
       parameters becomes a payment request that the user can authorize.
 
    o  A GET to the URL in a machine readable form such as json returns
-      meta data about the asset an optionally a list of transactions
+      meta data about the asset and optionally a list of transactions
       that the current user is allowed to see.
 
    o  Each transaction has a unique URL eg. http://epay.com/
@@ -254,14 +254,14 @@ Internet-Draft                opentransact                  October 2011
 
 2.1.3.  Example of Asset Services
 
-   Lets say it's an imaginary electronic currency eepay.com they only
-   offer one asset type, their currency.  So they would only have one
-   transaction url:
+   Lets say it's an imaginary electronic currency asset provider
+   eepay.com they only offer one asset type, their currency.  So they
+   would only have one transaction url:
 
    o  http://eepay.com/transactions
 
-   If it offered multiple currencies it should have a url for each
-   currency as they are really separate asset types:
+   If the asset provider offered multiple currencies it should have a
+   url for each currency as they are really separate asset types:
 
    o  http://eepay.com/transactions/usd
 
@@ -300,9 +300,8 @@ Internet-Draft                opentransact                  October 2011
 
    This would allow them to create their own internal market.
 
-   If we let the URL do the describing, there are tons of different
-   possibilities.  We can keep the core API very simple, while allowing
-   pretty open support for all manners of asset types.
+   If we let the URL do the describing, there are many different
+   possibilities.  This allows support for all manners of asset types.
 
    All the above examples are fungible assets.  In general it is best
    practice that one item of value for one asset is fungible for one
@@ -332,6 +331,7 @@ Internet-Draft                opentransact                  October 2011
 
 
 
+
 Braendgaard, et al.      Expires April 21, 2012                 [Page 6]
 
 Internet-Draft                opentransact                  October 2011
@@ -347,10 +347,10 @@ Internet-Draft                opentransact                  October 2011
    We will use the term "Transfer" as it is more widely applicable than
    "Payment".
 
-   A Transfer is legally a transfer in owner ship of some amount of the
+   A Transfer is legally a transfer in ownership of some amount of the
    Asset from the Transferer to the Transferee.
 
-   Eg.  A Payment of $12 from Bob to Alice is a Transfer of 12$ with Bob
+   Eg.  A Payment of $12 from Bob to Alice is a Transfer of $12 with Bob
    being the Transferer and Alice the Transferee.
 
 2.4.  Transfer Request
@@ -467,7 +467,7 @@ Internet-Draft                opentransact                  October 2011
 
    o  _client_id_ - Identifier of 3rd party application
 
-   o  _expire_in_ - Request that a token expires in given seconds
+   o  _expires_in_ - Request that a token expires in given seconds
 
    They are designed to be small and semantically correct. eg
 
@@ -729,7 +729,7 @@ Braendgaard, et al.      Expires April 21, 2012                [Page 13]
 Internet-Draft                opentransact                  October 2011
 
 
-   o  _expire_in_ Request the amount of time in seconds this token
+   o  _expires_in_ Request the amount of time in seconds this token
       should be valid
 
    When a user follows this link, the Asset Service should present the
@@ -921,7 +921,7 @@ Internet-Draft                opentransact                  October 2011
 
    o  provider_url - The provider of the asset's home page
 
-   o  description - Short descriptio
+   o  description - Short description
 
    o  logo_url - Image url for Assets logo
 

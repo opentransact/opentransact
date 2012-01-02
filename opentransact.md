@@ -4,7 +4,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
 ]>
 
-<rfc ipr="trust200902" docName="draft-pelle-opentransact-core-00"
+<rfc ipr="trust200902" docName="draft-pelle-opentransact-core-01"
      category="info" >
 
 <?rfc toc="yes"?>
@@ -32,8 +32,14 @@
         <email>herestomwiththeweather@gmail.com</email>
       </address>
     </author>
+    <author initials="D" surname="Nicol" fullname="David Nicol">
+      <organization>TipJar</organization>
+      <address>
+        <email>davidnicol@gmail.com</email>
+      </address>
+    </author>
 
-    <date year="2011" month="October" day="19"/>
+    <date year="2012" month="January" day="2"/>
 
     <area>General</area>
     <workgroup>OpenTransact</workgroup>
@@ -95,7 +101,7 @@ The service available at the transaction URL MUST follow basic REST practices:
 - A POST to the URL is used for creating a transaction transferring value.
 - A GET to the URL from a normal web browser with specific parameters becomes a payment request that the user can authorize.
 - A GET to the URL in a machine readable form such as json returns meta data about the asset and optionally a list of transactions that the current user is allowed to see.
-- Each transaction has a unique URL formed by appending a unique transaction identifier to the transaction URL, such as https://paymentsarewe.example.com/prwpoints/aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d.
+- Each transaction has a unique URL. This SHOULD be formed by appending a unique transaction identifier to the transaction URL, such as https://paymentsarewe.example.com/prwpoints/aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d.
 
 ### Example of Asset Services
 

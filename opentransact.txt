@@ -4,13 +4,16 @@
 OpenTransact                                              P. Braendgaard
 Internet-Draft                                             PicoMoney Inc
 Intended status: Informational                                 N. Matake
-Expires: April 21, 2012                                 Cerego Japan Inc
+Expires: July 5, 2012                                   Cerego Japan Inc
                                                                 T. Brown
-                                                        October 19, 2011
+                                                              OSCurrency
+                                                                D. Nicol
+                                                                  TipJar
+                                                         January 2, 2012
 
 
                            OpenTransact Core
-                    draft-pelle-opentransact-core-00
+                    draft-pelle-opentransact-core-01
 
 Abstract
 
@@ -32,11 +35,11 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on April 21, 2012.
+   This Internet-Draft will expire on July 5, 2012.
 
 Copyright Notice
 
-   Copyright (c) 2011 IETF Trust and the persons identified as the
+   Copyright (c) 2012 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -50,123 +53,44 @@ Copyright Notice
    described in the Simplified BSD License.
 
 
-
-
-Braendgaard, et al.      Expires April 21, 2012                 [Page 1]
-
-Internet-Draft                opentransact                  October 2011
-
-
 Table of Contents
 
-   1.  Status of Document . . . . . . . . . . . . . . . . . . . . . .  3
-   2.  Introduction . . . . . . . . . . . . . . . . . . . . . . . . .  4
-     2.1.  Assets . . . . . . . . . . . . . . . . . . . . . . . . . .  4
-       2.1.1.  Asset Service  . . . . . . . . . . . . . . . . . . . .  5
-       2.1.2.  Transaction URL  . . . . . . . . . . . . . . . . . . .  5
-       2.1.3.  Example of Asset Services  . . . . . . . . . . . . . .  5
-     2.2.  Roles  . . . . . . . . . . . . . . . . . . . . . . . . . .  7
-     2.3.  Transfer . . . . . . . . . . . . . . . . . . . . . . . . .  7
-     2.4.  Transfer Request . . . . . . . . . . . . . . . . . . . . .  7
-     2.5.  Transfer Authorization . . . . . . . . . . . . . . . . . .  8
-     2.6.  Exchange Transaction . . . . . . . . . . . . . . . . . . .  8
-       2.6.1.  Exchanged item URI . . . . . . . . . . . . . . . . . .  9
-       2.6.2.  Authorization  . . . . . . . . . . . . . . . . . . . .  9
-     2.7.  Vocabulary . . . . . . . . . . . . . . . . . . . . . . . .  9
-     2.8.  Authentication . . . . . . . . . . . . . . . . . . . . . . 10
-     2.9.  Parameter encoding . . . . . . . . . . . . . . . . . . . . 10
-     2.10. Extensions . . . . . . . . . . . . . . . . . . . . . . . . 10
-     2.11. Notational Conventions . . . . . . . . . . . . . . . . . . 10
-   3.  Transfer Request . . . . . . . . . . . . . . . . . . . . . . . 12
-     3.1.  Response . . . . . . . . . . . . . . . . . . . . . . . . . 12
-     3.2.  Errors . . . . . . . . . . . . . . . . . . . . . . . . . . 13
-   4.  Transfer Authorization . . . . . . . . . . . . . . . . . . . . 14
-     4.1.  Response . . . . . . . . . . . . . . . . . . . . . . . . . 15
-     4.2.  Errors . . . . . . . . . . . . . . . . . . . . . . . . . . 15
-   5.  Transfer . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
-     5.1.  Response . . . . . . . . . . . . . . . . . . . . . . . . . 16
-   6.  Receipt  . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
-   7.  Asset Meta data  . . . . . . . . . . . . . . . . . . . . . . . 18
-   8.  Normative References . . . . . . . . . . . . . . . . . . . . . 20
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 21
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                 [Page 2]
-
-Internet-Draft                opentransact                  October 2011
+   1.  Status of Document
+   2.  Introduction
+     2.1.  Assets
+       2.1.1.  Asset Service
+       2.1.2.  Transaction URL
+       2.1.3.  Example of Asset Services
+     2.2.  Roles
+     2.3.  Transfer
+     2.4.  Transfer Request
+     2.5.  Transfer Authorization
+     2.6.  Exchange Transaction
+       2.6.1.  Exchanged item URI
+       2.6.2.  Authorization
+     2.7.  Vocabulary
+     2.8.  Authentication
+     2.9.  Parameter encoding
+     2.10. Extensions
+     2.11. Notational Conventions
+   3.  Transfer Request
+     3.1.  Response
+     3.2.  Errors
+   4.  Transfer Authorization
+     4.1.  Response
+     4.2.  Errors
+   5.  Transfer
+     5.1.  Response
+   6.  Receipt
+   7.  Asset Meta data
+   8.  Normative References
+   Authors' Addresses
 
 
 1.  Status of Document
 
    This document is in draft and reflects the current designs from the
    OpenTransact mailing list.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                 [Page 3]
-
-Internet-Draft                opentransact                  October 2011
 
 
 2.  Introduction
@@ -215,16 +139,6 @@ Internet-Draft                opentransact                  October 2011
 
    o  et cetera
 
-
-
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                 [Page 4]
-
-Internet-Draft                opentransact                  October 2011
-
-
 2.1.1.  Asset Service
 
    An Asset Service is a service maintained by an organization to manage
@@ -262,9 +176,9 @@ Internet-Draft                opentransact                  October 2011
       meta data about the asset and optionally a list of transactions
       that the current user is allowed to see.
 
-   o  Each transaction has a unique URL formed by appending a unique
-      transaction identifier to the transaction URL, such as https://
-      paymentsarewe.example.com/prwpoints/
+   o  Each transaction has a unique URL.  This SHOULD be formed by
+      appending a unique transaction identifier to the transaction URL,
+      such as https://paymentsarewe.example.com/prwpoints/
       aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d.
 
 2.1.3.  Example of Asset Services
@@ -272,14 +186,6 @@ Internet-Draft                opentransact                  October 2011
    Lets say it's an imaginary electronic currency asset provider
    eepay.example.net they only offer one asset type, their currency.  So
    they would only have one transaction url:
-
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                 [Page 5]
-
-Internet-Draft                opentransact                  October 2011
-
 
    o  http://eepay.example.net/transactions
 
@@ -330,13 +236,6 @@ Internet-Draft                opentransact                  October 2011
    that are unique and infungible, we can still create asset urls for
    each item, but only accept transfer amounts of 1.
 
-
-
-Braendgaard, et al.      Expires April 21, 2012                 [Page 6]
-
-Internet-Draft                opentransact                  October 2011
-
-
    All the above examples are fungible assets.
 
    For unique items such as domain names, property titles and diamonds
@@ -386,13 +285,6 @@ Internet-Draft                opentransact                  October 2011
    Request from Alice to Bob where Alice is the Transferee and Bob the
    Transferer.
 
-
-
-Braendgaard, et al.      Expires April 21, 2012                 [Page 7]
-
-Internet-Draft                opentransact                  October 2011
-
-
    A Transfer Request is simply a specially formatted payment link that
    takes Bob to Asset Service if followed.  The Asset Service shall
    present the Transfer Request to Bob who can authorize or decline it.
@@ -441,14 +333,6 @@ Internet-Draft                opentransact                  October 2011
 
    It is outside the scope for OpenTransact to define every single type
    of exchange that is possible.  OpenTransact provides a fundamental
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                 [Page 8]
-
-Internet-Draft                opentransact                  October 2011
-
-
    building block in building such systems.  It integrates well with
    exchange systems that don't yet understand OpenTransact.
 
@@ -495,15 +379,6 @@ Internet-Draft                opentransact                  October 2011
    Would become the following:
 
    o  amount=10
-
-
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                 [Page 9]
-
-Internet-Draft                opentransact                  October 2011
-
 
    o  asset=http://pay.me/usd
 
@@ -553,68 +428,11 @@ Internet-Draft                opentransact                  October 2011
    Certain security-related terms are to be understood in the sense
    defined in [RFC4949].  These terms include, but are not limited to,
    'attack', 'authentication', 'authorization', 'certificate',
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                [Page 10]
-
-Internet-Draft                opentransact                  October 2011
-
-
    'confidentiality', 'credential', 'encryption', 'identity', 'sign',
    'signature', 'trust', 'validate', and 'verify'.
 
    Unless otherwise noted, all the protocol parameter names and values
    are case sensitive.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                [Page 11]
-
-Internet-Draft                opentransact                  October 2011
 
 
 3.  Transfer Request
@@ -663,16 +481,6 @@ Host: pay.me
    The user is redirected back to the clients redirect uri with the
    following url encoded parameters:
 
-
-
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                [Page 12]
-
-Internet-Draft                opentransact                  October 2011
-
-
    o  _txn_url_ A url identifying the transaction.
 
    Asset provider can include an access_token in the query string of
@@ -681,52 +489,6 @@ Internet-Draft                opentransact                  October 2011
 3.2.  Errors
 
    Error types use OAuth 2.0's error codes.  [OAuth.2.0]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                [Page 13]
-
-Internet-Draft                opentransact                  October 2011
 
 
 4.  Transfer Authorization
@@ -776,15 +538,6 @@ Host: pay.me
 
    o  _response_type_ token or code REQUIRED
 
-
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                [Page 14]
-
-Internet-Draft                opentransact                  October 2011
-
-
    o  _expires_in_ Request the amount of time in seconds this token
       should be valid
 
@@ -801,44 +554,6 @@ Internet-Draft                opentransact                  October 2011
 4.2.  Errors
 
    Error types use OAuth 2.0's error codes.  [OAuth.2.0]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                [Page 15]
-
-Internet-Draft                opentransact                  October 2011
 
 
 5.  Transfer
@@ -885,18 +600,6 @@ Internet-Draft                opentransact                  October 2011
    http 201 with Receipt json.
 
 
-
-
-
-
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                [Page 16]
-
-Internet-Draft                opentransact                  October 2011
-
-
 6.  Receipt
 
    The receipt is returned when creating a transaction as well as when
@@ -920,37 +623,6 @@ Internet-Draft                opentransact                  October 2011
    o  _asset_url_
 
    o  _timestamp_
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                [Page 17]
-
-Internet-Draft                opentransact                  October 2011
 
 
 7.  Asset Meta data
@@ -1000,69 +672,7 @@ Internet-Draft                opentransact                  October 2011
    If tokens scope allows access to accounts transaction history, the
    transaction history should be included here:
 
-
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                [Page 18]
-
-Internet-Draft                opentransact                  October 2011
-
-
    o  transactions - array of receipts
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                [Page 19]
-
-Internet-Draft                opentransact                  October 2011
 
 
 8.  Normative References
@@ -1070,55 +680,6 @@ Internet-Draft                opentransact                  October 2011
    [OAuth.2.0]
               Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, "OAuth
               2.0 Authorization Protocol", Jul 2011.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                [Page 20]
-
-Internet-Draft                opentransact                  October 2011
 
 
 Authors' Addresses
@@ -1136,41 +697,13 @@ Authors' Addresses
 
 
    Tom Brown
+   OSCurrency
 
    Email: herestomwiththeweather@gmail.com
 
 
+   David Nicol
+   TipJar
 
+   Email: davidnicol@gmail.com
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Braendgaard, et al.      Expires April 21, 2012                [Page 21]
-

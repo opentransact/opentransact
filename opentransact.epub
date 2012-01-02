@@ -1,0 +1,27 @@
+<html><head><title>You lose</title></head><body><h1>Conversion error to epub</h1>
+<pre>Traceback (most recent call last):
+  File &quot;/usr/bin/ebook-convert&quot;, line 19, in &lt;module&gt;
+    sys.exit(main())
+  File &quot;/usr/lib/calibre/calibre/ebooks/conversion/cli.py&quot;, line 243, in main
+    parser, plumber = create_option_parser(args, log)
+  File &quot;/usr/lib/calibre/calibre/ebooks/conversion/cli.py&quot;, line 224, in create_option_parser
+    from calibre.ebooks.conversion.plumber import Plumber
+  File &quot;/usr/lib/calibre/calibre/ebooks/conversion/plumber.py&quot;, line 9, in &lt;module&gt;
+    from calibre.customize.ui import input_profiles, output_profiles, \
+  File &quot;/usr/lib/calibre/calibre/customize/ui.py&quot;, line 12, in &lt;module&gt;
+    from calibre.customize.builtins import plugins as builtin_plugins
+  File &quot;/usr/lib/calibre/calibre/customize/builtins.py&quot;, line 410, in &lt;module&gt;
+    from calibre.ebooks.pdb.input import PDBInput
+  File &quot;/usr/lib/calibre/calibre/ebooks/pdb/__init__.py&quot;, line 24, in &lt;module&gt;
+    from calibre.ebooks.pdb.palmdoc.writer import Writer as palmdoc_writer
+  File &quot;/usr/lib/calibre/calibre/ebooks/pdb/palmdoc/writer.py&quot;, line 15, in &lt;module&gt;
+    from calibre.ebooks.txt.txtml import TXTMLizer
+  File &quot;/usr/lib/calibre/calibre/ebooks/txt/txtml.py&quot;, line 17, in &lt;module&gt;
+    from calibre.ebooks.oeb.stylizer import Stylizer
+  File &quot;/usr/lib/calibre/calibre/ebooks/oeb/stylizer.py&quot;, line 19, in &lt;module&gt;
+    from cssutils.css import CSSStyleRule, CSSPageRule, CSSStyleDeclaration, \
+ImportError: cannot import name CSSValueList
+</pre>
+<hr/>
+<address>Apache/2.2.21 (Debian) Server at xml.resource.org Port 80</address>
+</body></html>

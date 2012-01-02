@@ -268,7 +268,7 @@ Introduction</h3>
 
 <p>The goal is to develop a very simple low level standard for transferring an amount of an asset from one account to another.
 </p>
-<p>Most payment systems and existing standards use the messaging paradigm for historical reasons. OpenTransact specifically rejects the message paradigm and prefers the restful resource approach as used on the web with URL&rsquo;s and HTTP at it&rsquo;s core.
+<p>Most payment systems and existing standards use the messaging paradigm for historical reasons. OpenTransact specifically rejects the message paradigm and prefers the RESTful (REpresentational State Transfer) resource approach as used on the web with URL&rsquo;s and HTTP at it&rsquo;s core.
 </p>
 <p>We aim to create a new standard from scratch ignoring all legacy systems, while leaving it flexible enough to allow applications built on top of it to deal with legacy systems.
 </p>
@@ -279,7 +279,9 @@ Introduction</h3>
 <a name="rfc.section.2.1"></a><h3>2.1.&nbsp;
 Assets</h3>
 
-<p>Within OpenTransact we use the accounting definition of the word &ldquo;Asset&rdquo; as anything of value. Eg.
+<p>Within OpenTransact we use the accounting definition of the word &ldquo;Asset&rdquo; to mean anything fungible about which one could make an accounting book entry.
+</p>
+<p>For example:
 </p>
 <p></p>
 <ul class="text">
@@ -297,7 +299,11 @@ Assets</h3>
 </li>
 <li>domain names
 </li>
-<li>physical products etc.
+<li>tons of sand
+</li>
+<li>general admission tickets to an event
+</li>
+<li>et cetera
 </li>
 </ul>
 
@@ -306,30 +312,30 @@ Assets</h3>
 <a name="rfc.section.2.1.1"></a><h3>2.1.1.&nbsp;
 Asset Service</h3>
 
-<p>An Asset Service is a service maintained by an organization to manage accounts of one asset. For money and other financial assets the Asset Service would normally be run by a Financial Service Provider of some type. However there are many types of assets that could be offered by non financial services.
+<p>An Asset Service is a service maintained by an organization to manage accounts of one asset. For money and other financial assets the Asset Service would normally be run by a Financial Service Provider of some type. Other types of assets are offered by non-financial services. The regulatory definition of &ldquo;financial&rdquo; is of course out of the scope of this document.
 </p>
 <a name="transaction-url"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.2.1.2"></a><h3>2.1.2.&nbsp;
 Transaction URL</h3>
 
-<p>Each Asset Service has a unique transaction URL. There is no need to get into details in the standard about application specific details like currency, card type, size, color etc.
+<p>Each Asset Service has a unique transaction URL. An informal convention is developing, but is out of the cope of this document. Guidance concerning the form of these URLs with regard to specific details like currency, card type, size, color MAY become available in a future Best Current Practices document.
 </p>
-<p>This transaction URL would follow basic REST practices.
+<p>The service available at the transaction URL MUST follow basic REST practices:
 </p>
 <p></p>
 <ul class="text">
-<li>A transaction URL should be a simple clean URL like http://eepay.com/transactions.
+<li>A transaction URL such as https://paymentsarewe.example.com/prwpoints MUST NOT contain query or fragment part.
+</li>
+<li>Loading the URL into a normal web browser should present a human readable description of the asset.
 </li>
 <li>A POST to the URL is used for creating a transaction transferring value.
-</li>
-<li>A GET to the URL from a normal html web browser should present a human readable description of the asset.
 </li>
 <li>A GET to the URL from a normal web browser with specific parameters becomes a payment request that the user can authorize.
 </li>
 <li>A GET to the URL in a machine readable form such as json returns meta data about the asset and optionally a list of transactions that the current user is allowed to see.
 </li>
-<li>Each transaction has a unique URL eg. http://epay.com/transactions/aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d.
+<li>Each transaction has a unique URL formed by appending a unique transaction identifier to the transaction URL, such as https://paymentsarewe.example.com/prwpoints/aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d.
 </li>
 </ul>
 
@@ -338,11 +344,11 @@ Transaction URL</h3>
 <a name="rfc.section.2.1.3"></a><h3>2.1.3.&nbsp;
 Example of Asset Services</h3>
 
-<p>Lets say it&rsquo;s an imaginary electronic currency asset provider eepay.com they only offer one asset type, their currency. So they would only have one transaction url:
+<p>Lets say it&rsquo;s an imaginary electronic currency asset provider eepay.example.net they only offer one asset type, their currency. So they would only have one transaction url:
 </p>
 <p></p>
 <ul class="text">
-<li>http://eepay.com/transactions
+<li>http://eepay.example.net/transactions
 </li>
 </ul>
 
@@ -350,21 +356,21 @@ Example of Asset Services</h3>
 </p>
 <p></p>
 <ul class="text">
-<li>http://eepay.com/transactions/usd
+<li>http://eepay.example.net/transactions/usd
 </li>
-<li>http://eepay.com/transactions/euro
+<li>http://eepay.example.net/transactions/euro
 </li>
 </ul>
 
-<p>If a larger existing bank offered various kinds of services each one would have it&rsquo;s own URL:
+<p>A bank offering OT as an alternative to ACH service could have a tranaction URL for each of the currencies in which it offers checking accounts. The details of interbank settlements are out of the scope of this document.
 </p>
 <p></p>
 <ul class="text">
-<li>http://megabank.com/current
+<li>http://coolbank.example.com/current
 </li>
-<li>http://megabank.com/savings
+<li>http://coolbank.example.com/savings
 </li>
-<li>http://megabank.com/bonds/mortgage
+<li>http://coolbank.example.com/bonds/mortgage
 </li>
 </ul>
 
@@ -372,29 +378,33 @@ Example of Asset Services</h3>
 </p>
 <p></p>
 <ul class="text">
-<li>http://fidelify.com/funds/sp500
+<li>http://fidelify.example.com/funds/sp500
 </li>
-<li>http://fidelify.com/funds/emergingmarkets
+<li>http://fidelify.example.com/funds/emergingmarkets
 </li>
 </ul>
 
-<p>A broker could actually also implement an OpenTransact API and have a different URL for each symbol eg:
+<p>With relaxation of current regulations on brokerage transactions all going through markets, a broker (rather, a stock market) could implement an OpenTransact API and have a different URL for each symbol.
 </p>
 <p></p>
 <ul class="text">
-<li>http://feetrade.com/trade/AAPL
+<li>http://nyex.example.com/trade/AAPL
 </li>
-<li>http://feetrade.com/trade/EBAY
+<li>http://nyex.example.com/trade/EBAY
 </li>
 </ul>
 
-<p>This would allow them to create their own internal market.
+<p>This would ease the barrier to registered securities being used directly as money.
 </p>
 <p>If we let the URL do the describing, there are many different possibilities. This allows support for all manners of asset types.
 </p>
 <p>All the above examples are fungible assets. In general it is best practice that one item of value for one asset is fungible for one another.
 </p>
 <p>For unique items such as domain names, property titles and diamonds that are unique and infungible, we can still create asset urls for each item, but only accept transfer amounts of 1.
+</p>
+<p>All the above examples are fungible assets.
+</p>
+<p>For unique items such as domain names, property titles and diamonds that are unique and infungible, we may define a separate currency for the item representing partial ownership. The legal framework for defining the resulting partnerships and their governance is out of scope of this document.
 </p>
 <a name="roles"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -485,7 +495,7 @@ Exchange Transaction</h3>
 </li>
 </ul>
 
-<p>There are as many different exchange mechanisms for create exchanges as there are exchange types. eg.
+<p>There are as many different exchange mechanisms for creating exchanges as there are exchange types.
 </p>
 <p></p>
 <ul class="text">
@@ -501,7 +511,7 @@ Exchange Transaction</h3>
 </li>
 </ul>
 
-<p>It is outside the scope for OpenTransact to define every single type of exchange that is possible. However OpenTransact should be able to be a fundamental building block in building such systems. It should also integrate well with exchange systems that don&rsquo;t yet understand OpenTransact.
+<p>It is outside the scope for OpenTransact to define every single type of exchange that is possible. OpenTransact provides a fundamental building block in building such systems. It integrates well with exchange systems that don&rsquo;t yet understand OpenTransact.
 </p>
 <a name="exchanged-item-uri"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -522,7 +532,7 @@ Authorization</h3>
 <a name="rfc.section.2.7"></a><h3>2.7.&nbsp;
 Vocabulary</h3>
 
-<p>As part of OpenTransact we are creating a simple vocabulary of parameter names that can be used in various parts of the standard.
+<p>OpenTransact includes a standard list parameter names used in the GET and POST requests.
 </p>
 <p></p>
 <ul class="text">
@@ -564,9 +574,9 @@ Vocabulary</h3>
 </li>
 <li>asset=http://pay.me/usd
 </li>
-<li>from=bob@test.com
+<li>from=bob@test.example..com
 </li>
-<li>to=alice@test.com
+<li>to=alice@test.example..com
 </li>
 <li>note=Consulting on XYZ project
 </li>
@@ -588,7 +598,9 @@ Parameter encoding</h3>
 
 <p>Since OpenTransact is designed to be simple to implement, the basic parameter encoding is URL form encoding.
 </p>
-<p>Any data responses should be in JSON format.
+<p>Data responses should be in JSON format.
+</p>
+<p>OpenTransact includes a standard for name strings and value ranges for use with the JSON objects returned from a request made to a compliant OT transaction URL.
 </p>
 <a name="extensions"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -619,9 +631,9 @@ Transfer Request</h3>
 
 <p>A Transfer Request consists of a GET to the Asset URL.
 </p><br /><hr class="insert" />
-<a name="get-usdtobillexamplecomamount10000notemilkredirecturihttpsitecomcallback-http11host-payme"></a>
+<a name="get-usdtobillexamplecomamount10000notemilkredirecturihttpsiteexamplecomcallback-http11host-payme"></a>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
-GET /usd?to=bill@example.com&amp;amount=100.00&amp;note=Milk&amp;redirect_uri=http://site.com/callback HTTP/1.1
+GET /usd?to=bill@example.com&amp;amount=100.00&amp;note=Milk&amp;redirect_uri=http://site.example.com/callback HTTP/1.1
 Host: pay.me
 </pre></div><table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;1&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
 
@@ -678,9 +690,9 @@ Transfer Authorization</h3>
 
 <p>A Transfer Authorization consists of a GET to the Asset URL with a client_id.
 </p><br /><hr class="insert" />
-<a name="get-usdtobillexamplecomamount10000notemilkredirecturihttpsitecomcallbackclientid1234-http11host-payme"></a>
+<a name="get-usdtobillexamplecomamount10000notemilkredirecturihttpsiteexamplecomcallbackclientid1234-http11host-payme"></a>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
-GET /usd?to=bill@example.com&amp;amount=100.00&amp;note=Milk&amp;redirect_uri=http://site.com/callback&amp;client_id=1234 HTTP/1.1
+GET /usd?to=bill@example.com&amp;amount=100.00&amp;note=Milk&amp;redirect_uri=http://site.example.com/callback&amp;client_id=1234 HTTP/1.1
 Host: pay.me
 </pre></div><table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;2&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
 

@@ -57,7 +57,7 @@
 
 <t>The goal is to develop a very simple low level standard for transferring an amount of an asset from one account to another.</t>
 
-<t>Most payment systems and existing standards use the messaging paradigm for historical reasons. OpenTransact specifically rejects the message paradigm and prefers the restful resource approach as used on the web with URL&rsquo;s and HTTP at it&rsquo;s core.</t>
+<t>Most payment systems and existing standards use the messaging paradigm for historical reasons. OpenTransact specifically rejects the message paradigm and prefers the RESTful (REpresentational State Transfer) resource approach as used on the web with URL&rsquo;s and HTTP at it&rsquo;s core.</t>
 
 <t>We aim to create a new standard from scratch ignoring all legacy systems, while leaving it flexible enough to allow applications built on top of it to deal with legacy systems.</t>
 
@@ -65,7 +65,9 @@
 
 <section anchor="assets" title="Assets">
 
-<t>Within OpenTransact we use the accounting definition of the word &ldquo;Asset&rdquo; as anything of value. Eg.</t>
+<t>Within OpenTransact we use the accounting definition of the word &ldquo;Asset&rdquo; to mean anything fungible about which one could make an accounting book entry.</t>
+
+<t>For example:</t>
 
 <t><list style='symbols'>
   <t>money</t>
@@ -75,74 +77,80 @@
   <t>hours of work</t>
   <t>property</t>
   <t>domain names</t>
-  <t>physical products etc.</t>
+  <t>tons of sand</t>
+  <t>general admission tickets to an event</t>
+  <t>et cetera</t>
 </list></t>
 
 <section anchor="asset-service" title="Asset Service">
 
-<t>An Asset Service is a service maintained by an organization to manage accounts of one asset. For money and other financial assets the Asset Service would normally be run by a Financial Service Provider of some type. However there are many types of assets that could be offered by non financial services.</t>
+<t>An Asset Service is a service maintained by an organization to manage accounts of one asset. For money and other financial assets the Asset Service would normally be run by a Financial Service Provider of some type. Other types of assets are offered by non-financial services. The regulatory definition of &ldquo;financial&rdquo; is of course out of the scope of this document.</t>
 
 </section>
 <section anchor="transaction-url" title="Transaction URL">
 
-<t>Each Asset Service has a unique transaction URL. There is no need to get into details in the standard about application specific details like currency, card type, size, color etc.</t>
+<t>Each Asset Service has a unique transaction URL. An informal convention is developing, but is out of the cope of this document. Guidance concerning the form of these URLs with regard to specific details like currency, card type, size, color MAY become available in a future Best Current Practices document.</t>
 
-<t>This transaction URL would follow basic REST practices.</t>
+<t>The service available at the transaction URL MUST follow basic REST practices:</t>
 
 <t><list style='symbols'>
-  <t>A transaction URL should be a simple clean URL like http://eepay.com/transactions.</t>
+  <t>A transaction URL such as https://paymentsarewe.example.com/prwpoints MUST NOT contain query or fragment part.</t>
+  <t>Loading the URL into a normal web browser should present a human readable description of the asset.</t>
   <t>A POST to the URL is used for creating a transaction transferring value.</t>
-  <t>A GET to the URL from a normal html web browser should present a human readable description of the asset.</t>
   <t>A GET to the URL from a normal web browser with specific parameters becomes a payment request that the user can authorize.</t>
   <t>A GET to the URL in a machine readable form such as json returns meta data about the asset and optionally a list of transactions that the current user is allowed to see.</t>
-  <t>Each transaction has a unique URL eg. http://epay.com/transactions/aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d.</t>
+  <t>Each transaction has a unique URL formed by appending a unique transaction identifier to the transaction URL, such as https://paymentsarewe.example.com/prwpoints/aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d.</t>
 </list></t>
 
 </section>
 <section anchor="example-of-asset-services" title="Example of Asset Services">
 
-<t>Lets say it&rsquo;s an imaginary electronic currency asset provider eepay.com they only offer one asset type, their currency. So they would only have one transaction url:</t>
+<t>Lets say it&rsquo;s an imaginary electronic currency asset provider eepay.example.net they only offer one asset type, their currency. So they would only have one transaction url:</t>
 
 <t><list style='symbols'>
-  <t>http://eepay.com/transactions</t>
+  <t>http://eepay.example.net/transactions</t>
 </list></t>
 
 <t>If the asset provider offered multiple currencies it should have a url for each currency as they are really separate asset types:</t>
 
 <t><list style='symbols'>
-  <t>http://eepay.com/transactions/usd</t>
-  <t>http://eepay.com/transactions/euro</t>
+  <t>http://eepay.example.net/transactions/usd</t>
+  <t>http://eepay.example.net/transactions/euro</t>
 </list></t>
 
-<t>If a larger existing bank offered various kinds of services each one would have it&rsquo;s own URL:</t>
+<t>A bank offering OT as an alternative to ACH service could have a tranaction URL for each of the currencies in which it offers checking accounts. The details of interbank settlements are out of the scope of this document.</t>
 
 <t><list style='symbols'>
-  <t>http://megabank.com/current</t>
-  <t>http://megabank.com/savings</t>
-  <t>http://megabank.com/bonds/mortgage</t>
+  <t>http://coolbank.example.com/current</t>
+  <t>http://coolbank.example.com/savings</t>
+  <t>http://coolbank.example.com/bonds/mortgage</t>
 </list></t>
 
 <t>A mutual fund company would have a url for each of their funds.</t>
 
 <t><list style='symbols'>
-  <t>http://fidelify.com/funds/sp500</t>
-  <t>http://fidelify.com/funds/emergingmarkets</t>
+  <t>http://fidelify.example.com/funds/sp500</t>
+  <t>http://fidelify.example.com/funds/emergingmarkets</t>
 </list></t>
 
-<t>A broker could actually also implement an OpenTransact API and have a different URL for each symbol eg:</t>
+<t>With relaxation of current regulations on brokerage transactions all going through markets, a broker (rather, a stock market) could implement an OpenTransact API and have a different URL for each symbol.</t>
 
 <t><list style='symbols'>
-  <t>http://feetrade.com/trade/AAPL</t>
-  <t>http://feetrade.com/trade/EBAY</t>
+  <t>http://nyex.example.com/trade/AAPL</t>
+  <t>http://nyex.example.com/trade/EBAY</t>
 </list></t>
 
-<t>This would allow them to create their own internal market.</t>
+<t>This would ease the barrier to registered securities being used directly as money.</t>
 
 <t>If we let the URL do the describing, there are many different possibilities. This allows support for all manners of asset types.</t>
 
 <t>All the above examples are fungible assets. In general it is best practice that one item of value for one asset is fungible for one another.</t>
 
 <t>For unique items such as domain names, property titles and diamonds that are unique and infungible, we can still create asset urls for each item, but only accept transfer amounts of 1.</t>
+
+<t>All the above examples are fungible assets.</t>
+
+<t>For unique items such as domain names, property titles and diamonds that are unique and infungible, we may define a separate currency for the item representing partial ownership. The legal framework for defining the resulting partnerships and their governance is out of scope of this document.</t>
 
 </section>
 </section>
@@ -207,7 +215,7 @@
   <t>0.99 USD exchanged for an mp3 song</t>
 </list></t>
 
-<t>There are as many different exchange mechanisms for create exchanges as there are exchange types. eg.</t>
+<t>There are as many different exchange mechanisms for creating exchanges as there are exchange types.</t>
 
 <t><list style='symbols'>
   <t>Invoicing system</t>
@@ -217,7 +225,7 @@
   <t>Stock Exchange</t>
 </list></t>
 
-<t>It is outside the scope for OpenTransact to define every single type of exchange that is possible. However OpenTransact should be able to be a fundamental building block in building such systems. It should also integrate well with exchange systems that don&rsquo;t yet understand OpenTransact.</t>
+<t>It is outside the scope for OpenTransact to define every single type of exchange that is possible. OpenTransact provides a fundamental building block in building such systems. It integrates well with exchange systems that don&rsquo;t yet understand OpenTransact.</t>
 
 <section anchor="exchanged-item-uri" title="Exchanged item URI">
 
@@ -232,7 +240,7 @@
 </section>
 <section anchor="vocabulary" title="Vocabulary">
 
-<t>As part of OpenTransact we are creating a simple vocabulary of parameter names that can be used in various parts of the standard.</t>
+<t>OpenTransact includes a standard list parameter names used in the GET and POST requests.</t>
 
 <t><list style='symbols'>
   <t><spanx style='emph'>asset</spanx> - Transaction URL</t>
@@ -258,8 +266,8 @@
 <t><list style='symbols'>
   <t>amount=10</t>
   <t>asset=http://pay.me/usd</t>
-  <t>from=bob@test.com</t>
-  <t>to=alice@test.com</t>
+  <t>from=bob@test.example..com</t>
+  <t>to=alice@test.example..com</t>
   <t>note=Consulting on XYZ project</t>
   <t>for=http://myinvoice.test/invoices/123123</t>
 </list></t>
@@ -274,7 +282,9 @@
 
 <t>Since OpenTransact is designed to be simple to implement, the basic parameter encoding is URL form encoding.</t>
 
-<t>Any data responses should be in JSON format.</t>
+<t>Data responses should be in JSON format.</t>
+
+<t>OpenTransact includes a standard for name strings and value ranges for use with the JSON objects returned from a request made to a compliant OT transaction URL.</t>
 
 </section>
 <section anchor="extensions" title="Extensions">
@@ -300,8 +310,8 @@
 
 <t>A Transfer Request consists of a GET to the Asset URL.</t>
 
-<figure anchor="get-usdtobillexamplecomamount10000notemilkredirecturihttpsitecomcallback-http11host-payme"><artwork><![CDATA[
-GET /usd?to=bill@example.com&amount=100.00&note=Milk&redirect_uri=http://site.com/callback HTTP/1.1
+<figure anchor="get-usdtobillexamplecomamount10000notemilkredirecturihttpsiteexamplecomcallback-http11host-payme"><artwork><![CDATA[
+GET /usd?to=bill@example.com&amount=100.00&note=Milk&redirect_uri=http://site.example.com/callback HTTP/1.1
 Host: pay.me
 ]]></artwork></figure>
 
@@ -342,8 +352,8 @@ Host: pay.me
 
 <t>A Transfer Authorization consists of a GET to the Asset URL with a client_id.</t>
 
-<figure anchor="get-usdtobillexamplecomamount10000notemilkredirecturihttpsitecomcallbackclientid1234-http11host-payme"><artwork><![CDATA[
-GET /usd?to=bill@example.com&amount=100.00&note=Milk&redirect_uri=http://site.com/callback&client_id=1234 HTTP/1.1
+<figure anchor="get-usdtobillexamplecomamount10000notemilkredirecturihttpsiteexamplecomcallbackclientid1234-http11host-payme"><artwork><![CDATA[
+GET /usd?to=bill@example.com&amount=100.00&note=Milk&redirect_uri=http://site.example.com/callback&client_id=1234 HTTP/1.1
 Host: pay.me
 ]]></artwork></figure>
 

@@ -28,7 +28,6 @@
       </address>
     </author>
     <author initials="T" surname="Brown" fullname="Tom Brown">
-      <organization>OSCurrency</organization>
       <address>
         <email>herestomwiththeweather@gmail.com</email>
       </address>
@@ -374,6 +373,7 @@ Host: pay.me
   <t><spanx style='emph'>note</spanx> Textual description, which can include hash tags. Asset Service may truncate this. No default.</t>
   <t><spanx style='emph'>from</spanx> Account identifier of Transferer. This should normally be left out as it is implied by the authorizer of the Access Token. The Asset Service MUST verify that the Access Token is authorized to transfer from this account. This could be useful for Asset providers charging their customers accounts.</t>
   <t><spanx style='emph'>for</spanx> URI identifying the exchanged item.</t>
+  <t><spanx style='emph'>validity</spanx> A <xref target="ISO.8601.1988"/> <eref target="http://en.wikipedia.org/wiki/ISO_8601#Durations">duration</eref> or <eref target="http://en.wikipedia.org/wiki/ISO_8601#Time_intervals">interval</eref> (see below)</t>
 </list></t>
 
 <t>OAuth2 related parameters. See <xref target="OAuth.2.0"/> section 5 for full details</t>
@@ -383,13 +383,70 @@ Host: pay.me
   <t><spanx style='emph'>redirect_uri</spanx> URI for redirecting client to afterwards</t>
   <t><spanx style='emph'>callback_uri</spanx> URI for performing a web callback</t>
   <t><spanx style='emph'>response_type</spanx> token or code REQUIRED</t>
-  <t><spanx style='emph'>expires_in</spanx> Request the amount of time in seconds this token should be valid</t>
 </list></t>
 
 <t>When a user follows this link, the Asset Service should present the user with a form authorizing the payment.</t>
 
 <t>Note: Client can include OpenID Connect parameters.</t>
 
+<section anchor="validity-duration" title="Validity duration">
+
+<t>A client can request a specific validity length of the oauth token.</t>
+
+<t>The asset provider will assign a default expiration of the token if client doesn&rsquo;t specify a validity.</t>
+
+<t>A validity can be request which is either a fixed duration  or a repeating interval.</t>
+
+<t>For a fixed interval the amount SHOULD be guaranteed and reserved for the client.</t>
+
+<t>For a repeating interval the amount SHOULD be guaranteed for the first interval only.</t>
+
+<section anchor="validity-request-parameter" title="Validity Request Parameter">
+
+<t>The validity is requested using A ISO8601 <eref target="http://en.wikipedia.org/wiki/ISO_8601#Durations">duration</eref>,  <eref target="http://en.wikipedia.org/wiki/ISO_8601#Time_intervals">interval</eref> or <eref target="http://en.wikipedia.org/wiki/ISO_8601#Repeating_intervals">repeating interval</eref>.</t>
+
+<t>A duration is written</t>
+
+<figure anchor="p30d-30-dayspt5m-5-minutesp1m14dt3h5m23s-1-month-14-days-3-hours-5-minutes-and-23-seconds"><artwork><![CDATA[
+P30D                      # 30 days
+PT5M                     # 5 minutes
+P1M14DT3H5M23S # 1 month 14 days 3 hours 5 minutes and 23 seconds
+]]></artwork></figure>
+
+<t>Intervals are either 2 ISO Dates or an ISO date and a duration separated by the &lsquo;/&rsquo; character:</t>
+
+<figure anchor="t130000z2008-05-11t153000z-the-interval-between-2-datest130000zp1y2m10dt2h30m-the-interval-starting-at-a-date-and-finishing-after-a-durationp1y2m10dt2h30m2008-05-11t153000z-the-interval-starting-with-a-duration-and-finishing-at-a-given-datep1m-the-duration-starting-at-the-time-the-token-was-authorized"><artwork><![CDATA[
+2007-03-01T13:00:00Z/2008-05-11T15:30:00Z # The interval between 2 dates
+2007-03-01T13:00:00Z/P1Y2M10DT2H30M     # The interval starting at a date and finishing after a duration
+P1Y2M10DT2H30M/2008-05-11T15:30:00Z     # The interval starting with a duration and finishing at a given date
+P1M                                                             # The duration starting at the time the token was authorized.
+]]></artwork></figure>
+
+<t>Repeating intervals by prefix one of the above intervals or durations with the letter &lsquo;R&rsquo; and an optional number specifying the amount of times to repeat:</t>
+
+<figure anchor="rp1m-repeat-once-a-monthr12p1m-repeat-12-times-once-a-monthrp1m2008-05-11t153000z-repeat-monthly-until-a-given-date"><artwork><![CDATA[
+RP1M                     # repeat once a month
+R12P1M                 # repeat 12 times once a month
+RP1M/2008-05-11T15:30:00Z  # repeat monthly until a given date
+]]></artwork></figure>
+
+<t>By supporting a single parameter with any of the above durations/intervals/repeated intervals we can support a lot of different kinds of applications:</t>
+
+<t><list style='symbols'>
+  <t>Recurring payments (subscriptions) using the Repeated Intervals</t>
+  <t>Daily spending limits on tokens using Repeated intervals similar to what debit cards have to day. eg. $300/day</t>
+  <t>Request validity of a token using a simple duration</t>
+</list></t>
+
+</section>
+<section anchor="validity-request-error" title="Validity Request Error">
+
+<t>If a specified interval is not supported by service or user refuses to authorize the interval an <eref target="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-4.1.2.1">OAuth2.0 Authorization error response</eref> MUST be returned through redirection with the following error:</t>
+
+<t>error=unsupported_interval</t>
+
+</section>
+</section>
 <section anchor="response-1" title="Response">
 
 <t>Follows OAuth 2 response depending on response_type requested. <xref target="OAuth.2.0"/></t>
@@ -744,6 +801,8 @@ Accept: application/json
 <format type='TXT' octets='867626' target='http://www.rfc-editor.org/rfc/rfc4949.txt' />
 </reference>
 </t>
+
+<?rfc include='http://xml.resource.org/public/rfc/bibxml2/_reference.ISO.8601.1988.xml' ?>
 
 <reference anchor="OAuth.2.0">
     <front>

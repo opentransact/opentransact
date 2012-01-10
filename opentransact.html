@@ -147,7 +147,7 @@
 <tr><td class="header">Intended status: Informational</td><td class="header">N. Matake</td></tr>
 <tr><td class="header">Expires: July 5, 2012</td><td class="header">Cerego Japan Inc</td></tr>
 <tr><td class="header">&nbsp;</td><td class="header">T. Brown</td></tr>
-<tr><td class="header">&nbsp;</td><td class="header">OSCurrency</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">&nbsp;</td></tr>
 <tr><td class="header">&nbsp;</td><td class="header">D. Nicol</td></tr>
 <tr><td class="header">&nbsp;</td><td class="header">TipJar</td></tr>
 <tr><td class="header">&nbsp;</td><td class="header">January 2, 2012</td></tr>
@@ -238,9 +238,15 @@ Response<br />
 Errors<br />
 <a href="#transfer-authorization-1">4.</a>&nbsp;
 Transfer Authorization<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#response-1">4.1.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#validity-duration">4.1.</a>&nbsp;
+Validity duration<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#validity-request-parameter">4.1.1.</a>&nbsp;
+Validity Request Parameter<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#validity-request-error">4.1.2.</a>&nbsp;
+Validity Request Error<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#response-1">4.2.</a>&nbsp;
 Response<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#errors-1">4.2.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#errors-1">4.3.</a>&nbsp;
 Errors<br />
 <a href="#transfer-1">5.</a>&nbsp;
 Transfer<br />
@@ -715,6 +721,8 @@ Host: pay.me
 </li>
 <li><em>for</em> URI identifying the exchanged item.
 </li>
+<li><em>validity</em> A <a class='info' href='#ISO.8601.1988'>[ISO.8601.1988]<span> (</span><span class='info'>International Organization for Standardization, &ldquo;Data elements and interchange formats - Information interchange - Representation of dates and times,&rdquo; June&nbsp;1988.</span><span>)</span></a> <a href='http://en.wikipedia.org/wiki/ISO_8601#Durations'>duration</a> or <a href='http://en.wikipedia.org/wiki/ISO_8601#Time_intervals'>interval</a> (see below)
+</li>
 </ul>
 
 <p>OAuth2 related parameters. See <a class='info' href='#OAuth.2.0'>[OAuth.2.0]<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a> section 5 for full details
@@ -729,24 +737,93 @@ Host: pay.me
 </li>
 <li><em>response_type</em> token or code REQUIRED
 </li>
-<li><em>expires_in</em> Request the amount of time in seconds this token should be valid
-</li>
 </ul>
 
 <p>When a user follows this link, the Asset Service should present the user with a form authorizing the payment.
 </p>
 <p>Note: Client can include OpenID Connect parameters.
 </p>
-<a name="response-1"></a><br /><hr />
+<a name="validity-duration"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.4.1"></a><h3>4.1.&nbsp;
+Validity duration</h3>
+
+<p>A client can request a specific validity length of the oauth token.
+</p>
+<p>The asset provider will assign a default expiration of the token if client doesn&rsquo;t specify a validity.
+</p>
+<p>A validity can be request which is either a fixed duration  or a repeating interval.
+</p>
+<p>For a fixed interval the amount SHOULD be guaranteed and reserved for the client.
+</p>
+<p>For a repeating interval the amount SHOULD be guaranteed for the first interval only.
+</p>
+<a name="validity-request-parameter"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.1.1"></a><h3>4.1.1.&nbsp;
+Validity Request Parameter</h3>
+
+<p>The validity is requested using A ISO8601 <a href='http://en.wikipedia.org/wiki/ISO_8601#Durations'>duration</a>,  <a href='http://en.wikipedia.org/wiki/ISO_8601#Time_intervals'>interval</a> or <a href='http://en.wikipedia.org/wiki/ISO_8601#Repeating_intervals'>repeating interval</a>.
+</p>
+<p>A duration is written
+</p><br /><hr class="insert" />
+<a name="p30d-30-dayspt5m-5-minutesp1m14dt3h5m23s-1-month-14-days-3-hours-5-minutes-and-23-seconds"></a>
+<div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+P30D                      # 30 days
+PT5M                     # 5 minutes
+P1M14DT3H5M23S # 1 month 14 days 3 hours 5 minutes and 23 seconds
+</pre></div><table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;3&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+
+<p>Intervals are either 2 ISO Dates or an ISO date and a duration separated by the &lsquo;/&rsquo; character:
+</p><br /><hr class="insert" />
+<a name="t130000z2008-05-11t153000z-the-interval-between-2-datest130000zp1y2m10dt2h30m-the-interval-starting-at-a-date-and-finishing-after-a-durationp1y2m10dt2h30m2008-05-11t153000z-the-interval-starting-with-a-duration-and-finishing-at-a-given-datep1m-the-duration-starting-at-the-time-the-token-was-authorized"></a>
+<div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+2007-03-01T13:00:00Z/2008-05-11T15:30:00Z # The interval between 2 dates
+2007-03-01T13:00:00Z/P1Y2M10DT2H30M     # The interval starting at a date and finishing after a duration
+P1Y2M10DT2H30M/2008-05-11T15:30:00Z     # The interval starting with a duration and finishing at a given date
+P1M                                                             # The duration starting at the time the token was authorized.
+</pre></div><table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;4&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+
+<p>Repeating intervals by prefix one of the above intervals or durations with the letter &lsquo;R&rsquo; and an optional number specifying the amount of times to repeat:
+</p><br /><hr class="insert" />
+<a name="rp1m-repeat-once-a-monthr12p1m-repeat-12-times-once-a-monthrp1m2008-05-11t153000z-repeat-monthly-until-a-given-date"></a>
+<div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+RP1M                     # repeat once a month
+R12P1M                 # repeat 12 times once a month
+RP1M/2008-05-11T15:30:00Z  # repeat monthly until a given date
+</pre></div><table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;5&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+
+<p>By supporting a single parameter with any of the above durations/intervals/repeated intervals we can support a lot of different kinds of applications:
+</p>
+<p></p>
+<ul class="text">
+<li>Recurring payments (subscriptions) using the Repeated Intervals
+</li>
+<li>Daily spending limits on tokens using Repeated intervals similar to what debit cards have to day. eg. $300/day
+</li>
+<li>Request validity of a token using a simple duration
+</li>
+</ul>
+
+<a name="validity-request-error"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.1.2"></a><h3>4.1.2.&nbsp;
+Validity Request Error</h3>
+
+<p>If a specified interval is not supported by service or user refuses to authorize the interval an <a href='http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-4.1.2.1'>OAuth2.0 Authorization error response</a> MUST be returned through redirection with the following error:
+</p>
+<p>error=unsupported_interval
+</p>
+<a name="response-1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.2"></a><h3>4.2.&nbsp;
 Response</h3>
 
 <p>Follows OAuth 2 response depending on response_type requested. <a class='info' href='#OAuth.2.0'>[OAuth.2.0]<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a>
 </p>
 <a name="errors-1"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.4.2"></a><h3>4.2.&nbsp;
+<a name="rfc.section.4.3"></a><h3>4.3.&nbsp;
 Errors</h3>
 
 <p>Error types use OAuth 2.0&rsquo;s error codes. <a class='info' href='#OAuth.2.0'>[OAuth.2.0]<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a>
@@ -767,7 +844,7 @@ Host: pay.me
 Authorization: Bearer vF9dft4qmT
 
 to=bill@example.com&amp;amount=100.00&amp;note=Milk
-</pre></div><table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;3&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+</pre></div><table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;6&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
 
 <p>We use the following parameters from our common vocabulary in 1.6. All fields are optional:
 </p>
@@ -833,7 +910,7 @@ Asset Meta data</h3>
 GET /usd HTTP/1.1
 Host: pay.me
 Accept: application/json
-</pre></div><table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;4&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+</pre></div><table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;7&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
 
 <p>This returns a json hash of meta information about the asset.
 </p>
@@ -887,6 +964,8 @@ Accept: application/json
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <h3>8.&nbsp;Normative References</h3>
 <table width="99%" border="0">
+<tr><td class="author-text" valign="top"><a name="ISO.8601.1988">[ISO.8601.1988]</a></td>
+<td class="author-text">International Organization for Standardization, &ldquo;Data elements and interchange formats - Information interchange - Representation of dates and times,&rdquo; ISO&nbsp;Standard 8601, June&nbsp;1988.</td></tr>
 <tr><td class="author-text" valign="top"><a name="OAuth.2.0">[OAuth.2.0]</a></td>
 <td class="author-text">Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;<a href="http://tools.ietf.org/html/draft-ietf-oauth-v2">OAuth 2.0 Authorization Protocol</a>,&rdquo; Jul&nbsp;2011.</td></tr>
 </table>
@@ -911,8 +990,6 @@ Accept: application/json
 <tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td class="author-text">&nbsp;</td>
 <td class="author-text">Tom Brown</td></tr>
-<tr><td class="author-text">&nbsp;</td>
-<td class="author-text">OSCurrency</td></tr>
 <tr><td class="author" align="right">Email:&nbsp;</td>
 <td class="author-text"><a href="mailto:herestomwiththeweather@gmail.com">herestomwiththeweather@gmail.com</a></td></tr>
 <tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>

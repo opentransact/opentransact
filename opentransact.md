@@ -407,8 +407,11 @@ If an OAuth Access Token is provided the Asset Service should provide informatio
 
 For tokens obtained through a Transfer Authentication this should reflect the remaining balance of the authorized amount.
 
-If tokens scope allows access to accounts transaction history, the transaction history should be included here:
+## Transaction history
 
+If tokens scope allows access to accounts transaction history a url to the transaction history or a transaction history SHOULD be included here:
+
+- transactions_uri - URI to list of transactions
 - transactions - array of receipts
 
 # Security Considerations

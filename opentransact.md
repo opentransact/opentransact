@@ -323,6 +323,7 @@ We use the following parameters from our common vocabulary. All fields are optio
 - *note* Textual description, which can include hash tags. Asset Service may truncate this. No default.
 - *from* Account identifier of Transferer. This should normally be left out as it is implied by the authorizer of the Access Token. The Asset Service MUST verify that the Access Token is authorized to transfer from this account. This could be useful for Asset providers charging their customers accounts.
 - *for* URI identifying the exchanged item.
+- *validity* A {{ISO.8601.1988}} [duration](http://en.wikipedia.org/wiki/ISO_8601#Durations) or [interval](http://en.wikipedia.org/wiki/ISO_8601#Time_intervals) (see below)
 
 OAuth2 related parameters. See {{I-D.ietf-oauth-v2}} section 5 for full details
 
@@ -330,11 +331,58 @@ OAuth2 related parameters. See {{I-D.ietf-oauth-v2}} section 5 for full details
 - *redirect_uri* URI for redirecting client to afterwards
 - *callback_uri* URI for performing a web callback
 - *response_type* token or code REQUIRED
-- *expires_in* Request the amount of time in seconds this token should be valid
 
 When a user follows this link, the Asset Service should present the user with a form authorizing the payment.
 
 Note: Client can include OpenID Connect parameters.
+
+## Validity duration
+
+A client can request a specific validity length of the oauth token.
+
+The asset provider will assign a default expiration of the token if client doesn't specify a validity.
+
+A validity can be request which is either a fixed duration  or a repeating interval.
+
+For a fixed interval the amount SHOULD be guaranteed and reserved for the client.
+
+For a repeating interval the amount SHOULD be guaranteed for the first interval only.
+
+### Validity Request Parameter
+
+The validity is requested using A ISO8601 [duration](http://en.wikipedia.org/wiki/ISO_8601#Durations),  [interval](http://en.wikipedia.org/wiki/ISO_8601#Time_intervals) or [repeating interval](http://en.wikipedia.org/wiki/ISO_8601#Repeating_intervals).
+
+A duration is written
+
+    P30D                      # 30 days
+    PT5M                     # 5 minutes
+    P1M14DT3H5M23S # 1 month 14 days 3 hours 5 minutes and 23 seconds
+
+Intervals are either 2 ISO Dates or an ISO date and a duration separated by the '/' character:
+
+    2007-03-01T13:00:00Z/2008-05-11T15:30:00Z # The interval between 2 dates
+    2007-03-01T13:00:00Z/P1Y2M10DT2H30M     # The interval starting at a date and finishing after a duration
+    P1Y2M10DT2H30M/2008-05-11T15:30:00Z     # The interval starting with a duration and finishing at a given date
+    P1M                                                             # The duration starting at the time the token was authorized.
+
+Repeating intervals by prefix one of the above intervals or durations with the letter 'R' and an optional number specifying the amount of times to repeat:
+
+    RP1M                     # repeat once a month
+    R12P1M                 # repeat 12 times once a month
+    RP1M/2008-05-11T15:30:00Z  # repeat monthly until a given date
+
+By supporting a single parameter with any of the above durations/intervals/repeated intervals we can support a lot of different kinds of applications:
+
+- Recurring payments (subscriptions) using the Repeated Intervals
+- Daily spending limits on tokens using Repeated intervals similar to what debit cards have to day. eg. $300/day
+- Request validity of a token using a simple duration
+
+### Validity Request Error
+
+If a specified interval is not supported by service or user refuses to authorize the interval an [OAuth2.0 Authorization error response](http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-4.1.2.1) MUST be returned through redirection with the following error:
+
+  error=unsupported_interval
+
 
 ## Response
 
@@ -486,6 +534,7 @@ The security of OpenTransact is achieved by it's use of {{I-D.ietf-oauth-v2}}. P
 <?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-oauth-v2-bearer-15.xml' ?>
 <?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-oauth-v2-http-mac-00' ?>
 <?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-oauth-v2-threatmodel-01.xml' ?>
+<?rfc include='http://xml.resource.org/public/rfc/bibxml2/_reference.ISO.8601.1988.xml' ?>
 
 {::nomarkdown}
 

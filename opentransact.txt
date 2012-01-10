@@ -78,8 +78,11 @@ Table of Contents
      3.1.  Response
      3.2.  Errors
    4.  Transfer Authorization
-     4.1.  Response
-     4.2.  Errors
+     4.1.  Validity duration
+       4.1.1.  Validity Request Parameter
+       4.1.2.  Validity Request Error
+     4.2.  Response
+     4.3.  Errors
    5.  Transfer
      5.1.  Response
    6.  Receipt
@@ -549,6 +552,8 @@ Host: pay.me
 
    o  _for_ URI identifying the exchanged item.
 
+   o  _validity_ A [ISO.8601.1988] duration or interval (see below)
+
    OAuth2 related parameters.  See [I-D.ietf-oauth-v2] section 5 for
    full details
 
@@ -560,20 +565,85 @@ Host: pay.me
 
    o  _response_type_ token or code REQUIRED
 
-   o  _expires_in_ Request the amount of time in seconds this token
-      should be valid
-
    When a user follows this link, the Asset Service should present the
    user with a form authorizing the payment.
 
    Note: Client can include OpenID Connect parameters.
 
-4.1.  Response
+4.1.  Validity duration
+
+   A client can request a specific validity length of the oauth token.
+
+   The asset provider will assign a default expiration of the token if
+   client doesn't specify a validity.
+
+   A validity can be request which is either a fixed duration or a
+   repeating interval.
+
+   For a fixed interval the amount SHOULD be guaranteed and reserved for
+   the client.
+
+   For a repeating interval the amount SHOULD be guaranteed for the
+   first interval only.
+
+4.1.1.  Validity Request Parameter
+
+   The validity is requested using A ISO8601 duration, interval or
+   repeating interval.
+
+   A duration is written
+
+   P30D                      # 30 days
+   PT5M                     # 5 minutes
+   P1M14DT3H5M23S # 1 month 14 days 3 hours 5 minutes and 23 seconds
+
+                                 Figure 3
+
+   Intervals are either 2 ISO Dates or an ISO date and a duration
+   separated by the '/' character:
+
+2007-03-01T13:00:00Z/2008-05-11T15:30:00Z # The interval between 2 dates
+2007-03-01T13:00:00Z/P1Y2M10DT2H30M     # The interval starting at a date and finishing after a duration
+P1Y2M10DT2H30M/2008-05-11T15:30:00Z     # The interval starting with a duration and finishing at a given date
+P1M                                                             # The duration starting at the time the token was authorized.
+
+                                 Figure 4
+
+   Repeating intervals by prefix one of the above intervals or durations
+   with the letter 'R' and an optional number specifying the amount of
+   times to repeat:
+
+   RP1M                     # repeat once a month
+   R12P1M                 # repeat 12 times once a month
+   RP1M/2008-05-11T15:30:00Z  # repeat monthly until a given date
+
+                                 Figure 5
+
+   By supporting a single parameter with any of the above durations/
+   intervals/repeated intervals we can support a lot of different kinds
+   of applications:
+
+   o  Recurring payments (subscriptions) using the Repeated Intervals
+
+   o  Daily spending limits on tokens using Repeated intervals similar
+      to what debit cards have to day. eg. $300/day
+
+   o  Request validity of a token using a simple duration
+
+4.1.2.  Validity Request Error
+
+   If a specified interval is not supported by service or user refuses
+   to authorize the interval an OAuth2.0 Authorization error response
+   MUST be returned through redirection with the following error:
+
+   error=unsupported_interval
+
+4.2.  Response
 
    Follows OAuth 2 response depending on response_type requested.
    [I-D.ietf-oauth-v2]
 
-4.2.  Errors
+4.3.  Errors
 
    Error types use OAuth 2.0's error codes.  [I-D.ietf-oauth-v2]
 
@@ -599,7 +669,7 @@ Host: pay.me
 
    to=bill@example.com&amount=100.00&note=Milk
 
-                                 Figure 3
+                                 Figure 6
 
    We use the following parameters from our common vocabulary in 1.6.
    All fields are optional:
@@ -663,7 +733,7 @@ Host: pay.me
    Host: pay.me
    Accept: application/json
 
-                                 Figure 4
+                                 Figure 7
 
    This returns a json hash of meta information about the asset.
 
@@ -677,7 +747,7 @@ Host: pay.me
      "name":"Pay Me"
    }
 
-                                 Figure 5
+                                 Figure 8
 
    Further OpenTransact specific parameters could be:
 
@@ -711,7 +781,7 @@ Host: pay.me
      ]
    }
 
-                                 Figure 6
+                                 Figure 9
 
    Asset services can provide further information more specific to their
    particular asset type.
@@ -750,7 +820,7 @@ Host: pay.me
      ]
    }
 
-                                 Figure 7
+                                 Figure 10
 
    The OpenTransact group will maintain a list of recipes that may be
    further standardized.
@@ -787,6 +857,12 @@ Host: pay.me
               Threat Model and Security Considerations",
               draft-ietf-oauth-v2-threatmodel-01 (work in progress),
               October 2011.
+
+   [ISO.8601.1988]
+              International Organization for Standardization, "Data
+              elements and interchange formats - Information interchange
+              - Representation of dates and times", ISO Standard 8601,
+              June 1988.
 
 
 Authors' Addresses

@@ -4,7 +4,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
 ]>
 
-<rfc ipr="trust200902" docName="draft-pelle-opentransact-core-01"
+<rfc ipr="trust200902" docName="draft-pelle-opentransact-core-02"
      category="info" >
 
 <?rfc toc="yes"?>
@@ -28,7 +28,6 @@
       </address>
     </author>
     <author initials="T" surname="Brown" fullname="Tom Brown">
-      <organization>OSCurrency</organization>
       <address>
         <email>herestomwiththeweather@gmail.com</email>
       </address>
@@ -40,7 +39,7 @@
       </address>
     </author>
 
-    <date year="2012" month="January" day="2"/>
+    <date year="2012" month="January" day="10"/>
 
     <area>General</area>
     <workgroup>OpenTransact</workgroup>
@@ -282,7 +281,7 @@
 </section>
 <section anchor="authentication" title="Authentication">
 
-<t>OpenTransact does not define any new authentication mechanisms, but relies on the Asset Provider&rsquo;s existing mechanisms for authenticating the Transferer and  OAuth 2.0 <xref target="OAuth.2.0"/> for authenticating 3rd party applications on behalf of the Transferer.</t>
+<t>OpenTransact does not define any new authentication mechanisms, but relies on the Asset Provider&rsquo;s existing mechanisms for authenticating the Transferer and  OAuth 2.0 <xref target="I-D.ietf-oauth-v2-bearer"/> for authenticating 3rd party applications on behalf of the Transferer.</t>
 
 </section>
 <section anchor="parameter-encoding" title="Parameter encoding">
@@ -351,7 +350,7 @@ Host: pay.me
 </section>
 <section anchor="errors" title="Errors">
 
-<t>Error types use OAuth 2.0&rsquo;s error codes. <xref target="OAuth.2.0"/></t>
+<t>Error types use OAuth 2.0&rsquo;s error codes. <xref target="I-D.ietf-oauth-v2"/></t>
 
 </section>
 </section>
@@ -364,7 +363,7 @@ GET /usd?to=bill@example.com&amount=100.00&note=Milk&redirect_uri=http://site.ex
 Host: pay.me
 ]]></artwork></figure>
 
-<t>A Transfer Authorization is really a OAuth2 Authorization <xref target="OAuth.2.0"/> with a few extra payment related parameters.</t>
+<t>A Transfer Authorization is really a OAuth2 Authorization <xref target="I-D.ietf-oauth-v2"/> with a few extra payment related parameters.</t>
 
 <t>We use the following parameters from our common vocabulary. All fields are optional:</t>
 
@@ -376,7 +375,7 @@ Host: pay.me
   <t><spanx style='emph'>for</spanx> URI identifying the exchanged item.</t>
 </list></t>
 
-<t>OAuth2 related parameters. See <xref target="OAuth.2.0"/> section 5 for full details</t>
+<t>OAuth2 related parameters. See <xref target="I-D.ietf-oauth-v2"/> section 5 for full details</t>
 
 <t><list style='symbols'>
   <t><spanx style='emph'>client_id</spanx> OAuth2 client id</t>
@@ -392,12 +391,12 @@ Host: pay.me
 
 <section anchor="response-1" title="Response">
 
-<t>Follows OAuth 2 response depending on response_type requested. <xref target="OAuth.2.0"/></t>
+<t>Follows OAuth 2 response depending on response_type requested. <xref target="I-D.ietf-oauth-v2"/></t>
 
 </section>
 <section anchor="errors-1" title="Errors">
 
-<t>Error types use OAuth 2.0&rsquo;s error codes. <xref target="OAuth.2.0"/></t>
+<t>Error types use OAuth 2.0&rsquo;s error codes. <xref target="I-D.ietf-oauth-v2"/></t>
 
 </section>
 </section>
@@ -405,7 +404,11 @@ Host: pay.me
 
 <t>A transfer consists of a HTTP POST to the asset url by a 3rd party application on behalf of the Transferer.</t>
 
-<t>The Application should have an OAuth 2.0 access token issued as defined in the OAuth 2.0 draft section 5.</t>
+<t>The Application MUST have an OAuth 2.0 access token issued as defined in the <xref target="I-D.ietf-oauth-v2"/> section 7.</t>
+
+<t>The asset provider SHOULD support the <xref target="I-D.ietf-oauth-v2-bearer"/> Access Token type and can support other access token such as <xref target="I-D.ietf-oauth-v2-http-mac"/>.</t>
+
+<t>The Transfer MUST be created using HTTPS when using <xref target="I-D.ietf-oauth-v2-bearer"/> and other unsigned access tokens.</t>
 
 <figure anchor="post-usd-http11host-paymeauthorization-bearer-vf9dft4qmttobillexamplecomamount10000notemilk"><artwork><![CDATA[
 POST /usd HTTP/1.1
@@ -493,6 +496,11 @@ Accept: application/json
 <t><list style='symbols'>
   <t>transactions - array of receipts</t>
 </list></t>
+
+</section>
+<section anchor="security-considerations" title="Security Considerations">
+
+<t>The security of OpenTransact is achieved by it&rsquo;s use of <xref target="I-D.ietf-oauth-v2"/>. Please see its <eref target="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-10">security discussion</eref> and a more thorough discussion in <xref target="I-D.ietf-oauth-v2-threatmodel"/>.</t>
 
 </section>
 </middle>
@@ -745,37 +753,10 @@ Accept: application/json
 </reference>
 </t>
 
-<reference anchor="OAuth.2.0">
-    <front>
-        <title>OAuth 2.0 Authorization Protocol</title>
-
-
-        <author fullname="Eran Hammer-Lahav" initials="E." role="editor" surname="Hammer-Lahav">
-            <organization abbrev="">Yahoo</organization>
-
-    </author>
-
-
-        <author fullname="David Recordon" initials="D." surname="Recordon">
-            <organization abbrev="">Facebook</organization>
-
-    </author>
-
-
-        <author fullname="Dick Hardt" initials="D." surname="Hardt">
-            <organization abbrev="Microsoft">Microsoft</organization>
-
-    </author>
-
-
-        <date day="25" month="Jul" year="2011" />
-
-  </front>
-
-
-    <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2" type="HTML" />
-
-</reference>
+<?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-oauth-v2-22.xml' ?>
+<?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-oauth-v2-bearer-15.xml' ?>
+<?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-oauth-v2-http-mac-00' ?>
+<?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-oauth-v2-threatmodel-01.xml' ?>
 
 
   </references>

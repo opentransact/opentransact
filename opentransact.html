@@ -145,14 +145,14 @@
 <tr><td class="header">OpenTransact</td><td class="header">P. Braendgaard</td></tr>
 <tr><td class="header">Internet-Draft</td><td class="header">PicoMoney Inc</td></tr>
 <tr><td class="header">Intended status: Informational</td><td class="header">N. Matake</td></tr>
-<tr><td class="header">Expires: July 5, 2012</td><td class="header">Cerego Japan Inc</td></tr>
+<tr><td class="header">Expires: July 13, 2012</td><td class="header">Cerego Japan Inc</td></tr>
 <tr><td class="header">&nbsp;</td><td class="header">T. Brown</td></tr>
-<tr><td class="header">&nbsp;</td><td class="header">OSCurrency</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">&nbsp;</td></tr>
 <tr><td class="header">&nbsp;</td><td class="header">D. Nicol</td></tr>
 <tr><td class="header">&nbsp;</td><td class="header">TipJar</td></tr>
-<tr><td class="header">&nbsp;</td><td class="header">January 2, 2012</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">January 10, 2012</td></tr>
 </table></td></tr></table>
-<h1><br />OpenTransact Core<br />draft-pelle-opentransact-core-01</h1>
+<h1><br />OpenTransact Core<br />draft-pelle-opentransact-core-02</h1>
 
 <h3>Abstract</h3>
 
@@ -175,7 +175,7 @@ and may be updated, replaced, or obsoleted by other documents at any time.
 It is inappropriate to use Internet-Drafts as reference material or to cite
 them other than as &ldquo;work in progress.&rdquo;</p>
 <p>
-This Internet-Draft will expire on July 5, 2012.</p>
+This Internet-Draft will expire on July 13, 2012.</p>
 
 <h3>Copyright Notice</h3>
 <p>
@@ -250,7 +250,9 @@ Response<br />
 Receipt<br />
 <a href="#asset-meta-data">7.</a>&nbsp;
 Asset Meta data<br />
-<a href="#rfc.references1">8.</a>&nbsp;
+<a href="#security-considerations">8.</a>&nbsp;
+Security Considerations<br />
+<a href="#rfc.references1">9.</a>&nbsp;
 Normative References<br />
 <a href="#rfc.authors">&#167;</a>&nbsp;
 Authors' Addresses<br />
@@ -592,7 +594,7 @@ Vocabulary</h3>
 <a name="rfc.section.2.8"></a><h3>2.8.&nbsp;
 Authentication</h3>
 
-<p>OpenTransact does not define any new authentication mechanisms, but relies on the Asset Provider&rsquo;s existing mechanisms for authenticating the Transferer and  OAuth 2.0 <a class='info' href='#OAuth.2.0'>[OAuth.2.0]<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a> for authenticating 3rd party applications on behalf of the Transferer.
+<p>OpenTransact does not define any new authentication mechanisms, but relies on the Asset Provider&rsquo;s existing mechanisms for authenticating the Transferer and  OAuth 2.0 <a class='info' href='#I-D.ietf-oauth-v2-bearer'>[I&#8209;D.ietf&#8209;oauth&#8209;v2&#8209;bearer]<span> (</span><span class='info'>Jones, M., Hardt, D., and D. Recordon, &ldquo;The OAuth 2.0 Authorization Protocol: Bearer Tokens,&rdquo; December&nbsp;2011.</span><span>)</span></a> for authenticating 3rd party applications on behalf of the Transferer.
 </p>
 <a name="parameter-encoding"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -684,7 +686,7 @@ Response</h3>
 <a name="rfc.section.3.2"></a><h3>3.2.&nbsp;
 Errors</h3>
 
-<p>Error types use OAuth 2.0&rsquo;s error codes. <a class='info' href='#OAuth.2.0'>[OAuth.2.0]<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a>
+<p>Error types use OAuth 2.0&rsquo;s error codes. <a class='info' href='#I-D.ietf-oauth-v2'>[I&#8209;D.ietf&#8209;oauth&#8209;v2]<span> (</span><span class='info'>Hammer-Lahav, E., Recordon, D., and D. Hardt, &ldquo;The OAuth 2.0 Authorization Protocol,&rdquo; September&nbsp;2011.</span><span>)</span></a>
 </p>
 <a name="transfer-authorization-1"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -699,7 +701,7 @@ GET /usd?to=bill@example.com&amp;amount=100.00&amp;note=Milk&amp;redirect_uri=ht
 Host: pay.me
 </pre></div><table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;2&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
 
-<p>A Transfer Authorization is really a OAuth2 Authorization <a class='info' href='#OAuth.2.0'>[OAuth.2.0]<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a> with a few extra payment related parameters.
+<p>A Transfer Authorization is really a OAuth2 Authorization <a class='info' href='#I-D.ietf-oauth-v2'>[I&#8209;D.ietf&#8209;oauth&#8209;v2]<span> (</span><span class='info'>Hammer-Lahav, E., Recordon, D., and D. Hardt, &ldquo;The OAuth 2.0 Authorization Protocol,&rdquo; September&nbsp;2011.</span><span>)</span></a> with a few extra payment related parameters.
 </p>
 <p>We use the following parameters from our common vocabulary. All fields are optional:
 </p>
@@ -717,7 +719,7 @@ Host: pay.me
 </li>
 </ul>
 
-<p>OAuth2 related parameters. See <a class='info' href='#OAuth.2.0'>[OAuth.2.0]<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a> section 5 for full details
+<p>OAuth2 related parameters. See <a class='info' href='#I-D.ietf-oauth-v2'>[I&#8209;D.ietf&#8209;oauth&#8209;v2]<span> (</span><span class='info'>Hammer-Lahav, E., Recordon, D., and D. Hardt, &ldquo;The OAuth 2.0 Authorization Protocol,&rdquo; September&nbsp;2011.</span><span>)</span></a> section 5 for full details
 </p>
 <p></p>
 <ul class="text">
@@ -742,14 +744,14 @@ Host: pay.me
 <a name="rfc.section.4.1"></a><h3>4.1.&nbsp;
 Response</h3>
 
-<p>Follows OAuth 2 response depending on response_type requested. <a class='info' href='#OAuth.2.0'>[OAuth.2.0]<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a>
+<p>Follows OAuth 2 response depending on response_type requested. <a class='info' href='#I-D.ietf-oauth-v2'>[I&#8209;D.ietf&#8209;oauth&#8209;v2]<span> (</span><span class='info'>Hammer-Lahav, E., Recordon, D., and D. Hardt, &ldquo;The OAuth 2.0 Authorization Protocol,&rdquo; September&nbsp;2011.</span><span>)</span></a>
 </p>
 <a name="errors-1"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.4.2"></a><h3>4.2.&nbsp;
 Errors</h3>
 
-<p>Error types use OAuth 2.0&rsquo;s error codes. <a class='info' href='#OAuth.2.0'>[OAuth.2.0]<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a>
+<p>Error types use OAuth 2.0&rsquo;s error codes. <a class='info' href='#I-D.ietf-oauth-v2'>[I&#8209;D.ietf&#8209;oauth&#8209;v2]<span> (</span><span class='info'>Hammer-Lahav, E., Recordon, D., and D. Hardt, &ldquo;The OAuth 2.0 Authorization Protocol,&rdquo; September&nbsp;2011.</span><span>)</span></a>
 </p>
 <a name="transfer-1"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -758,7 +760,11 @@ Transfer</h3>
 
 <p>A transfer consists of a HTTP POST to the asset url by a 3rd party application on behalf of the Transferer.
 </p>
-<p>The Application should have an OAuth 2.0 access token issued as defined in the OAuth 2.0 draft section 5.
+<p>The Application MUST have an OAuth 2.0 access token issued as defined in the <a class='info' href='#I-D.ietf-oauth-v2'>[I&#8209;D.ietf&#8209;oauth&#8209;v2]<span> (</span><span class='info'>Hammer-Lahav, E., Recordon, D., and D. Hardt, &ldquo;The OAuth 2.0 Authorization Protocol,&rdquo; September&nbsp;2011.</span><span>)</span></a> section 7.
+</p>
+<p>The asset provider SHOULD support the <a class='info' href='#I-D.ietf-oauth-v2-bearer'>[I&#8209;D.ietf&#8209;oauth&#8209;v2&#8209;bearer]<span> (</span><span class='info'>Jones, M., Hardt, D., and D. Recordon, &ldquo;The OAuth 2.0 Authorization Protocol: Bearer Tokens,&rdquo; December&nbsp;2011.</span><span>)</span></a> Access Token type and can support other access token such as <a class='info' href='#I-D.ietf-oauth-v2-http-mac'>[I&#8209;D.ietf&#8209;oauth&#8209;v2&#8209;http&#8209;mac]<span> (</span><span class='info'>Hammer-Lahav, E., Barth, A., and B. Adida, &ldquo;HTTP Authentication: MAC Access Authentication,&rdquo; May&nbsp;2011.</span><span>)</span></a>.
+</p>
+<p>The Transfer MUST be created using HTTPS when using <a class='info' href='#I-D.ietf-oauth-v2-bearer'>[I&#8209;D.ietf&#8209;oauth&#8209;v2&#8209;bearer]<span> (</span><span class='info'>Jones, M., Hardt, D., and D. Recordon, &ldquo;The OAuth 2.0 Authorization Protocol: Bearer Tokens,&rdquo; December&nbsp;2011.</span><span>)</span></a> and other unsigned access tokens.
 </p><br /><hr class="insert" />
 <a name="post-usd-http11host-paymeauthorization-bearer-vf9dft4qmttobillexamplecomamount10000notemilk"></a>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
@@ -883,12 +889,25 @@ Accept: application/json
 </li>
 </ul>
 
+<a name="security-considerations"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.8"></a><h3>8.&nbsp;
+Security Considerations</h3>
+
+<p>The security of OpenTransact is achieved by it&rsquo;s use of <a class='info' href='#I-D.ietf-oauth-v2'>[I&#8209;D.ietf&#8209;oauth&#8209;v2]<span> (</span><span class='info'>Hammer-Lahav, E., Recordon, D., and D. Hardt, &ldquo;The OAuth 2.0 Authorization Protocol,&rdquo; September&nbsp;2011.</span><span>)</span></a>. Please see its <a href='http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-10'>security discussion</a> and a more thorough discussion in <a class='info' href='#I-D.ietf-oauth-v2-threatmodel'>[I&#8209;D.ietf&#8209;oauth&#8209;v2&#8209;threatmodel]<span> (</span><span class='info'>Lodderstedt, T., McGloin, M., and P. Hunt, &ldquo;OAuth 2.0 Threat Model and Security Considerations,&rdquo; October&nbsp;2011.</span><span>)</span></a>.
+</p>
 <a name="rfc.references1"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<h3>8.&nbsp;Normative References</h3>
+<h3>9.&nbsp;Normative References</h3>
 <table width="99%" border="0">
-<tr><td class="author-text" valign="top"><a name="OAuth.2.0">[OAuth.2.0]</a></td>
-<td class="author-text">Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;<a href="http://tools.ietf.org/html/draft-ietf-oauth-v2">OAuth 2.0 Authorization Protocol</a>,&rdquo; Jul&nbsp;2011.</td></tr>
+<tr><td class="author-text" valign="top"><a name="I-D.ietf-oauth-v2">[I-D.ietf-oauth-v2]</a></td>
+<td class="author-text">Hammer-Lahav, E., Recordon, D., and D. Hardt, &ldquo;<a href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22">The OAuth 2.0 Authorization Protocol</a>,&rdquo; draft-ietf-oauth-v2-22 (work in progress), September&nbsp;2011 (<a href="http://www.ietf.org/internet-drafts/draft-ietf-oauth-v2-22.txt">TXT</a>, <a href="http://www.ietf.org/internet-drafts/draft-ietf-oauth-v2-22.pdf">PDF</a>).</td></tr>
+<tr><td class="author-text" valign="top"><a name="I-D.ietf-oauth-v2-bearer">[I-D.ietf-oauth-v2-bearer]</a></td>
+<td class="author-text">Jones, M., Hardt, D., and D. Recordon, &ldquo;<a href="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-15">The OAuth 2.0 Authorization Protocol: Bearer Tokens</a>,&rdquo; draft-ietf-oauth-v2-bearer-15 (work in progress), December&nbsp;2011 (<a href="http://www.ietf.org/internet-drafts/draft-ietf-oauth-v2-bearer-15.txt">TXT</a>, <a href="http://www.ietf.org/internet-drafts/draft-ietf-oauth-v2-bearer-15.pdf">PDF</a>).</td></tr>
+<tr><td class="author-text" valign="top"><a name="I-D.ietf-oauth-v2-http-mac">[I-D.ietf-oauth-v2-http-mac]</a></td>
+<td class="author-text">Hammer-Lahav, E., Barth, A., and B. Adida, &ldquo;<a href="http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-00">HTTP Authentication: MAC Access Authentication</a>,&rdquo; draft-ietf-oauth-v2-http-mac-00 (work in progress), May&nbsp;2011 (<a href="http://www.ietf.org/internet-drafts/draft-ietf-oauth-v2-http-mac-00.txt">TXT</a>, <a href="http://www.ietf.org/internet-drafts/draft-ietf-oauth-v2-http-mac-00.pdf">PDF</a>).</td></tr>
+<tr><td class="author-text" valign="top"><a name="I-D.ietf-oauth-v2-threatmodel">[I-D.ietf-oauth-v2-threatmodel]</a></td>
+<td class="author-text">Lodderstedt, T., McGloin, M., and P. Hunt, &ldquo;<a href="http://tools.ietf.org/html/draft-ietf-oauth-v2-threatmodel-01">OAuth 2.0 Threat Model and Security Considerations</a>,&rdquo; draft-ietf-oauth-v2-threatmodel-01 (work in progress), October&nbsp;2011 (<a href="http://www.ietf.org/internet-drafts/draft-ietf-oauth-v2-threatmodel-01.txt">TXT</a>).</td></tr>
 </table>
 
 <a name="rfc.authors"></a><br /><hr />
@@ -911,8 +930,6 @@ Accept: application/json
 <tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td class="author-text">&nbsp;</td>
 <td class="author-text">Tom Brown</td></tr>
-<tr><td class="author-text">&nbsp;</td>
-<td class="author-text">OSCurrency</td></tr>
 <tr><td class="author" align="right">Email:&nbsp;</td>
 <td class="author-text"><a href="mailto:herestomwiththeweather@gmail.com">herestomwiththeweather@gmail.com</a></td></tr>
 <tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>

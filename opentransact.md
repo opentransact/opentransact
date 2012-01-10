@@ -4,7 +4,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
 ]>
 
-<rfc ipr="trust200902" docName="draft-pelle-opentransact-core-01"
+<rfc ipr="trust200902" docName="draft-pelle-opentransact-core-02"
      category="info" >
 
 <?rfc toc="yes"?>
@@ -39,7 +39,7 @@
       </address>
     </author>
 
-    <date year="2012" month="January" day="2"/>
+    <date year="2012" month="January" day="10"/>
 
     <area>General</area>
     <workgroup>OpenTransact</workgroup>
@@ -235,7 +235,7 @@ Would become the following:
 
 ## Authentication
 
-OpenTransact does not define any new authentication mechanisms, but relies on the Asset Provider's existing mechanisms for authenticating the Transferer and  OAuth 2.0 {{OAuth.2.0}} for authenticating 3rd party applications on behalf of the Transferer.
+OpenTransact does not define any new authentication mechanisms, but relies on the Asset Provider's existing mechanisms for authenticating the Transferer and  OAuth 2.0 {{I-D.ietf-oauth-v2-bearer}} for authenticating 3rd party applications on behalf of the Transferer.
 
 ## Parameter encoding
 
@@ -293,7 +293,7 @@ Asset provider can include an access_token in the query string of txn_url.
 
 ## Errors
 
-Error types use OAuth 2.0's error codes. {{OAuth.2.0}}
+Error types use OAuth 2.0's error codes. {{I-D.ietf-oauth-v2}}
 
 # Transfer Authorization
 
@@ -302,7 +302,7 @@ A Transfer Authorization consists of a GET to the Asset URL with a client_id.
     GET /usd?to=bill@example.com&amount=100.00&note=Milk&redirect_uri=http://site.example.com/callback&client_id=1234 HTTP/1.1
     Host: pay.me
 
-A Transfer Authorization is really a OAuth2 Authorization {{OAuth.2.0}} with a few extra payment related parameters.
+A Transfer Authorization is really a OAuth2 Authorization {{I-D.ietf-oauth-v2}} with a few extra payment related parameters.
 
 We use the following parameters from our common vocabulary. All fields are optional:
 
@@ -312,7 +312,7 @@ We use the following parameters from our common vocabulary. All fields are optio
 - *from* Account identifier of Transferer. This should normally be left out as it is implied by the authorizer of the Access Token. The Asset Service MUST verify that the Access Token is authorized to transfer from this account. This could be useful for Asset providers charging their customers accounts.
 - *for* URI identifying the exchanged item.
 
-OAuth2 related parameters. See {{OAuth.2.0}} section 5 for full details
+OAuth2 related parameters. See {{I-D.ietf-oauth-v2}} section 5 for full details
 
 - *client_id* OAuth2 client id
 - *redirect_uri* URI for redirecting client to afterwards
@@ -326,17 +326,21 @@ Note: Client can include OpenID Connect parameters.
 
 ## Response
 
-Follows OAuth 2 response depending on response_type requested. {{OAuth.2.0}}
+Follows OAuth 2 response depending on response_type requested. {{I-D.ietf-oauth-v2}}
 
 ## Errors
 
-Error types use OAuth 2.0's error codes. {{OAuth.2.0}}
+Error types use OAuth 2.0's error codes. {{I-D.ietf-oauth-v2}}
 
 # Transfer
 
 A transfer consists of a HTTP POST to the asset url by a 3rd party application on behalf of the Transferer.
 
-The Application should have an OAuth 2.0 access token issued as defined in the OAuth 2.0 draft section 5.
+The Application MUST have an OAuth 2.0 access token issued as defined in the {{I-D.ietf-oauth-v2}} section 7.
+
+The asset provider SHOULD support the {{I-D.ietf-oauth-v2-bearer}} Access Token type and can support other access token such as {{I-D.ietf-oauth-v2-http-mac}}.
+
+The Transfer MUST be created using HTTPS when using {{I-D.ietf-oauth-v2-bearer}} and other unsigned access tokens.
 
     POST /usd HTTP/1.1
     Host: pay.me
@@ -407,6 +411,9 @@ If tokens scope allows access to accounts transaction history, the transaction h
 
 - transactions - array of receipts
 
+# Security Considerations
+
+The security of OpenTransact is achieved by it's use of {{I-D.ietf-oauth-v2}}. Please see its [security discussion](http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-10) and a more thorough discussion in {{I-D.ietf-oauth-v2-threatmodel}}.
 
 {::nomarkdown}
 </middle>
@@ -423,29 +430,10 @@ If tokens scope allows access to accounts transaction history, the transaction h
 ![:include:](RFC5234)
 ![:include:](RFC4949)
 
-<reference anchor="OAuth.2.0">
-  <front>
-    <title>OAuth 2.0 Authorization Protocol</title>
-
-    <author fullname="Eran Hammer-Lahav" initials="E." role="editor"
-            surname="Hammer-Lahav">
-      <organization abbrev="">Yahoo</organization>
-    </author>
-
-    <author fullname="David Recordon" initials="D." surname="Recordon">
-      <organization abbrev="">Facebook</organization>
-    </author>
-
-    <author fullname="Dick Hardt" initials="D." surname="Hardt">
-      <organization abbrev="Microsoft">Microsoft</organization>
-    </author>
-
-    <date day="25" month="Jul" year="2011" />
-  </front>
-
-  <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
-          type="HTML" />
-</reference>
+<?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-oauth-v2-22.xml' ?>
+<?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-oauth-v2-bearer-15.xml' ?>
+<?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-oauth-v2-http-mac-00' ?>
+<?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-oauth-v2-threatmodel-01.xml' ?>
 
 {::nomarkdown}
 

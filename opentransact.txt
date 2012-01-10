@@ -4,16 +4,16 @@
 OpenTransact                                              P. Braendgaard
 Internet-Draft                                             PicoMoney Inc
 Intended status: Informational                                 N. Matake
-Expires: July 5, 2012                                   Cerego Japan Inc
+Expires: July 13, 2012                                  Cerego Japan Inc
                                                                 T. Brown
-                                                              OSCurrency
+
                                                                 D. Nicol
                                                                   TipJar
-                                                         January 2, 2012
+                                                        January 10, 2012
 
 
                            OpenTransact Core
-                    draft-pelle-opentransact-core-01
+                    draft-pelle-opentransact-core-02
 
 Abstract
 
@@ -35,7 +35,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on July 5, 2012.
+   This Internet-Draft will expire on July 13, 2012.
 
 Copyright Notice
 
@@ -83,7 +83,8 @@ Table of Contents
      5.1.  Response
    6.  Receipt
    7.  Asset Meta data
-   8.  Normative References
+   8.  Security Considerations
+   9.  Normative References
    Authors' Addresses
 
 
@@ -394,8 +395,8 @@ Table of Contents
 
    OpenTransact does not define any new authentication mechanisms, but
    relies on the Asset Provider's existing mechanisms for authenticating
-   the Transferer and OAuth 2.0 [OAuth.2.0] for authenticating 3rd party
-   applications on behalf of the Transferer.
+   the Transferer and OAuth 2.0 [I-D.ietf-oauth-v2-bearer] for
+   authenticating 3rd party applications on behalf of the Transferer.
 
 2.9.  Parameter encoding
 
@@ -488,7 +489,7 @@ Host: pay.me
 
 3.2.  Errors
 
-   Error types use OAuth 2.0's error codes.  [OAuth.2.0]
+   Error types use OAuth 2.0's error codes.  [I-D.ietf-oauth-v2]
 
 
 4.  Transfer Authorization
@@ -501,8 +502,8 @@ Host: pay.me
 
                                  Figure 2
 
-   A Transfer Authorization is really a OAuth2 Authorization [OAuth.2.0]
-   with a few extra payment related parameters.
+   A Transfer Authorization is really a OAuth2 Authorization
+   [I-D.ietf-oauth-v2] with a few extra payment related parameters.
 
    We use the following parameters from our common vocabulary.  All
    fields are optional:
@@ -527,8 +528,8 @@ Host: pay.me
 
    o  _for_ URI identifying the exchanged item.
 
-   OAuth2 related parameters.  See [OAuth.2.0] section 5 for full
-   details
+   OAuth2 related parameters.  See [I-D.ietf-oauth-v2] section 5 for
+   full details
 
    o  _client_id_ OAuth2 client id
 
@@ -549,11 +550,11 @@ Host: pay.me
 4.1.  Response
 
    Follows OAuth 2 response depending on response_type requested.
-   [OAuth.2.0]
+   [I-D.ietf-oauth-v2]
 
 4.2.  Errors
 
-   Error types use OAuth 2.0's error codes.  [OAuth.2.0]
+   Error types use OAuth 2.0's error codes.  [I-D.ietf-oauth-v2]
 
 
 5.  Transfer
@@ -561,8 +562,15 @@ Host: pay.me
    A transfer consists of a HTTP POST to the asset url by a 3rd party
    application on behalf of the Transferer.
 
-   The Application should have an OAuth 2.0 access token issued as
-   defined in the OAuth 2.0 draft section 5.
+   The Application MUST have an OAuth 2.0 access token issued as defined
+   in the [I-D.ietf-oauth-v2] section 7.
+
+   The asset provider SHOULD support the [I-D.ietf-oauth-v2-bearer]
+   Access Token type and can support other access token such as
+   [I-D.ietf-oauth-v2-http-mac].
+
+   The Transfer MUST be created using HTTPS when using
+   [I-D.ietf-oauth-v2-bearer] and other unsigned access tokens.
 
    POST /usd HTTP/1.1
    Host: pay.me
@@ -675,11 +683,37 @@ Host: pay.me
    o  transactions - array of receipts
 
 
-8.  Normative References
+8.  Security Considerations
 
-   [OAuth.2.0]
-              Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, "OAuth
-              2.0 Authorization Protocol", Jul 2011.
+   The security of OpenTransact is achieved by it's use of
+   [I-D.ietf-oauth-v2].  Please see its security discussion and a more
+   thorough discussion in [I-D.ietf-oauth-v2-threatmodel].
+
+
+9.  Normative References
+
+   [I-D.ietf-oauth-v2]
+              Hammer-Lahav, E., Recordon, D., and D. Hardt, "The OAuth
+              2.0 Authorization Protocol", draft-ietf-oauth-v2-22 (work
+              in progress), September 2011.
+
+   [I-D.ietf-oauth-v2-bearer]
+              Jones, M., Hardt, D., and D. Recordon, "The OAuth 2.0
+              Authorization Protocol: Bearer Tokens",
+              draft-ietf-oauth-v2-bearer-15 (work in progress),
+              December 2011.
+
+   [I-D.ietf-oauth-v2-http-mac]
+              Hammer-Lahav, E., Barth, A., and B. Adida, "HTTP
+              Authentication: MAC Access Authentication",
+              draft-ietf-oauth-v2-http-mac-00 (work in progress),
+              May 2011.
+
+   [I-D.ietf-oauth-v2-threatmodel]
+              Lodderstedt, T., McGloin, M., and P. Hunt, "OAuth 2.0
+              Threat Model and Security Considerations",
+              draft-ietf-oauth-v2-threatmodel-01 (work in progress),
+              October 2011.
 
 
 Authors' Addresses
@@ -697,7 +731,6 @@ Authors' Addresses
 
 
    Tom Brown
-   OSCurrency
 
    Email: herestomwiththeweather@gmail.com
 

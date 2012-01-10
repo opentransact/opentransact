@@ -142,6 +142,18 @@ All the above examples are fungible assets.
 
 For unique items such as domain names, property titles and diamonds that are unique and infungible, we may define a separate currency for the item representing partial ownership. The legal framework for defining the resulting partnerships and their governance is out of scope of this document.
 
+### Derivative Assets
+
+A Derivative asset is an asset that is based on the current asset but provides different semantics and business rules.
+
+Examples:
+
+- Reserves/Escrows
+- Subscription services providing recurring billing
+- Exchanges providing exchange of asset with another asset
+
+It is out of scope to define here exactly how these would work, but the OpenTransact community will build a list of recipes for how to implement these and may publish further drafts outlining specifics in the future.
+
 ## Roles
 
 OpenTransact defines 4 roles:
@@ -390,13 +402,35 @@ The minimum required data would be:
 
 - name - Short name of asset
 
-Further opentransact specific parameters could be:
+The minimal asset meta data is:
+
+    {
+      "name":"Pay Me"
+    }
+
+Further OpenTransact specific parameters could be:
 
 - default_amount - The default amount transfered if an amount is not specified in a transfer
-- provider_url - The provider of the asset's home page
+- provider_uri - The provider of the asset's home page
 - description - Short description
-- logo_url - Image url for Assets logo
+- logo_uri - Image url for Assets logo
 - unit - ISO currency unit of asset if monetary or other such as (minute, gram, point etc)
+- derivatives - a list of derivative assets supported by this server (see below)
+
+Example:
+
+    {
+      "name":"Pay Me",
+      "default_amount":1.0,
+      "provider_uri":"http://pay.sample.com",
+      "logo_uri":"http://pay.sample.com/logo.png",
+      "unit":"USD",
+      "derivatives": [
+        {"reserve":"http:/pay.sample.com/reserves"},
+        {"subscription":"http:/pay.sample.com/subscriptions"},
+        {"exchange":"http:/pay.sample.com/exchange"}
+      ]
+    }
 
 Asset services can provide further information more specific to their particular asset type.
 
@@ -413,6 +447,21 @@ If tokens scope allows access to accounts transaction history a url to the trans
 
 - transactions_uri - URI to list of transactions
 - transactions - array of receipts
+
+## Derivative assets
+
+If an asset has derivative assets they SHOULD be listed in the optional derivatives list:
+
+    {
+      "name": "Pay Me",
+      "derivatives": [
+        {"reserve":"http:/pay.sample.com/reserves"},
+        {"subscription":"http:/pay.sample.com/subscriptions"},
+        {"exchange":"http:/pay.sample.com/exchange"}
+      ]
+    }
+
+The OpenTransact group will maintain a list of recipes that may be further standardized.
 
 # Security Considerations
 
